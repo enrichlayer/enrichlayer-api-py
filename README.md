@@ -25,9 +25,9 @@ With Enrich Layer, you can programatically:
 - Lookup people and companies
 - Lookup contact information on people and companies
 - Check if an email address is of a disposable nature
-- [And more..](https://nubela.co/proxycurl/docs#explain-it-to-me-like-i-39-m-5)
+- [And more..](https://enrichlayer.com/docs/pc#explain-it-to-me-like-i-39-m-5)
 
-Visit [Enrich Layer&#39;s website](https://nubela.co/proxycurl) for more details.
+Visit [Enrich Layer&#39;s website](https://enrichlayer.com) for more details.
 
 ## Before you install
 
@@ -35,11 +35,11 @@ You should understand that `enrichlayer-api` was designed with concurrency as a 
 
 We support the following concurrency models:
 
-* [asyncio](https://docs.python.org/3/library/asyncio.html) - See implementation example [here](https://github.com/nubelaco/proxycurl-linkedin-scraper/blob/main/examples/lib-asyncio.py).
-* [gevent](https://www.gevent.org/) - See implementation example [here](https://github.com/nubelaco/proxycurl-linkedin-scraper/blob/main/examples/lib-gevent.py).
-* [twisted](https://twisted.org/) - See implementation example [here](https://github.com/nubelaco/proxycurl-linkedin-scraper/blob/main/examples/lib-twisted.py).
+* [asyncio](https://docs.python.org/3/library/asyncio.html) - See implementation example [here](examples/lib-asyncio.py).
+* [gevent](https://www.gevent.org/) - See implementation example [here](examples/lib-gevent.py).
+* [twisted](https://twisted.org/) - See implementation example [here](examples/lib-twisted.py).
 
-The right way to use Enrich Layer API is to make API calls concurrently. In fact, making API requests concurrently is the only way to achieve a high rate of throughput. On the default rate limit, you can enrich up to 432,000 profiles per day. See [this blog post](https://nubela.co/blog/how-to-maximize-throughput-on-proxycurl/) for context.
+The right way to use Enrich Layer API is to make API calls concurrently. In fact, making API requests concurrently is the only way to achieve a high rate of throughput. On the default rate limit, you can enrich up to 432,000 profiles per day. See [this blog post](https://enrichlayer.com/blog/how-to-maximize-throughput-on-enrichlayer/) for context.
 
 ## Installation and supported Python versions
 
@@ -60,7 +60,7 @@ $ pip install 'enrichlayer-api[twisted]'
 
 ## Initializing `enrichlayer-api` with an API Key
 
-You can get an API key by [registering an account](https://nubela.co/proxycurl/auth/register) with Enrich Layer. The API Key can be retrieved from the dashboard.
+You can get an API key by [registering an account](https://enrichlayer.com/auth/register) with Enrich Layer. The API Key can be retrieved from the dashboard.
 
 To use Enrich Layer with the API Key:
 
@@ -78,7 +78,7 @@ Forexamples with other concurrency models such as:
 
 ### Enrich a Person Profile
 
-Given a *LinkedIn Member Profile URL*, you can get the entire profile back in structured data with Enrich Layer's [Person Profile API Endpoint](https://nubela.co/proxycurl/docs#people-api-person-profile-endpoint).
+Given a *LinkedIn Member Profile URL*, you can get the entire profile back in structured data with Enrich Layer's [Person Profile API Endpoint](https://enrichlayer.com/docs/pc#people-api-person-profile-endpoint).
 
 ```python
 from enrichlayer.asyncio import EnrichLayer, do_bulk
@@ -94,7 +94,7 @@ print('Person Result:', person)
 
 ### Enrich a Company Profile
 
-Given a *LinkedIn Company Profile URL*, enrich the URL with it's full profile with Enrich Layer's [Company Profile API Endpoint](https://nubela.co/proxycurl/docs#company-api-company-profile-endpoint).
+Given a *LinkedIn Company Profile URL*, enrich the URL with it's full profile with Enrich Layer's [Company Profile API Endpoint](https://enrichlayer.com/docs/pc#company-api-company-profile-endpoint).
 
 ```python
 company = asyncio.run(enrichlayer.company.get(
@@ -105,7 +105,7 @@ print('Company Result:', company)
 
 ### Lookup a person
 
-Given a first name and a company name or domain, lookup a person with Enrich Layer's [Person Lookup API Endpoint](https://nubela.co/proxycurl/docs#people-api-person-lookup-endpoint).
+Given a first name and a company name or domain, lookup a person with Enrich Layer's [Person Lookup API Endpoint](https://enrichlayer.com/docs/pc#people-api-person-lookup-endpoint).
 
 ```python
 lookup_results = asyncio.run(enrichlayer.person.resolve(first_name="bill", last_name="gates", company_domain="microsoft"))
@@ -114,7 +114,7 @@ print('Person Lookup Result:', lookup_results)
 
 ### Lookup a company
 
-Given a company name or a domain, lookup a company with Enrich Layer's [Company Lookup API Endpoint](https://nubela.co/proxycurl/docs#company-api-company-lookup-endpoint).
+Given a company name or a domain, lookup a company with Enrich Layer's [Company Lookup API Endpoint](https://enrichlayer.com/docs/pc#company-api-company-lookup-endpoint).
 
 ```python
 company_lookup_results = asyncio.run(enrichlayer.company.resolve(company_name="microsoft", company_domain="microsoft.com"))
@@ -123,7 +123,7 @@ print('Company Lookup Result:', company_lookup_results)
 
 ### Lookup a LinkedIn Profile URL from a work email address
 
-Given a work email address, lookup a LinkedIn Profile URL with Enrich Layer's [Reverse Work Email Lookup Endpoint](https://nubela.co/proxycurl/docs#contact-api-reverse-work-email-lookup-endpoint).
+Given a work email address, lookup a LinkedIn Profile URL with Enrich Layer's [Reverse Work Email Lookup Endpoint](https://enrichlayer.com/docs/pc#contact-api-reverse-work-email-lookup-endpoint).
 
 ```python
 lookup_results = asyncio.run(enrichlayer.person.resolve_by_email(work_email="anthony.tan@grab.com"))
@@ -155,9 +155,9 @@ More *asyncio* examples can be found at `examples/lib-asyncio.py`
 
 ## Rate limit and error handling
 
-There is no need for you to handle rate limits (`429` HTTP status error). The [library handles rate limits automatically with exponential backoff](https://github.com/nubelaco/proxycurl-linkedin-scraper/blob/main/enrichlayer/asyncio/base.py#L109).
+There is no need for you to handle rate limits (`429` HTTP status error). The library handles rate limits automatically with exponential backoff.
 
-However, there is a need for you to handle other error codes. Errors will be returned in the form of `EnrichLayerException`. The [list of possible errors](https://nubela.co/proxycurl/docs#overview-errors) is listed in our API documentation.
+However, there is a need for you to handle other error codes. Errors will be returned in the form of `EnrichLayerException`. The [list of possible errors](https://enrichlayer.com/docs/pc#overview-errors) is listed in our API documentation.
 
 ## API Endpoints and their corresponding documentation
 
@@ -165,20 +165,20 @@ Here we list the possible API endpoints and their corresponding library function
 
 | Function                                       | Endpoint                                                                                                                     | API                                                      |
 | ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
-| `company.employee_count(**kwargs)`  | [Employee Count Endpoint](https://nubela.co/proxycurl/docs#company-api-employee-count-endpoint)                                 | [Company API](https://nubela.co/proxycurl/docs#company-api) |
-| `company.resolve(**kwargs)`         | [Company Lookup Endpoint](https://nubela.co/proxycurl/docs#company-api-company-profile-endpoint)                                | [Company API](https://nubela.co/proxycurl/docs#company-api) |
-| `company.employee_list(**kwargs)`   | [Employee Listing Endpoint](https://nubela.co/proxycurl/docs#company-api-employee-listing-endpoint)                             | [Company API](https://nubela.co/proxycurl/docs#company-api) |
-| `company.get(**kwargs)`             | [Company Profile Endpoint](https://nubela.co/proxycurl/docs#company-api-company-profile-endpoint)                               | [Company API](https://nubela.co/proxycurl/docs#company-api) |
-| `person.resolve_by_email(**kwargs)` | [Reverse Work Email Lookup Endpoint](https://nubela.co/proxycurl/docs#contact-api-reverse-work-email-lookup-endpoint)           | [Contact API](https://nubela.co/proxycurl/docs#contact-api) |
-| `person.lookup_email(**kwargs)`     | [Work Email Lookup Endpoint](https://nubela.co/proxycurl/docs#contact-api-work-email-lookup-endpoint)                           | [Contact API](https://nubela.co/proxycurl/docs#contact-api) |
-| `person.personal_contact(**kwargs)` | [Personal Contact Number Lookup Endpoint](https://nubela.co/proxycurl/docs#contact-api-personal-contact-number-lookup-endpoint) | [Contact API](https://nubela.co/proxycurl/docs#contact-api) |
-| `person.personal_email(**kwargs)`   | [Personal Email Lookup Endpoint](https://nubela.co/proxycurl/docs#contact-api-personal-email-lookup-endpoint)                   | [Contact API](https://nubela.co/proxycurl/docs#contact-api) |
-| `disposable_email(**kwargs)`        | [Disposable Email Address Check Endpoint](https://nubela.co/proxycurl/docs#contact-api-disposable-email-address-check-endpoint) | [Contact API](https://nubela.co/proxycurl/docs#contact-api) |
-| `company.find_job(**kwargs)`        | [Job Listings Endpoint](https://nubela.co/proxycurl/docs#jobs-api-jobs-listing-endpoint)                                        | [Jobs API](https://nubela.co/proxycurl/docs#jobs-api)       |
-| `job.get(**kwargs)`                 | [Jobs Profile Endpoint](https://nubela.co/proxycurl/docs#jobs-api-job-profile-endpoint)                                         | [Jobs API](https://nubela.co/proxycurl/docs#jobs-api)       |
-| `person.resolve(**kwargs)`          | [Person Lookup Endpoint](https://nubela.co/proxycurl/docs#people-api-person-lookup-endpoint)                                    | [People API](https://nubela.co/proxycurl/docs#people-api)   |
-| `company.role_lookup(**kwargs)`     | [Role Lookup Endpoint](https://nubela.co/proxycurl/docs#people-api-role-lookup-endpoint)                                        | [People API](https://nubela.co/proxycurl/docs#people-api)   |
-| `person.get(**kwargs)`              | [Person Profile Endpoint](https://nubela.co/proxycurl/docs#people-api-person-profile-endpoint)                                  | [People API](https://nubela.co/proxycurl/docs#people-api)   |
-| `school.get(**kwargs)`              | [School Profile Endpoint](https://nubela.co/proxycurl/docs#school-api-school-profile-endpoint)                                  | [School API](https://nubela.co/proxycurl/docs#school-api)   |
-| `company.reveal`                    | [Reveal Endpoint](https://nubela.co/proxycurl/docs#reveal-api-reveal-endpoint)                                                  | [Reveal API](https://nubela.co/proxycurl/docs#reveal-api)   |
-| `get_balance(**kwargs)`                      | [View Credit Balance Endpoint](https://nubela.co/proxycurl/docs#meta-api-view-credit-balance-endpoint)                          | [Meta API](https://nubela.co/proxycurl/docs#meta-api)       |
+| `company.employee_count(**kwargs)`  | [Employee Count Endpoint](https://enrichlayer.com/docs/pc#company-api-employee-count-endpoint)                                 | [Company API](https://enrichlayer.com/docs/pc#company-api) |
+| `company.resolve(**kwargs)`         | [Company Lookup Endpoint](https://enrichlayer.com/docs/pc#company-api-company-profile-endpoint)                                | [Company API](https://enrichlayer.com/docs/pc#company-api) |
+| `company.employee_list(**kwargs)`   | [Employee Listing Endpoint](https://enrichlayer.com/docs/pc#company-api-employee-listing-endpoint)                             | [Company API](https://enrichlayer.com/docs/pc#company-api) |
+| `company.get(**kwargs)`             | [Company Profile Endpoint](https://enrichlayer.com/docs/pc#company-api-company-profile-endpoint)                               | [Company API](https://enrichlayer.com/docs/pc#company-api) |
+| `person.resolve_by_email(**kwargs)` | [Reverse Work Email Lookup Endpoint](https://enrichlayer.com/docs/pc#contact-api-reverse-work-email-lookup-endpoint)           | [Contact API](https://enrichlayer.com/docs/pc#contact-api) |
+| `person.lookup_email(**kwargs)`     | [Work Email Lookup Endpoint](https://enrichlayer.com/docs/pc#contact-api-work-email-lookup-endpoint)                           | [Contact API](https://enrichlayer.com/docs/pc#contact-api) |
+| `person.personal_contact(**kwargs)` | [Personal Contact Number Lookup Endpoint](https://enrichlayer.com/docs/pc#contact-api-personal-contact-number-lookup-endpoint) | [Contact API](https://enrichlayer.com/docs/pc#contact-api) |
+| `person.personal_email(**kwargs)`   | [Personal Email Lookup Endpoint](https://enrichlayer.com/docs/pc#contact-api-personal-email-lookup-endpoint)                   | [Contact API](https://enrichlayer.com/docs/pc#contact-api) |
+| `disposable_email(**kwargs)`        | [Disposable Email Address Check Endpoint](https://enrichlayer.com/docs/pc#contact-api-disposable-email-address-check-endpoint) | [Contact API](https://enrichlayer.com/docs/pc#contact-api) |
+| `company.find_job(**kwargs)`        | [Job Listings Endpoint](https://enrichlayer.com/docs/pc#jobs-api-jobs-listing-endpoint)                                        | [Jobs API](https://enrichlayer.com/docs/pc#jobs-api)       |
+| `job.get(**kwargs)`                 | [Jobs Profile Endpoint](https://enrichlayer.com/docs/pc#jobs-api-job-profile-endpoint)                                         | [Jobs API](https://enrichlayer.com/docs/pc#jobs-api)       |
+| `person.resolve(**kwargs)`          | [Person Lookup Endpoint](https://enrichlayer.com/docs/pc#people-api-person-lookup-endpoint)                                    | [People API](https://enrichlayer.com/docs/pc#people-api)   |
+| `company.role_lookup(**kwargs)`     | [Role Lookup Endpoint](https://enrichlayer.com/docs/pc#people-api-role-lookup-endpoint)                                        | [People API](https://enrichlayer.com/docs/pc#people-api)   |
+| `person.get(**kwargs)`              | [Person Profile Endpoint](https://enrichlayer.com/docs/pc#people-api-person-profile-endpoint)                                  | [People API](https://enrichlayer.com/docs/pc#people-api)   |
+| `school.get(**kwargs)`              | [School Profile Endpoint](https://enrichlayer.com/docs/pc#school-api-school-profile-endpoint)                                  | [School API](https://enrichlayer.com/docs/pc#school-api)   |
+| `company.reveal`                    | [Reveal Endpoint](https://enrichlayer.com/docs/pc#reveal-api-reveal-endpoint)                                                  | [Reveal API](https://enrichlayer.com/docs/pc#reveal-api)   |
+| `get_balance(**kwargs)`                      | [View Credit Balance Endpoint](https://enrichlayer.com/docs/pc#meta-api-view-credit-balance-endpoint)                          | [Meta API](https://enrichlayer.com/docs/pc#meta-api)       |

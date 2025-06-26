@@ -2,7 +2,7 @@
 name = "enrichlayer-api"
 version = "0.1.0.post2"
 description = ""
-authors = ["Nubela <tech@nubela.co>"]
+authors = ["Enrich Layer <tech@enrichlayer.com>"]
 packages = [
     { include = "enrichlayer" },
 ]

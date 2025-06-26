@@ -238,7 +238,7 @@ class _LinkedinPerson:
                 Cost: 35 credits / successful request base charge.
         Search for people who meet a set of criteria within our exhaustive dataset of people profiles.
 
-        This API endpoint is powered by [LinkDB](https://nubela.co/proxycurl/linkdb), our exhaustive dataset of people and company profiles.
+        This API endpoint is powered by [LinkDB](https://enrichlayer.com/linkdb), our exhaustive dataset of people and company profiles.
 
         This API endpoint can return at most 10,000 results per search.
         
@@ -279,7 +279,7 @@ class _LinkedinPerson:
 
             The default value of this parameter is `null`.
         :type education_school_linkedin_profile_url: str
-        :param current_role_title: Filter people who are **currently** working as a role whose title matches the provided regular expression. You'll be looking for profiles on [LinkDB](https://nubela.co/proxycurl/linkdb) that show a person's current job. However, keep in mind that some of these profiles may not be up-to-date, which means you might sometimes see a person's old job instead of their current job on LinkedIn.
+        :param current_role_title: Filter people who are **currently** working as a role whose title matches the provided regular expression. You'll be looking for profiles on [LinkDB](https://enrichlayer.com/linkdb) that show a person's current job. However, keep in mind that some of these profiles may not be up-to-date, which means you might sometimes see a person's old job instead of their current job on LinkedIn.
 
             The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag. The default value of this parameter is `null`.
         :type current_role_title: str
@@ -287,11 +287,11 @@ class _LinkedinPerson:
 
             The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag. The default value of this parameter is `null`.
         :type past_role_title: str
-        :param current_role_before: Filter people who started their current role **before** this date. You'll be looking for profiles on [LinkDB](https://nubela.co/proxycurl/linkdb) that show a person's current job. However, keep in mind that some of these profiles may not be up-to-date, which means you might sometimes see a person's old job instead of their current job on LinkedIn.
+        :param current_role_before: Filter people who started their current role **before** this date. You'll be looking for profiles on [LinkDB](https://enrichlayer.com/linkdb) that show a person's current job. However, keep in mind that some of these profiles may not be up-to-date, which means you might sometimes see a person's old job instead of their current job on LinkedIn.
 
             This parameter takes a ISO8601 date. Default value of this parameter is `null`.
         :type current_role_before: str
-        :param current_role_after: Filter people who started their current role **after** this date. You'll be looking for profiles on [LinkDB](https://nubela.co/proxycurl/linkdb) that show a person's current job. However, keep in mind that some of these profiles may not be up-to-date, which means you might sometimes see a person's old job instead of their current job on LinkedIn.
+        :param current_role_after: Filter people who started their current role **after** this date. You'll be looking for profiles on [LinkDB](https://enrichlayer.com/linkdb) that show a person's current job. However, keep in mind that some of these profiles may not be up-to-date, which means you might sometimes see a person's old job instead of their current job on LinkedIn.
 
             This parameter takes a ISO8601 date. Default value of this parameter is `null`.
         :type current_role_after: str
@@ -609,8 +609,8 @@ class _LinkedinPerson:
 
             Calling this API endpoint with this parameter would add 1 credit.
 
-            If you require [fresh profile data](https://nubela.co/blog/how-fresh-are-profiles-returned-by-proxycurl-api/),
-            please chain this API call with the [People Profile Endpoint](https://nubela.co/proxycurl/docs#people-api-person-profile-endpoint) with the `use_cache=if-recent` parameter.
+            If you require [fresh profile data](https://enrichlayer.com/blog/how-fresh-are-profiles-returned-by-enrichlayer-api/),
+            please chain this API call with the [People Profile Endpoint](https://enrichlayer.com/docs/pc#people-api-person-profile-endpoint) with the `use_cache=if-recent` parameter.
         :type enrich_profile: str
         :param location: The location of this user.
 
@@ -682,7 +682,7 @@ class _LinkedinPerson:
 
             Calling this API endpoint with this parameter would add `1` additional credit.
 
-            If you require [fresh profile data](https://nubela.co/blog/how-fresh-are-profiles-returned-by-proxycurl-api/),  please chain this API call with the `linkedin_profile_url` result with the [Person Profile Endpoint](https://nubela.co/proxycurl/docs#people-api-person-profile-endpoint) with the `use_cache=if-recent` parameter.
+            If you require [fresh profile data](https://enrichlayer.com/blog/how-fresh-are-profiles-returned-by-enrichlayer-api/),  please chain this API call with the `linkedin_profile_url` result with the [Person Profile Endpoint](https://enrichlayer.com/docs/pc#people-api-person-profile-endpoint) with the `use_cache=if-recent` parameter.
         :type enrich_profile: str
         :return: An object of :class:`proxycurl.models.ReverseEmailUrlEnrichResult` or **None** if there is an error.
         :rtype: :class:`proxycurl.models.ReverseEmailUrlEnrichResult`
@@ -909,8 +909,8 @@ class _LinkedinPerson:
                 Cost: 0 credit / successful request.
         Get the profile picture of a person.
 
-        Profile pictures are served from cached people profiles found within [LinkDB](https://nubela.co/proxycurl/linkdb).
-        If the profile does not exist within [LinkDB](https://nubela.co/proxycurl/linkdb), then the API will return a `404` status code.
+        Profile pictures are served from cached people profiles found within [LinkDB](https://enrichlayer.com/linkdb).
+        If the profile does not exist within [LinkDB](https://enrichlayer.com/linkdb), then the API will return a `404` status code.
         
         :param linkedin_person_profile_url: LinkedIn Profile URL of the person that you are trying to get the profile picture of.
         :type linkedin_person_profile_url: str
@@ -957,7 +957,7 @@ class _LinkedinCompany:
             URL should be in the format of `https://www.linkedin.com/company/<public_identifier>`
         :type url: str
         :param resolve_numeric_id: Enable support for Company Profile URLs with numerical IDs that you most frequently fetch from Sales Navigator.
-            We achieve this by resolving numerical IDs into vanity IDs with cached company profiles from [LinkDB](https://nubela.co/proxycurl/linkdb).
+            We achieve this by resolving numerical IDs into vanity IDs with cached company profiles from [LinkDB](https://enrichlayer.com/linkdb).
             For example, we will turn `https://www.linkedin.com/company/1234567890` to `https://www.linkedin.com/company/acme-corp` -- for which the API endpoint only supports the latter.
 
             This parameter accepts the following values:
@@ -1057,7 +1057,7 @@ class _LinkedinCompany:
         Search for companies that meet a set of criteria within
             our exhaustive dataset of company profiles.
 
-            This API endpoint is powered by [LinkDB](https://nubela.co/proxycurl/linkdb), our exhaustive dataset of company profiles.
+            This API endpoint is powered by [LinkDB](https://enrichlayer.com/linkdb), our exhaustive dataset of company profiles.
 
             This API endpoint can return at most of 10,000 results per search.
         
@@ -1239,8 +1239,8 @@ class _LinkedinCompany:
 
             Calling this API endpoint with this parameter would add 1 credit.
 
-            If you require [fresh profile data](https://nubela.co/blog/how-fresh-are-profiles-returned-by-proxycurl-api/),
-            please chain this API call with the [Company Profile Endpoint](https://nubela.co/proxycurl/docs#company-api-company-profile-endpoint) with the `use_cache=if-recent` parameter.
+            If you require [fresh profile data](https://enrichlayer.com/blog/how-fresh-are-profiles-returned-by-enrichlayer-api/),
+            please chain this API call with the [Company Profile Endpoint](https://enrichlayer.com/docs/pc#company-api-company-profile-endpoint) with the `use_cache=if-recent` parameter.
         :type enrich_profile: str
         :return: An object of :class:`proxycurl.models.CompanyUrlEnrichResult` or **None** if there is an error.
         :rtype: :class:`proxycurl.models.CompanyUrlEnrichResult`
@@ -1317,7 +1317,7 @@ class _LinkedinCompany:
         :param geo_id: The `geo_id` of the location to search for.
             For example, `92000000` is the `geo_id` of world wide.
 
-            See [this article](https://nubela.co/blog/how-to-fetch-geo_id-parameter-for-the-job-api/?utm_source=blog&utm_medium=web&utm_campaign=docs-redirect-to-geo_id-article) as to how you may be able to match regions to `geo_id` input values.
+            See [this article](https://enrichlayer.com/blog/how-to-fetch-geo_id-parameter-for-the-job-api) as to how you may be able to match regions to `geo_id` input values.
         :type geo_id: str
         :param keyword: The keyword to search for.
         :type keyword: str
@@ -1406,7 +1406,7 @@ class _LinkedinCompany:
         :param geo_id: The `geo_id` of the location to search for.
             For example, `92000000` is the `geo_id` of world wide.
 
-            See [this article](https://nubela.co/blog/how-to-fetch-geo_id-parameter-for-the-job-api/?utm_source=blog&utm_medium=web&utm_campaign=docs-redirect-to-geo_id-article) as to how you may be able to match regions to `geo_id` input values.
+            See [this article](https://enrichlayer.com/blog/how-to-fetch-geo_id-parameter-for-the-job-api) as to how you may be able to match regions to `geo_id` input values.
         :type geo_id: str
         :param keyword: The keyword to search for.
         :type keyword: str
@@ -1523,7 +1523,7 @@ class _LinkedinCompany:
                 Cost: 3 credits / employee returned.
         Get a list of employees of a Company.
 
-        This API endpoint is powered by [LinkDB](https://nubela.co/proxycurl/linkdb), our comprehensive dataset of people and company profiles.
+        This API endpoint is powered by [LinkDB](https://enrichlayer.com/linkdb), our comprehensive dataset of people and company profiles.
         
         :param url: URL of the LinkedIn Company Profile to target.
 
@@ -1582,7 +1582,7 @@ class _LinkedinCompany:
             If this parameter is supplied with a value other than `none`, will add `50` credits to the base cost of the API endpoint regardless number of results returned. It will also add an additional cost of `10` credits per employee returned.
         :type sort_by: str
         :param resolve_numeric_id: Enable support for Company Profile URLs with numerical IDs that you most frequently fetch from Sales Navigator. 
-            We achieve this by resolving numerical IDs into vanity IDs with cached company profiles from [LinkDB](https://nubela.co/proxycurl/linkdb). 
+            We achieve this by resolving numerical IDs into vanity IDs with cached company profiles from [LinkDB](https://enrichlayer.com/linkdb). 
             For example, we will turn `https://www.linkedin.com/company/1234567890` to `https://www.linkedin.com/company/acme-corp` -- for which the API endpoint only supports the latter.
 
             This parameter accepts the following values:
@@ -1638,9 +1638,9 @@ class _LinkedinCompany:
                 Cost: 10 credits / successful request.
         Search employees of a target by their job title. This API endpoint is syntactic
         sugar for the role_search parameter under the [Employee Listing Endpoint](#company-api-employee-listing-endpoint).
-        This API endpoint is powered by [LinkDB](https://nubela.co/proxycurl/linkdb), our comprehensive dataset of people
+        This API endpoint is powered by [LinkDB](https://enrichlayer.com/linkdb), our comprehensive dataset of people
         and company profiles. For a detailed comparison between this API endpoint
-        and the [Role Lookup Endpoint](#people-api-role-lookup-endpoint) or the [Person Search Endpoint](#search-api-person-search-endpoint), refer to [this article](https://nubela.co/blog/what-is-the-difference-between-the-person-search-endpoint-role-lookup-endpoint-and-the-employee-search-endpoint).
+        and the [Role Lookup Endpoint](#people-api-role-lookup-endpoint) or the [Person Search Endpoint](#search-api-person-search-endpoint), refer to [this article](https://enrichlayer.com/blog/what-is-the-difference-between-the-person-search-endpoint-role-lookup-endpoint-and-the-employee-search-endpoint).
         
         :param keyword_regex: Job title keyword to search for in regular expression format.
 
@@ -1671,7 +1671,7 @@ class _LinkedinCompany:
             Calling this API endpoint with this parameter would add `1` credit per employee returned.
         :type enrich_profiles: str
         :param resolve_numeric_id: Enable support for Company Profile URLs with numerical IDs that you most frequently fetch from Sales Navigator. 
-            We achieve this by resolving numerical IDs into vanity IDs with cached company profiles from [LinkDB](https://nubela.co/proxycurl/linkdb). 
+            We achieve this by resolving numerical IDs into vanity IDs with cached company profiles from [LinkDB](https://enrichlayer.com/linkdb). 
             For example, we will turn `https://www.linkedin.com/company/1234567890` to `https://www.linkedin.com/company/acme-corp` -- for which the API endpoint only supports the latter.
 
             This parameter accepts the following values:
@@ -1723,7 +1723,7 @@ class _LinkedinCompany:
         [Employee Search Endpoint](#company-api-employee-search-endpoint)
         or the [Person Search Endpoint](#search-api-person-search-endpoint),
         refer to [this article](
-            https://nubela.co/blog/what-is-the-difference-between-the-person-search-endpoint-role-lookup-endpoint-and-the-employee-search-endpoint).
+            https://enrichlayer.com/blog/what-is-the-difference-between-the-person-search-endpoint-role-lookup-endpoint-and-the-employee-search-endpoint).
         
         :param company_name: Name of the company that you are searching for
         :type company_name: str
@@ -1738,7 +1738,7 @@ class _LinkedinCompany:
 
             Calling this API endpoint with this parameter would add 1 credit.
 
-            If you require [fresh profile data](https://nubela.co/blog/how-fresh-are-profiles-returned-by-proxycurl-api/),
+            If you require [fresh profile data](https://enrichlayer.com/blog/how-fresh-are-profiles-returned-by-enrichlayer-api/),
             please chain this API call with the [Person Profile Endpoint](#people-api-person-profile-endpoint) with the `use_cache=if-recent` parameter.
         :type enrich_profile: str
         :return: An object of :class:`proxycurl.models.RoleSearchEnrichedResult` or **None** if there is an error.
@@ -1770,8 +1770,8 @@ class _LinkedinCompany:
                 Cost: 0 credit / successful request.
         Get the profile picture of a company.
 
-        Profile pictures are served from cached company profiles found within [LinkDB](https://nubela.co/proxycurl/linkdb).
-        If the profile does not exist within [LinkDB](https://nubela.co/proxycurl/linkdb), then the API will return a `404` status code.
+        Profile pictures are served from cached company profiles found within [LinkDB](https://enrichlayer.com/linkdb).
+        If the profile does not exist within [LinkDB](https://enrichlayer.com/linkdb), then the API will return a `404` status code.
         
         :param linkedin_company_profile_url: LinkedIn Profile URL of the company that you are trying to get the profile picture of.
         :type linkedin_company_profile_url: str
@@ -1906,7 +1906,7 @@ class _LinkedinSchool:
             If this parameter is supplied with a value other than `none`, will add `50` credits to the base cost of the API endpoint regardless number of results returned. It will also add an additional cost of `10` credits per student returned.
         :type sort_by: str
         :param resolve_numeric_id: Enable support for School Profile URLs with numerical IDs that you most frequently fetch from Sales Navigator. 
-            We achieve this by resolving numerical IDs into vanity IDs with cached company profiles from [LinkDB](https://nubela.co/proxycurl/linkdb). 
+            We achieve this by resolving numerical IDs into vanity IDs with cached company profiles from [LinkDB](https://enrichlayer.com/linkdb). 
             For example, we will turn `https://www.linkedin.com/school/1234567890` to `https://www.linkedin.com/school/acme-corp` -- for which the API endpoint only supports the latter.
 
             This parameter accepts the following values:
