@@ -182,3 +182,75 @@ Here we list the possible API endpoints and their corresponding library function
 | `school.get(**kwargs)`              | [School Profile Endpoint](https://enrichlayer.com/docs/pc#school-api-school-profile-endpoint)                                  | [School API](https://enrichlayer.com/docs/pc#school-api)   |
 | `company.reveal`                    | [Reveal Endpoint](https://enrichlayer.com/docs/pc#reveal-api-reveal-endpoint)                                                  | [Reveal API](https://enrichlayer.com/docs/pc#reveal-api)   |
 | `get_balance(**kwargs)`                      | [View Credit Balance Endpoint](https://enrichlayer.com/docs/pc#meta-api-view-credit-balance-endpoint)                          | [Meta API](https://enrichlayer.com/docs/pc#meta-api)       |
+
+## Proxycurl-py Compatibility
+
+For users migrating from `proxycurl-py`, `enrichlayer-api` provides a compatibility layer that allows existing code to work unchanged while using the new EnrichLayer backend.
+
+### Setup
+
+Install both packages:
+
+```bash
+pip install enrichlayer-api
+pip install proxycurl-py
+```
+
+### Usage
+
+Enable compatibility mode in your existing code by adding one import line:
+
+```python
+import enrichlayer
+enrichlayer.enable_proxycurl_compatibility()
+
+# Now your existing proxycurl-py code works unchanged
+from proxycurl.asyncio import Proxycurl, do_bulk
+proxycurl = Proxycurl()
+
+# All existing methods work exactly the same
+person = asyncio.run(proxycurl.linkedin.person.get(
+    linkedin_profile_url='https://www.linkedin.com/in/williamhgates/'
+))
+company = asyncio.run(proxycurl.linkedin.company.get(
+    url='https://www.linkedin.com/company/apple'
+))
+```
+
+### Configuration Options
+
+```python
+# Enable with custom configuration
+enrichlayer.enable_proxycurl_compatibility(
+    api_key='your-api-key',
+    base_url='https://enrichlayer.com/api/v2',
+    deprecation_warnings=True  # Show migration warnings
+)
+```
+
+### Migration Path
+
+1. **Immediate**: Add `enrichlayer.enable_proxycurl_compatibility()` to existing code
+2. **Gradual**: Replace imports one by one:
+   ```python
+   # Old: from proxycurl.asyncio import Proxycurl
+   # New: from enrichlayer.asyncio import EnrichLayer as Proxycurl
+   ```
+3. **Complete**: Use the new direct API structure:
+   ```python
+   # Old: proxycurl.linkedin.person.get(...)
+   # New: enrichlayer.person.get(...)
+   ```
+
+### Environment Variables
+
+The compatibility layer supports both old and new environment variables:
+- `PROXYCURL_API_KEY` (legacy)
+- `ENRICHLAYER_API_KEY` (new)
+
+### Benefits
+
+- **Zero Breaking Changes**: Existing code works immediately
+- **Modern Backend**: Benefits from improved EnrichLayer infrastructure  
+- **Flexible Migration**: Migrate at your own pace
+- **Future-Proof**: Easy path to new API structure
