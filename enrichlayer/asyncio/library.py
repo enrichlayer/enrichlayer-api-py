@@ -2112,11 +2112,13 @@ class EnrichLayer(EnrichLayerBase):
         max_retries: int = MAX_RETRIES,
         max_backoff_seconds: int = MAX_BACKOFF_SECONDS
     ) -> None:
-        self.api_key = api_key
-        self.base_url = base_url
-        self.timeout = timeout
-        self.max_retries = max_retries
-        self.max_backoff_seconds = max_backoff_seconds
+        super().__init__(
+            api_key=api_key,
+            base_url=base_url,
+            timeout=timeout,
+            max_retries=max_retries,
+            max_backoff_seconds=max_backoff_seconds
+        )
         self.person = _LinkedinPerson(self)
         self.company = _LinkedinCompany(self)
         self.school = _LinkedinSchool(self)

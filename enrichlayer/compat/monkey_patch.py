@@ -79,15 +79,22 @@ def create_proxycurl_wrapper_class(enrichlayer_class):
                 import os
                 api_key = os.environ.get('PROXYCURL_API_KEY') or os.environ.get('ENRICHLAYER_API_KEY', '')
             
-            # Initialize the EnrichLayer backend
-            super().__init__(
-                api_key=api_key,
-                base_url=base_url,
-                timeout=timeout,
-                max_retries=max_retries,
-                max_backoff_seconds=max_backoff_seconds,
-                **kwargs
-            )
+            # Initialize the EnrichLayer backend with only non-None values
+            init_kwargs = {'api_key': api_key}
+            if base_url is not None:
+                init_kwargs['base_url'] = base_url
+            if timeout is not None:
+                init_kwargs['timeout'] = timeout  
+            if max_retries is not None:
+                init_kwargs['max_retries'] = max_retries
+            if max_backoff_seconds is not None:
+                init_kwargs['max_backoff_seconds'] = max_backoff_seconds
+            init_kwargs.update(kwargs)
+            
+            super().__init__(**init_kwargs)
+            
+            # Store reference for method delegation
+            self.enrichlayer = self
             
             # Create the linkedin compatibility wrapper
             self.linkedin = LinkedinCompatibilityWrapper(self)
@@ -170,8 +177,21 @@ def enable_proxycurl_compatibility(
     # Import EnrichLayer classes
     try:
         from enrichlayer.asyncio import EnrichLayer as AsyncIOEnrichLayer
-        from enrichlayer.gevent import EnrichLayer as GeventEnrichLayer  
-        from enrichlayer.twisted import EnrichLayer as TwistedEnrichLayer
+        
+        # Optional imports for other backends
+        GeventEnrichLayer = None
+        TwistedEnrichLayer = None
+        
+        try:
+            from enrichlayer.gevent import EnrichLayer as GeventEnrichLayer
+        except ImportError:
+            pass
+            
+        try:
+            from enrichlayer.twisted import EnrichLayer as TwistedEnrichLayer
+        except ImportError:
+            pass
+            
     except ImportError as e:
         raise ImportError(f"Failed to import EnrichLayer classes: {e}")
     
@@ -188,8 +208,10 @@ def enable_proxycurl_compatibility(
     
     # Patch all proxycurl modules that might be loaded
     patch_proxycurl_module('proxycurl.asyncio', AsyncIOEnrichLayer, deprecation_warnings)
-    patch_proxycurl_module('proxycurl.gevent', GeventEnrichLayer, deprecation_warnings)
-    patch_proxycurl_module('proxycurl.twisted', TwistedEnrichLayer, deprecation_warnings)
+    if GeventEnrichLayer is not None:
+        patch_proxycurl_module('proxycurl.gevent', GeventEnrichLayer, deprecation_warnings)
+    if TwistedEnrichLayer is not None:
+        patch_proxycurl_module('proxycurl.twisted', TwistedEnrichLayer, deprecation_warnings)
     
     # Set up import hooks for future imports
     _setup_import_hooks(deprecation_warnings)
