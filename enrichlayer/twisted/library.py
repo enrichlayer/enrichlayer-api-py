@@ -31,8 +31,8 @@ from enrichlayer.models import (
 
 
 class _LinkedinPerson:
-    def __init__(self, linkedin):
-        self.linkedin = linkedin
+    def __init__(self, enrichlayer):
+        self.enrichlayer = enrichlayer
 
     @inlineCallbacks
     def get(
@@ -177,9 +177,9 @@ class _LinkedinPerson:
         if linkedin_profile_url is not None:
             params['linkedin_profile_url'] = linkedin_profile_url
 
-        resp = yield self.linkedin.proxycurl.request(
+        resp = yield self.enrichlayer.request(
             method='GET',
-            url='/proxycurl/api/v2/linkedin',
+            url='/profile',
             params=params,
             data={
             },
@@ -553,9 +553,9 @@ class _LinkedinPerson:
         if after is not None:
             params['after'] = after
 
-        resp = yield self.linkedin.proxycurl.request(
+        resp = yield self.enrichlayer.request(
             method='GET',
-            url='/proxycurl/api/v2/search/person',
+            url='/search/person',
             params=params,
             data={
             },
@@ -646,9 +646,9 @@ class _LinkedinPerson:
         if last_name is not None:
             params['last_name'] = last_name
 
-        resp = yield self.linkedin.proxycurl.request(
+        resp = yield self.enrichlayer.request(
             method='GET',
-            url='/proxycurl/api/linkedin/profile/resolve',
+            url='/profile/resolve',
             params=params,
             data={
             },
@@ -704,9 +704,9 @@ class _LinkedinPerson:
         if enrich_profile is not None:
             params['enrich_profile'] = enrich_profile
 
-        resp = yield self.linkedin.proxycurl.request(
+        resp = yield self.enrichlayer.request(
             method='GET',
-            url='/proxycurl/api/linkedin/profile/resolve/email',
+            url='/profile/resolve/email',
             params=params,
             data={
             },
@@ -734,9 +734,9 @@ class _LinkedinPerson:
         params = {}
         params['phone_number'] = phone_number
 
-        resp = yield self.linkedin.proxycurl.request(
+        resp = yield self.enrichlayer.request(
             method='GET',
-            url='/proxycurl/api/resolve/phone',
+            url='/resolve/phone',
             params=params,
             data={
             },
@@ -781,9 +781,9 @@ class _LinkedinPerson:
         if callback_url is not None:
             params['callback_url'] = callback_url
 
-        resp = yield self.linkedin.proxycurl.request(
+        resp = yield self.enrichlayer.request(
             method='GET',
-            url='/proxycurl/api/linkedin/profile/email',
+            url='/profile/email',
             params=params,
             data={
             },
@@ -845,9 +845,9 @@ class _LinkedinPerson:
         if linkedin_profile_url is not None:
             params['linkedin_profile_url'] = linkedin_profile_url
 
-        resp = yield self.linkedin.proxycurl.request(
+        resp = yield self.enrichlayer.request(
             method='GET',
-            url='/proxycurl/api/contact-api/personal-contact',
+            url='/contact-api/personal-contact',
             params=params,
             data={
             },
@@ -908,9 +908,9 @@ class _LinkedinPerson:
         if linkedin_profile_url is not None:
             params['linkedin_profile_url'] = linkedin_profile_url
 
-        resp = yield self.linkedin.proxycurl.request(
+        resp = yield self.enrichlayer.request(
             method='GET',
-            url='/proxycurl/api/contact-api/personal-email',
+            url='/contact-api/personal-email',
             params=params,
             data={
             },
@@ -941,9 +941,9 @@ class _LinkedinPerson:
         params = {}
         params['linkedin_person_profile_url'] = linkedin_person_profile_url
 
-        resp = yield self.linkedin.proxycurl.request(
+        resp = yield self.enrichlayer.request(
             method='GET',
-            url='/proxycurl/api/linkedin/person/profile-picture',
+            url='/person/profile-picture',
             params=params,
             data={
             },
@@ -953,8 +953,8 @@ class _LinkedinPerson:
 
 
 class _LinkedinCompany:
-    def __init__(self, linkedin):
-        self.linkedin = linkedin
+    def __init__(self, enrichlayer):
+        self.enrichlayer = enrichlayer
 
     @inlineCallbacks
     def get(
@@ -1038,9 +1038,9 @@ class _LinkedinCompany:
         if use_cache is not None:
             params['use_cache'] = use_cache
 
-        resp = yield self.linkedin.proxycurl.request(
+        resp = yield self.enrichlayer.request(
             method='GET',
-            url='/proxycurl/api/linkedin/company',
+            url='/company',
             params=params,
             data={
             },
@@ -1222,9 +1222,9 @@ class _LinkedinCompany:
         if after is not None:
             params['after'] = after
 
-        resp = yield self.linkedin.proxycurl.request(
+        resp = yield self.enrichlayer.request(
             method='GET',
-            url='/proxycurl/api/v2/search/company',
+            url='/search/company',
             params=params,
             data={
             },
@@ -1282,9 +1282,9 @@ class _LinkedinCompany:
         if enrich_profile is not None:
             params['enrich_profile'] = enrich_profile
 
-        resp = yield self.linkedin.proxycurl.request(
+        resp = yield self.enrichlayer.request(
             method='GET',
-            url='/proxycurl/api/linkedin/company/resolve',
+            url='/company/resolve',
             params=params,
             data={
             },
@@ -1373,9 +1373,9 @@ class _LinkedinCompany:
         if search_id is not None:
             params['search_id'] = search_id
 
-        resp = yield self.linkedin.proxycurl.request(
+        resp = yield self.enrichlayer.request(
             method='GET',
-            url='/proxycurl/api/v2/linkedin/company/job',
+            url='/company/job',
             params=params,
             data={
             },
@@ -1464,9 +1464,9 @@ class _LinkedinCompany:
         if search_id is not None:
             params['search_id'] = search_id
 
-        resp = yield self.linkedin.proxycurl.request(
+        resp = yield self.enrichlayer.request(
             method='GET',
-            url='/proxycurl/api/v2/linkedin/company/job/count',
+            url='/company/job/count',
             params=params,
             data={
             },
@@ -1528,9 +1528,9 @@ class _LinkedinCompany:
         if employment_status is not None:
             params['employment_status'] = employment_status
 
-        resp = yield self.linkedin.proxycurl.request(
+        resp = yield self.enrichlayer.request(
             method='GET',
-            url='/proxycurl/api/linkedin/company/employees/count',
+            url='/company/employees/count',
             params=params,
             data={
             },
@@ -1647,9 +1647,9 @@ class _LinkedinCompany:
         if after is not None:
             params['after'] = after
 
-        resp = yield self.linkedin.proxycurl.request(
+        resp = yield self.enrichlayer.request(
             method='GET',
-            url='/proxycurl/api/linkedin/company/employees',
+            url='/company/employees',
             params=params,
             data={
             },
@@ -1733,9 +1733,9 @@ class _LinkedinCompany:
         if after is not None:
             params['after'] = after
 
-        resp = yield self.linkedin.proxycurl.request(
+        resp = yield self.enrichlayer.request(
             method='GET',
-            url='/proxycurl/api/linkedin/company/employee/search',
+            url='/company/employee/search',
             params=params,
             data={
             },
@@ -1789,9 +1789,9 @@ class _LinkedinCompany:
         if enrich_profile is not None:
             params['enrich_profile'] = enrich_profile
 
-        resp = yield self.linkedin.proxycurl.request(
+        resp = yield self.enrichlayer.request(
             method='GET',
-            url='/proxycurl/api/find/company/role',
+            url='/find/company/role',
             params=params,
             data={
             },
@@ -1822,9 +1822,9 @@ class _LinkedinCompany:
         params = {}
         params['linkedin_company_profile_url'] = linkedin_company_profile_url
 
-        resp = yield self.linkedin.proxycurl.request(
+        resp = yield self.enrichlayer.request(
             method='GET',
-            url='/proxycurl/api/linkedin/company/profile-picture',
+            url='/company/profile-picture',
             params=params,
             data={
             },
@@ -1834,8 +1834,8 @@ class _LinkedinCompany:
 
 
 class _LinkedinSchool:
-    def __init__(self, linkedin):
-        self.linkedin = linkedin
+    def __init__(self, enrichlayer):
+        self.enrichlayer = enrichlayer
 
     @inlineCallbacks
     def get(
@@ -1866,9 +1866,9 @@ class _LinkedinSchool:
         if use_cache is not None:
             params['use_cache'] = use_cache
 
-        resp = yield self.linkedin.proxycurl.request(
+        resp = yield self.enrichlayer.request(
             method='GET',
-            url='/proxycurl/api/linkedin/school',
+            url='/school',
             params=params,
             data={
             },
@@ -1979,9 +1979,9 @@ class _LinkedinSchool:
         if resolve_numeric_id is not None:
             params['resolve_numeric_id'] = resolve_numeric_id
 
-        resp = yield self.linkedin.proxycurl.request(
+        resp = yield self.enrichlayer.request(
             method='GET',
-            url='/proxycurl/api/linkedin/school/students',
+            url='/school/students',
             params=params,
             data={
             },
@@ -1991,8 +1991,8 @@ class _LinkedinSchool:
 
 
 class _LinkedinJob:
-    def __init__(self, linkedin):
-        self.linkedin = linkedin
+    def __init__(self, enrichlayer):
+        self.enrichlayer = enrichlayer
 
     @inlineCallbacks
     def get(
@@ -2019,9 +2019,9 @@ class _LinkedinJob:
         params = {}
         params['url'] = url
 
-        resp = yield self.linkedin.proxycurl.request(
+        resp = yield self.enrichlayer.request(
             method='GET',
-            url='/proxycurl/api/linkedin/job',
+            url='/job',
             params=params,
             data={
             },
@@ -2031,8 +2031,8 @@ class _LinkedinJob:
 
 
 class _LinkedinCustomers:
-    def __init__(self, linkedin):
-        self.linkedin = linkedin
+    def __init__(self, enrichlayer):
+        self.enrichlayer = enrichlayer
 
     @inlineCallbacks
     def listing(
@@ -2082,9 +2082,9 @@ class _LinkedinCustomers:
         if after is not None:
             params['after'] = after
 
-        resp = yield self.linkedin.proxycurl.request(
+        resp = yield self.enrichlayer.request(
             method='GET',
-            url='/proxycurl/api/customers',
+            url='/customers',
             params=params,
             data={
             },
@@ -2093,24 +2093,13 @@ class _LinkedinCustomers:
         defer.returnValue(resp)
 
 
-class _Linkedin:
+
+class EnrichLayer(EnrichLayerBase):
     person: _LinkedinPerson
     company: _LinkedinCompany
     school: _LinkedinSchool
     job: _LinkedinJob
     customers: _LinkedinCustomers
-
-    def __init__(self, proxycurl):
-        self.proxycurl = proxycurl
-        self.person = _LinkedinPerson(self)
-        self.company = _LinkedinCompany(self)
-        self.school = _LinkedinSchool(self)
-        self.job = _LinkedinJob(self)
-        self.customers = _LinkedinCustomers(self)
-
-
-class EnrichLayer(EnrichLayerBase):
-    linkedin: _Linkedin
 
     def __init__(
         self,
@@ -2125,7 +2114,11 @@ class EnrichLayer(EnrichLayerBase):
         self.timeout = timeout
         self.max_retries = max_retries
         self.max_backoff_seconds = max_backoff_seconds
-        self.linkedin = _Linkedin(self)
+        self.person = _LinkedinPerson(self)
+        self.company = _LinkedinCompany(self)
+        self.school = _LinkedinSchool(self)
+        self.job = _LinkedinJob(self)
+        self.customers = _LinkedinCustomers(self)
 
     @inlineCallbacks
     def get_balance(
@@ -2143,9 +2136,9 @@ class EnrichLayer(EnrichLayerBase):
         """
         params = {}
 
-        resp = yield self.linkedin.proxycurl.request(
+        resp = yield self.enrichlayer.request(
             method='GET',
-            url='/proxycurl/api/credit-balance',
+            url='/credit-balance',
             params=params,
             data={
             },

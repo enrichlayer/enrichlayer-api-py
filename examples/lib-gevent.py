@@ -7,12 +7,12 @@ balance = enrichlayer.get_balance()
 
 print('Balance:', balance)
 
-person = enrichlayer.linkedin.person.get(
+person = enrichlayer.person.get(
     linkedin_profile_url='https://sg.linkedin.com/in/williamhgates'
 )
 print('Person Result:', person)
 
-company = enrichlayer.linkedin.company.get(
+company = enrichlayer.company.get(
     url='https://www.linkedin.com/company/apple'
 )
 print('Company Result:', company)
@@ -24,7 +24,7 @@ with open('sample.csv', 'r') as file:
     next(reader, None)
     for row in reader:
         bulk_linkedin_person_data.append(
-            (enrichlayer.linkedin.person.get, {'linkedin_profile_url': row[0]})
+            (enrichlayer.person.get, {'linkedin_profile_url': row[0]})
         )
 results = do_bulk(bulk_linkedin_person_data)
 

@@ -86,7 +86,7 @@ import asyncio
 import csv
 
 enrichlayer = EnrichLayer()
-person = asyncio.run(enrichlayer.linkedin.person.get(
+person = asyncio.run(enrichlayer.person.get(
     linkedin_profile_url='https://www.linkedin.com/in/williamhgates/'
 ))
 print('Person Result:', person)
@@ -97,7 +97,7 @@ print('Person Result:', person)
 Given a *LinkedIn Company Profile URL*, enrich the URL with it's full profile with Enrich Layer's [Company Profile API Endpoint](https://nubela.co/proxycurl/docs#company-api-company-profile-endpoint).
 
 ```python
-company = asyncio.run(enrichlayer.linkedin.company.get(
+company = asyncio.run(enrichlayer.company.get(
     url='https://www.linkedin.com/company/tesla-motors'
 ))
 print('Company Result:', company)
@@ -108,7 +108,7 @@ print('Company Result:', company)
 Given a first name and a company name or domain, lookup a person with Enrich Layer's [Person Lookup API Endpoint](https://nubela.co/proxycurl/docs#people-api-person-lookup-endpoint).
 
 ```python
-lookup_results = asyncio.run(enrichlayer.linkedin.person.resolve(first_name="bill", last_name="gates", company_domain="microsoft"))
+lookup_results = asyncio.run(enrichlayer.person.resolve(first_name="bill", last_name="gates", company_domain="microsoft"))
 print('Person Lookup Result:', lookup_results)
 ```
 
@@ -117,7 +117,7 @@ print('Person Lookup Result:', lookup_results)
 Given a company name or a domain, lookup a company with Enrich Layer's [Company Lookup API Endpoint](https://nubela.co/proxycurl/docs#company-api-company-lookup-endpoint).
 
 ```python
-company_lookup_results = asyncio.run(enrichlayer.linkedin.company.resolve(company_name="microsoft", company_domain="microsoft.com"))
+company_lookup_results = asyncio.run(enrichlayer.company.resolve(company_name="microsoft", company_domain="microsoft.com"))
 print('Company Lookup Result:', company_lookup_results)
 ```
 
@@ -126,7 +126,7 @@ print('Company Lookup Result:', company_lookup_results)
 Given a work email address, lookup a LinkedIn Profile URL with Enrich Layer's [Reverse Work Email Lookup Endpoint](https://nubela.co/proxycurl/docs#contact-api-reverse-work-email-lookup-endpoint).
 
 ```python
-lookup_results = asyncio.run(enrichlayer.linkedin.person.resolve_by_email(work_email="anthony.tan@grab.com"))
+lookup_results = asyncio.run(enrichlayer.person.resolve_by_email(work_email="anthony.tan@grab.com"))
 print('Reverse Work Email Lookup Result:', lookup_results)
 ```
 
@@ -142,7 +142,7 @@ with open('sample.csv', 'r') as file:
     next(reader, None)
     for row in reader:
         bulk_linkedin_person_data.append(
-            (enrichlayer.linkedin.person.get, {'url': row[0]})
+            (enrichlayer.person.get, {'url': row[0]})
         )
 results = asyncio.run(do_bulk(bulk_linkedin_person_data))
 
@@ -165,20 +165,20 @@ Here we list the possible API endpoints and their corresponding library function
 
 | Function                                       | Endpoint                                                                                                                     | API                                                      |
 | ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
-| `linkedin.company.employee_count(**kwargs)`  | [Employee Count Endpoint](https://nubela.co/proxycurl/docs#company-api-employee-count-endpoint)                                 | [Company API](https://nubela.co/proxycurl/docs#company-api) |
-| `linkedin.company.resolve(**kwargs)`         | [Company Lookup Endpoint](https://nubela.co/proxycurl/docs#company-api-company-profile-endpoint)                                | [Company API](https://nubela.co/proxycurl/docs#company-api) |
-| `linkedin.company.employee_list(**kwargs)`   | [Employee Listing Endpoint](https://nubela.co/proxycurl/docs#company-api-employee-listing-endpoint)                             | [Company API](https://nubela.co/proxycurl/docs#company-api) |
-| `linkedin.company.get(**kwargs)`             | [Company Profile Endpoint](https://nubela.co/proxycurl/docs#company-api-company-profile-endpoint)                               | [Company API](https://nubela.co/proxycurl/docs#company-api) |
-| `linkedin.person.resolve_by_email(**kwargs)` | [Reverse Work Email Lookup Endpoint](https://nubela.co/proxycurl/docs#contact-api-reverse-work-email-lookup-endpoint)           | [Contact API](https://nubela.co/proxycurl/docs#contact-api) |
-| `linkedin.person.lookup_email(**kwargs)`     | [Work Email Lookup Endpoint](https://nubela.co/proxycurl/docs#contact-api-work-email-lookup-endpoint)                           | [Contact API](https://nubela.co/proxycurl/docs#contact-api) |
-| `linkedin.person.personal_contact(**kwargs)` | [Personal Contact Number Lookup Endpoint](https://nubela.co/proxycurl/docs#contact-api-personal-contact-number-lookup-endpoint) | [Contact API](https://nubela.co/proxycurl/docs#contact-api) |
-| `linkedin.person.personal_email(**kwargs)`   | [Personal Email Lookup Endpoint](https://nubela.co/proxycurl/docs#contact-api-personal-email-lookup-endpoint)                   | [Contact API](https://nubela.co/proxycurl/docs#contact-api) |
-| `linkedin.disposable_email(**kwargs)`        | [Disposable Email Address Check Endpoint](https://nubela.co/proxycurl/docs#contact-api-disposable-email-address-check-endpoint) | [Contact API](https://nubela.co/proxycurl/docs#contact-api) |
-| `linkedin.company.find_job(**kwargs)`        | [Job Listings Endpoint](https://nubela.co/proxycurl/docs#jobs-api-jobs-listing-endpoint)                                        | [Jobs API](https://nubela.co/proxycurl/docs#jobs-api)       |
-| `linkedin.job.get(**kwargs)`                 | [Jobs Profile Endpoint](https://nubela.co/proxycurl/docs#jobs-api-job-profile-endpoint)                                         | [Jobs API](https://nubela.co/proxycurl/docs#jobs-api)       |
-| `linkedin.person.resolve(**kwargs)`          | [Person Lookup Endpoint](https://nubela.co/proxycurl/docs#people-api-person-lookup-endpoint)                                    | [People API](https://nubela.co/proxycurl/docs#people-api)   |
-| `linkedin.company.role_lookup(**kwargs)`     | [Role Lookup Endpoint](https://nubela.co/proxycurl/docs#people-api-role-lookup-endpoint)                                        | [People API](https://nubela.co/proxycurl/docs#people-api)   |
-| `linkedin.person.get(**kwargs)`              | [Person Profile Endpoint](https://nubela.co/proxycurl/docs#people-api-person-profile-endpoint)                                  | [People API](https://nubela.co/proxycurl/docs#people-api)   |
-| `linkedin.school.get(**kwargs)`              | [School Profile Endpoint](https://nubela.co/proxycurl/docs#school-api-school-profile-endpoint)                                  | [School API](https://nubela.co/proxycurl/docs#school-api)   |
-| `linkedin.company.reveal`                    | [Reveal Endpoint](https://nubela.co/proxycurl/docs#reveal-api-reveal-endpoint)                                                  | [Reveal API](https://nubela.co/proxycurl/docs#reveal-api)   |
+| `company.employee_count(**kwargs)`  | [Employee Count Endpoint](https://nubela.co/proxycurl/docs#company-api-employee-count-endpoint)                                 | [Company API](https://nubela.co/proxycurl/docs#company-api) |
+| `company.resolve(**kwargs)`         | [Company Lookup Endpoint](https://nubela.co/proxycurl/docs#company-api-company-profile-endpoint)                                | [Company API](https://nubela.co/proxycurl/docs#company-api) |
+| `company.employee_list(**kwargs)`   | [Employee Listing Endpoint](https://nubela.co/proxycurl/docs#company-api-employee-listing-endpoint)                             | [Company API](https://nubela.co/proxycurl/docs#company-api) |
+| `company.get(**kwargs)`             | [Company Profile Endpoint](https://nubela.co/proxycurl/docs#company-api-company-profile-endpoint)                               | [Company API](https://nubela.co/proxycurl/docs#company-api) |
+| `person.resolve_by_email(**kwargs)` | [Reverse Work Email Lookup Endpoint](https://nubela.co/proxycurl/docs#contact-api-reverse-work-email-lookup-endpoint)           | [Contact API](https://nubela.co/proxycurl/docs#contact-api) |
+| `person.lookup_email(**kwargs)`     | [Work Email Lookup Endpoint](https://nubela.co/proxycurl/docs#contact-api-work-email-lookup-endpoint)                           | [Contact API](https://nubela.co/proxycurl/docs#contact-api) |
+| `person.personal_contact(**kwargs)` | [Personal Contact Number Lookup Endpoint](https://nubela.co/proxycurl/docs#contact-api-personal-contact-number-lookup-endpoint) | [Contact API](https://nubela.co/proxycurl/docs#contact-api) |
+| `person.personal_email(**kwargs)`   | [Personal Email Lookup Endpoint](https://nubela.co/proxycurl/docs#contact-api-personal-email-lookup-endpoint)                   | [Contact API](https://nubela.co/proxycurl/docs#contact-api) |
+| `disposable_email(**kwargs)`        | [Disposable Email Address Check Endpoint](https://nubela.co/proxycurl/docs#contact-api-disposable-email-address-check-endpoint) | [Contact API](https://nubela.co/proxycurl/docs#contact-api) |
+| `company.find_job(**kwargs)`        | [Job Listings Endpoint](https://nubela.co/proxycurl/docs#jobs-api-jobs-listing-endpoint)                                        | [Jobs API](https://nubela.co/proxycurl/docs#jobs-api)       |
+| `job.get(**kwargs)`                 | [Jobs Profile Endpoint](https://nubela.co/proxycurl/docs#jobs-api-job-profile-endpoint)                                         | [Jobs API](https://nubela.co/proxycurl/docs#jobs-api)       |
+| `person.resolve(**kwargs)`          | [Person Lookup Endpoint](https://nubela.co/proxycurl/docs#people-api-person-lookup-endpoint)                                    | [People API](https://nubela.co/proxycurl/docs#people-api)   |
+| `company.role_lookup(**kwargs)`     | [Role Lookup Endpoint](https://nubela.co/proxycurl/docs#people-api-role-lookup-endpoint)                                        | [People API](https://nubela.co/proxycurl/docs#people-api)   |
+| `person.get(**kwargs)`              | [Person Profile Endpoint](https://nubela.co/proxycurl/docs#people-api-person-profile-endpoint)                                  | [People API](https://nubela.co/proxycurl/docs#people-api)   |
+| `school.get(**kwargs)`              | [School Profile Endpoint](https://nubela.co/proxycurl/docs#school-api-school-profile-endpoint)                                  | [School API](https://nubela.co/proxycurl/docs#school-api)   |
+| `company.reveal`                    | [Reveal Endpoint](https://nubela.co/proxycurl/docs#reveal-api-reveal-endpoint)                                                  | [Reveal API](https://nubela.co/proxycurl/docs#reveal-api)   |
 | `get_balance(**kwargs)`                      | [View Credit Balance Endpoint](https://nubela.co/proxycurl/docs#meta-api-view-credit-balance-endpoint)                          | [Meta API](https://nubela.co/proxycurl/docs#meta-api)       |

@@ -11,13 +11,13 @@ def main():
     print('Balance:', balance)
 
 
-    person = yield enrichlayer.linkedin.person.get(
+    person = yield enrichlayer.person.get(
         linkedin_profile_url='https://sg.linkedin.com/in/williamhgates'
     )
 
     print('Person:', person)
 
-    company = yield enrichlayer.linkedin.company.get(
+    company = yield enrichlayer.company.get(
         url='https://www.linkedin.com/company/apple'
     )
 
@@ -30,7 +30,7 @@ def main():
         next(reader, None)
         for row in reader:
             bulk_linkedin_person_data.append(
-                (enrichlayer.linkedin.person.get, {'linkedin_profile_url': row[0]})
+                (enrichlayer.person.get, {'linkedin_profile_url': row[0]})
             )
     bulk = yield do_bulk(bulk_linkedin_person_data)
 
