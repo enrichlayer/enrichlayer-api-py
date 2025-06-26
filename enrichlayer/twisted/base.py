@@ -1,6 +1,6 @@
 from twisted.internet import defer, reactor
 from twisted.internet.defer import Deferred, inlineCallbacks
-from proxycurl.config import MAX_WORKERS
+from enrichlayer.config import MAX_WORKERS
 import treq
 from dataclasses import dataclass
 from typing import (
@@ -26,12 +26,12 @@ class Result(Generic[T]):
     error: BaseException
 
 
-class ProxycurlException(Exception):
+class EnrichLayerException(Exception):
     """Raised when InternalServerError or network error or request error"""
     pass
 
 
-class ProxycurlBase:
+class EnrichLayerBase:
     api_key: str
     base_url: str
     timeout: int
@@ -80,8 +80,8 @@ class ProxycurlBase:
                         break
                 else:
                     error = yield r.text()
-                    raise ProxycurlException(error)
-            except ProxycurlException as e:
+                    raise EnrichLayerException(error)
+            except EnrichLayerException as e:
                 if r.code in [400, 401, 403, 404]:
                     logger.exception(str(e))
                     raise e
@@ -146,8 +146,8 @@ def do_bulk(ops: List[Op], max_workers: int = MAX_WORKERS) -> List[Result]:
     :type ops: List[Tuple[Callable, Dict]]
     :param max_workers: Total concurrent request, defaults to 10
     :type max_workers: int
-    :return: Once all operation is finished this function will return List[:class:`proxycurl.twisted.base.Result`]
-    :rtype: List[:class:`proxycurl.twisted.base.Result`]
+    :return: Once all operation is finished this function will return List[:class:`enrichlayer.twisted.base.Result`]
+    :rtype: List[:class:`enrichlayer.twisted.base.Result`]
 
     """
 

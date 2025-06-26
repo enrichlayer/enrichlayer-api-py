@@ -1,10 +1,10 @@
 from twisted.internet import defer
 from twisted.internet.defer import Deferred, inlineCallbacks
-from proxycurl.config import (
-    BASE_URL, PROXYCURL_API_KEY, TIMEOUT, MAX_RETRIES, MAX_BACKOFF_SECONDS
+from enrichlayer.config import (
+    BASE_URL, ENRICHLAYER_API_KEY, TIMEOUT, MAX_RETRIES, MAX_BACKOFF_SECONDS
 )
-from proxycurl.twisted.base import ProxycurlBase
-from proxycurl.models import (
+from enrichlayer.twisted.base import EnrichLayerBase
+from enrichlayer.models import (
     PersonEndpointResponse,
     PersonSearchResult,
     PersonLookupUrlEnrichResult,
@@ -146,7 +146,7 @@ class _LinkedinPerson:
         :type linkedin_profile_url: str
         :return: An object of Deferred or **None** if there is an error.
         :rtype: Deferred
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.twisted.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -454,7 +454,7 @@ class _LinkedinPerson:
         :type enrich_profiles: str
         :return: An object of Deferred or **None** if there is an error.
         :rtype: Deferred
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.twisted.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -629,7 +629,7 @@ class _LinkedinPerson:
         :type last_name: str
         :return: An object of Deferred or **None** if there is an error.
         :rtype: Deferred
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.twisted.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -695,7 +695,7 @@ class _LinkedinPerson:
         :type enrich_profile: str
         :return: An object of Deferred or **None** if there is an error.
         :rtype: Deferred
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.twisted.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -728,7 +728,7 @@ class _LinkedinPerson:
         :type phone_number: str
         :return: An object of Deferred or **None** if there is an error.
         :rtype: Deferred
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.twisted.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -773,7 +773,7 @@ class _LinkedinPerson:
         :type callback_url: str
         :return: An object of Deferred or **None** if there is an error.
         :rtype: Deferred
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.twisted.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -832,7 +832,7 @@ class _LinkedinPerson:
         :type linkedin_profile_url: str
         :return: An object of Deferred or **None** if there is an error.
         :rtype: Deferred
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.twisted.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -893,7 +893,7 @@ class _LinkedinPerson:
         :type linkedin_profile_url: str
         :return: An object of Deferred or **None** if there is an error.
         :rtype: Deferred
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.twisted.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -935,7 +935,7 @@ class _LinkedinPerson:
         :type linkedin_person_profile_url: str
         :return: An object of Deferred or **None** if there is an error.
         :rtype: Deferred
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.twisted.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -1018,7 +1018,7 @@ class _LinkedinCompany:
         :type use_cache: str
         :return: An object of Deferred or **None** if there is an error.
         :rtype: Deferred
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.twisted.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -1173,7 +1173,7 @@ class _LinkedinCompany:
         :type country: str
         :return: An object of Deferred or **None** if there is an error.
         :rtype: Deferred
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.twisted.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -1269,7 +1269,7 @@ class _LinkedinCompany:
         :type enrich_profile: str
         :return: An object of Deferred or **None** if there is an error.
         :rtype: Deferred
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.twisted.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -1354,7 +1354,7 @@ class _LinkedinCompany:
         :type search_id: str
         :return: An object of Deferred or **None** if there is an error.
         :rtype: Deferred
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.twisted.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -1445,7 +1445,7 @@ class _LinkedinCompany:
         :type search_id: str
         :return: An object of Deferred or **None** if there is an error.
         :rtype: Deferred
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.twisted.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -1516,7 +1516,7 @@ class _LinkedinCompany:
         :type employment_status: str
         :return: An object of Deferred or **None** if there is an error.
         :rtype: Deferred
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.twisted.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -1625,7 +1625,7 @@ class _LinkedinCompany:
         :type resolve_numeric_id: str
         :return: An object of Deferred or **None** if there is an error.
         :rtype: Deferred
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.twisted.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -1716,7 +1716,7 @@ class _LinkedinCompany:
         :type resolve_numeric_id: str
         :return: An object of Deferred or **None** if there is an error.
         :rtype: Deferred
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.twisted.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -1780,7 +1780,7 @@ class _LinkedinCompany:
         :type enrich_profile: str
         :return: An object of Deferred or **None** if there is an error.
         :rtype: Deferred
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.twisted.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -1816,7 +1816,7 @@ class _LinkedinCompany:
         :type linkedin_company_profile_url: str
         :return: An object of Deferred or **None** if there is an error.
         :rtype: Deferred
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.twisted.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -1858,7 +1858,7 @@ class _LinkedinSchool:
         :type use_cache: str
         :return: An object of Deferred or **None** if there is an error.
         :rtype: Deferred
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.twisted.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -1959,7 +1959,7 @@ class _LinkedinSchool:
         :type resolve_numeric_id: str
         :return: An object of Deferred or **None** if there is an error.
         :rtype: Deferred
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.twisted.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -2013,7 +2013,7 @@ class _LinkedinJob:
         :type url: str
         :return: An object of Deferred or **None** if there is an error.
         :rtype: Deferred
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.twisted.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -2069,7 +2069,7 @@ class _LinkedinCustomers:
         :type page_size: str
         :return: An object of Deferred or **None** if there is an error.
         :rtype: Deferred
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.twisted.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -2109,12 +2109,12 @@ class _Linkedin:
         self.customers = _LinkedinCustomers(self)
 
 
-class Proxycurl(ProxycurlBase):
+class EnrichLayer(EnrichLayerBase):
     linkedin: _Linkedin
 
     def __init__(
         self,
-        api_key: str = PROXYCURL_API_KEY,
+        api_key: str = ENRICHLAYER_API_KEY,
         base_url: str = BASE_URL,
         timeout: int = TIMEOUT,
         max_retries: int = MAX_RETRIES,
@@ -2138,7 +2138,7 @@ class Proxycurl(ProxycurlBase):
         
         :return: An object of Deferred or **None** if there is an error.
         :rtype: Deferred
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.twisted.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}

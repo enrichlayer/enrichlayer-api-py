@@ -1,8 +1,8 @@
-from proxycurl.config import (
-    BASE_URL, PROXYCURL_API_KEY, TIMEOUT, MAX_RETRIES, MAX_BACKOFF_SECONDS
+from enrichlayer.config import (
+    BASE_URL, ENRICHLAYER_API_KEY, TIMEOUT, MAX_RETRIES, MAX_BACKOFF_SECONDS
 )
-from proxycurl.gevent.base import ProxycurlBase
-from proxycurl.models import (
+from enrichlayer.gevent.base import EnrichLayerBase
+from enrichlayer.models import (
     {%- for namespace in ns_data %}
     {%- for result_class in ns_data[namespace]['result_classes'] %}
     {{result_class}},
@@ -95,7 +95,7 @@ class _{{namespace.title()}}:
 {%- endfor %}
 
 
-class Proxycurl(ProxycurlBase):
+class EnrichLayer(EnrichLayerBase):
     {%- for namespace in ns_data %}
     {%- if namespace != 'common' %}
     {{namespace}}: _{{namespace.title()}}
@@ -104,7 +104,7 @@ class Proxycurl(ProxycurlBase):
 
     def __init__(
         self,
-        api_key: str = PROXYCURL_API_KEY,
+        api_key: str = ENRICHLAYER_API_KEY,
         base_url: str = BASE_URL,
         timeout: int = TIMEOUT,
         max_retries: int = MAX_RETRIES,

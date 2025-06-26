@@ -2,11 +2,11 @@ from typing import (
     Awaitable,
     Optional
 )
-from proxycurl.config import (
-    BASE_URL, PROXYCURL_API_KEY, TIMEOUT, MAX_RETRIES, MAX_BACKOFF_SECONDS
+from enrichlayer.config import (
+    BASE_URL, ENRICHLAYER_API_KEY, TIMEOUT, MAX_RETRIES, MAX_BACKOFF_SECONDS
 )
-from proxycurl.asyncio.base import ProxycurlBase
-from proxycurl.models import (
+from enrichlayer.asyncio.base import EnrichLayerBase
+from enrichlayer.models import (
     PersonEndpointResponse,
     PersonSearchResult,
     PersonLookupUrlEnrichResult,
@@ -147,7 +147,7 @@ class _LinkedinPerson:
         :type linkedin_profile_url: str
         :return: An object of Awaitable[:class:`proxycurl.models.PersonEndpointResponse]` or **None** if there is an error.
         :rtype: Awaitable[:class:`proxycurl.models.PersonEndpointResponse]`
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.asyncio.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`
 
         """
 
@@ -455,7 +455,7 @@ class _LinkedinPerson:
         :type enrich_profiles: str
         :return: An object of Awaitable[:class:`proxycurl.models.PersonSearchResult]` or **None** if there is an error.
         :rtype: Awaitable[:class:`proxycurl.models.PersonSearchResult]`
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.asyncio.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`
 
         """
 
@@ -630,7 +630,7 @@ class _LinkedinPerson:
         :type last_name: str
         :return: An object of Awaitable[:class:`proxycurl.models.PersonLookupUrlEnrichResult]` or **None** if there is an error.
         :rtype: Awaitable[:class:`proxycurl.models.PersonLookupUrlEnrichResult]`
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.asyncio.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`
 
         """
 
@@ -696,7 +696,7 @@ class _LinkedinPerson:
         :type enrich_profile: str
         :return: An object of Awaitable[:class:`proxycurl.models.ReverseEmailUrlEnrichResult]` or **None** if there is an error.
         :rtype: Awaitable[:class:`proxycurl.models.ReverseEmailUrlEnrichResult]`
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.asyncio.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`
 
         """
 
@@ -729,7 +729,7 @@ class _LinkedinPerson:
         :type phone_number: str
         :return: An object of Awaitable[:class:`proxycurl.models.ReverseContactNumberResult]` or **None** if there is an error.
         :rtype: Awaitable[:class:`proxycurl.models.ReverseContactNumberResult]`
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.asyncio.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`
 
         """
 
@@ -774,7 +774,7 @@ class _LinkedinPerson:
         :type callback_url: str
         :return: An object of Awaitable[:class:`proxycurl.models.ExtractionEmailResult]` or **None** if there is an error.
         :rtype: Awaitable[:class:`proxycurl.models.ExtractionEmailResult]`
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.asyncio.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`
 
         """
 
@@ -833,7 +833,7 @@ class _LinkedinPerson:
         :type linkedin_profile_url: str
         :return: An object of Awaitable[:class:`proxycurl.models.PersonalContactNumbers]` or **None** if there is an error.
         :rtype: Awaitable[:class:`proxycurl.models.PersonalContactNumbers]`
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.asyncio.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`
 
         """
 
@@ -894,7 +894,7 @@ class _LinkedinPerson:
         :type linkedin_profile_url: str
         :return: An object of Awaitable[:class:`proxycurl.models.PDLEmailResult]` or **None** if there is an error.
         :rtype: Awaitable[:class:`proxycurl.models.PDLEmailResult]`
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.asyncio.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`
 
         """
 
@@ -936,7 +936,7 @@ class _LinkedinPerson:
         :type linkedin_person_profile_url: str
         :return: An object of Awaitable[:class:`proxycurl.models.ProfilePicture]` or **None** if there is an error.
         :rtype: Awaitable[:class:`proxycurl.models.ProfilePicture]`
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.asyncio.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`
 
         """
 
@@ -1019,7 +1019,7 @@ class _LinkedinCompany:
         :type use_cache: str
         :return: An object of Awaitable[:class:`proxycurl.models.LinkedinCompany]` or **None** if there is an error.
         :rtype: Awaitable[:class:`proxycurl.models.LinkedinCompany]`
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.asyncio.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`
 
         """
 
@@ -1174,7 +1174,7 @@ class _LinkedinCompany:
         :type country: str
         :return: An object of Awaitable[:class:`proxycurl.models.CompanySearchResult]` or **None** if there is an error.
         :rtype: Awaitable[:class:`proxycurl.models.CompanySearchResult]`
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.asyncio.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`
 
         """
 
@@ -1270,7 +1270,7 @@ class _LinkedinCompany:
         :type enrich_profile: str
         :return: An object of Awaitable[:class:`proxycurl.models.CompanyUrlEnrichResult]` or **None** if there is an error.
         :rtype: Awaitable[:class:`proxycurl.models.CompanyUrlEnrichResult]`
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.asyncio.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`
 
         """
 
@@ -1355,7 +1355,7 @@ class _LinkedinCompany:
         :type search_id: str
         :return: An object of Awaitable[:class:`proxycurl.models.JobListPage]` or **None** if there is an error.
         :rtype: Awaitable[:class:`proxycurl.models.JobListPage]`
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.asyncio.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`
 
         """
 
@@ -1446,7 +1446,7 @@ class _LinkedinCompany:
         :type search_id: str
         :return: An object of Awaitable[:class:`proxycurl.models.JobListCount]` or **None** if there is an error.
         :rtype: Awaitable[:class:`proxycurl.models.JobListCount]`
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.asyncio.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`
 
         """
 
@@ -1517,7 +1517,7 @@ class _LinkedinCompany:
         :type employment_status: str
         :return: An object of Awaitable[:class:`proxycurl.models.EmployeeCount]` or **None** if there is an error.
         :rtype: Awaitable[:class:`proxycurl.models.EmployeeCount]`
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.asyncio.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`
 
         """
 
@@ -1626,7 +1626,7 @@ class _LinkedinCompany:
         :type resolve_numeric_id: str
         :return: An object of Awaitable[:class:`proxycurl.models.EmployeeList]` or **None** if there is an error.
         :rtype: Awaitable[:class:`proxycurl.models.EmployeeList]`
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.asyncio.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`
 
         """
 
@@ -1717,7 +1717,7 @@ class _LinkedinCompany:
         :type resolve_numeric_id: str
         :return: An object of Awaitable[:class:`proxycurl.models.EmployeeList]` or **None** if there is an error.
         :rtype: Awaitable[:class:`proxycurl.models.EmployeeList]`
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.asyncio.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`
 
         """
 
@@ -1781,7 +1781,7 @@ class _LinkedinCompany:
         :type enrich_profile: str
         :return: An object of Awaitable[:class:`proxycurl.models.RoleSearchEnrichedResult]` or **None** if there is an error.
         :rtype: Awaitable[:class:`proxycurl.models.RoleSearchEnrichedResult]`
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.asyncio.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`
 
         """
 
@@ -1817,7 +1817,7 @@ class _LinkedinCompany:
         :type linkedin_company_profile_url: str
         :return: An object of Awaitable[:class:`proxycurl.models.ProfilePicture]` or **None** if there is an error.
         :rtype: Awaitable[:class:`proxycurl.models.ProfilePicture]`
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.asyncio.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`
 
         """
 
@@ -1859,7 +1859,7 @@ class _LinkedinSchool:
         :type use_cache: str
         :return: An object of Awaitable[:class:`proxycurl.models.LinkedinSchool]` or **None** if there is an error.
         :rtype: Awaitable[:class:`proxycurl.models.LinkedinSchool]`
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.asyncio.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`
 
         """
 
@@ -1960,7 +1960,7 @@ class _LinkedinSchool:
         :type resolve_numeric_id: str
         :return: An object of Awaitable[:class:`proxycurl.models.StudentList]` or **None** if there is an error.
         :rtype: Awaitable[:class:`proxycurl.models.StudentList]`
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.asyncio.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`
 
         """
 
@@ -2014,7 +2014,7 @@ class _LinkedinJob:
         :type url: str
         :return: An object of Awaitable[:class:`proxycurl.models.JobProfile]` or **None** if there is an error.
         :rtype: Awaitable[:class:`proxycurl.models.JobProfile]`
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.asyncio.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`
 
         """
 
@@ -2070,7 +2070,7 @@ class _LinkedinCustomers:
         :type page_size: str
         :return: An object of Awaitable[:class:`proxycurl.models.CustomerList]` or **None** if there is an error.
         :rtype: Awaitable[:class:`proxycurl.models.CustomerList]`
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.asyncio.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`
 
         """
 
@@ -2111,12 +2111,12 @@ class _Linkedin:
         self.customers = _LinkedinCustomers(self)
 
 
-class Proxycurl(ProxycurlBase):
+class EnrichLayer(EnrichLayerBase):
     linkedin: _Linkedin
 
     def __init__(
         self,
-        api_key: str = PROXYCURL_API_KEY,
+        api_key: str = ENRICHLAYER_API_KEY,
         base_url: str = BASE_URL,
         timeout: int = TIMEOUT,
         max_retries: int = MAX_RETRIES,
@@ -2139,7 +2139,7 @@ class Proxycurl(ProxycurlBase):
         
         :return: An object of Awaitable[:class:`proxycurl.models.CreditBalance]` or **None** if there is an error.
         :rtype: Awaitable[:class:`proxycurl.models.CreditBalance]`
-        :raise ProxycurlException: Every error will raise a :class:`proxycurl.asyncio.ProxycurlException`
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`
 
         """
 

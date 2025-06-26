@@ -1,18 +1,18 @@
-from proxycurl.gevent import Proxycurl, do_bulk
+from enrichlayer.gevent import EnrichLayer, do_bulk
 import csv
 
-proxycurl = Proxycurl()
+enrichlayer = EnrichLayer()
 
-balance = proxycurl.get_balance()
+balance = enrichlayer.get_balance()
 
 print('Balance:', balance)
 
-person = proxycurl.linkedin.person.get(
+person = enrichlayer.linkedin.person.get(
     linkedin_profile_url='https://sg.linkedin.com/in/williamhgates'
 )
 print('Person Result:', person)
 
-company = proxycurl.linkedin.company.get(
+company = enrichlayer.linkedin.company.get(
     url='https://www.linkedin.com/company/apple'
 )
 print('Company Result:', company)
@@ -24,7 +24,7 @@ with open('sample.csv', 'r') as file:
     next(reader, None)
     for row in reader:
         bulk_linkedin_person_data.append(
-            (proxycurl.linkedin.person.get, {'linkedin_profile_url': row[0]})
+            (enrichlayer.linkedin.person.get, {'linkedin_profile_url': row[0]})
         )
 results = do_bulk(bulk_linkedin_person_data)
 

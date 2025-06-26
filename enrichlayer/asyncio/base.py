@@ -1,9 +1,8 @@
-import gevent
-from gevent import monkey
-monkey.patch_all()
-from gevent.queue import Empty, Queue
-from proxycurl.config import MAX_WORKERS
-import requests
+import asyncio
+from asyncio.queues import QueueEmpty
+import aiohttp
+import json
+from enrichlayer.config import MAX_WORKERS
 from dataclasses import dataclass
 from typing import (
     Generic,
@@ -28,12 +27,12 @@ class Result(Generic[T]):
     error: BaseException
 
 
-class ProxycurlException(Exception):
+class EnrichLayerException(Exception):
     """Raised when InternalServerError or network error or request error"""
     pass
 
 
-class ProxycurlBase:
+class EnrichLayerBase:
     api_key: str
     base_url: str
     timeout: int
@@ -54,7 +53,7 @@ class ProxycurlBase:
         self.max_retries = max_retries
         self.max_backoff_seconds = max_backoff_seconds
 
-    def request(
+    async def request(
         self,
         method: str,
         url: str,
@@ -68,41 +67,48 @@ class ProxycurlBase:
         for i in range(0, self.max_retries):
             try:
                 if method.lower() == 'get':
-                    r = requests.get(
+                    async with aiohttp.ClientSession() as session:
+                        async with session.get(
                             api_endpoint,
                             params=params,
                             headers=header_dic,
-                            timeout=self.timeout)
+                            timeout=self.timeout
+                        ) as response:
+                            response_result = await response.read()
+                            status = response.status
                 elif method.lower() == 'post':
-                    r = requests.post(
+                    async with aiohttp.ClientSession() as session:
+                        async with session.post(
                             api_endpoint,
                             json=data,
                             headers=header_dic,
-                            timeout=self.timeout)
-
-                if r.status_code in [200, 202]:
-                    response_json = r.json()
+                            timeout=self.timeout
+                        ) as response:
+                            response_result = await response.read()
+                            status = response.status
+                if status in [200, 202]:
+                    response_json = json.loads(response_result)
                     try:
                         return result_class(**response_json)
                     except Exception:
                         return response_json
                 else:
-                    raise ProxycurlException(r.text)
+                    raise EnrichLayerException(response_result.decode("utf-8"))
 
-            except ProxycurlException as e:
-                if r.status_code in [400, 401, 403, 404]:
+            except EnrichLayerException as e:
+                if status in [400, 401, 403, 404]:
                     logger.exception(str(e))
                     raise e
 
-                if r.status_code == 500:
+                if status == 500:
                     if i < 1:
                         continue
                     else:
                         raise e
 
-                if r.status_code == 429:
+                if status == 429:
                     sleep = (backoff_in_seconds * 2 ** i)
-                    gevent.sleep(min(self.max_backoff_seconds, sleep))
+                    await asyncio.sleep(min(self.max_backoff_seconds, sleep))
 
                 if i < self.max_retries:
                     continue
@@ -110,7 +116,10 @@ class ProxycurlBase:
                     raise e
 
 
-def do_bulk(ops: List[Op], max_workers: int = MAX_WORKERS) -> List[Result]:
+async def do_bulk(
+    ops: List[Op],
+    max_workers: int = MAX_WORKERS
+) -> List[Result]:
     """Bulk operation
 
     This function can be used to run bulk operations using a limited number of concurrent requests.
@@ -119,34 +128,38 @@ def do_bulk(ops: List[Op], max_workers: int = MAX_WORKERS) -> List[Result]:
     :type ops: List[Tuple[Callable, Dict]]
     :param max_workers: Total concurrent request, defaults to 10
     :type max_workers: int
-    :return: Once all operation is finished this function will return List[:class:`proxycurl.gevent.base.Result`]
-    :rtype: List[:class:`proxycurl.gevent.base.Result`]
+    :return: Once all operation is finished this function will return List[:class:`proxycurl.asyncio.base.Result`]
+    :rtype: List[:class:`proxycurl.asyncio.base.Result`]
 
     """
 
     results = [None for _ in range(len(ops))]
-    queue = Queue()
+
+    queue = asyncio.Queue()
 
     for job in enumerate(ops):
-        queue.put(job)
+        await queue.put(job)
 
     workers = []
-    for _ in range(max_workers):
-        workers.append(gevent.spawn(_worker, queue, results))
 
-    gevent.joinall(workers)
+    for _ in range(max_workers):
+        workers.append(_worker(queue, results))
+
+    await asyncio.gather(*workers)
+
     return results
 
 
-def _worker(queue, results):
+async def _worker(queue, results):
     while True:
         try:
             index, op = queue.get_nowait()
-        except Empty:
+        except QueueEmpty:
             break
 
         try:
-            response = op[0](**op[1])
+            response = await op[0](**op[1])
             results[index] = Result(True, response, None)
         except Exception as e:
             results[index] = Result(False, None, e)
+        queue.task_done()

@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "proxycurl-py"
+name = "enrichlayer-api"
 version = "0.1.0.post2"
 description = ""
 authors = ["Nubela <tech@nubela.co>"]
 packages = [
-    { include = "proxycurl" },
+    { include = "enrichlayer" },
 ]
 readme = "README.md"
 

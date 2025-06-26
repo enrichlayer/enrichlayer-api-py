@@ -1,9 +1,9 @@
-# `proxycurl-py` -  The official Python client for Proxycurl API to scrape and enrich LinkedIn profiles
+# `enrichlayer-api` -  The official Python client for Enrich Layer API to scrape and enrich LinkedIn profiles
 
-* [What is Proxycurl?](#what-is-proxycurl-)
+* [What is Enrich Layer?](#what-is-enrich-layer-)
 * [Before you install](#before-you-install)
 * [Installation and supported Python versions](#installation-and-supported-python-versions)
-* [Initializing `proxycurl-py` with an API Key](#initializing--proxycurl-py--with-an-api-key)
+* [Initializing `enrichlayer-api` with an API Key](#initializing--enrichlayer-api--with-an-api-key)
 * [Usage with examples](#usage-with-examples)
   + [Enrich a Person Profile](#enrich-a-person-profile)
   + [Enrich a Company Profile](#enrich-a-company-profile)
@@ -15,11 +15,11 @@
 * [Rate limit and error handling](#rate-limit-and-error-handling)
 * [API Endpoints and their corresponding documentation](#api-endpoints-and-their-corresponding-documentation)
 
-## What is Proxycurl?
+## What is Enrich Layer?
 
-**Proxycurl** is an enrichment API to fetch fresh data on people and businesses. We are a fully-managed API that sits between your application and raw data so that you can focus on building the application; instead of worrying about building a web-scraping team and processing data at scale.
+**Enrich Layer** is an enrichment API to fetch fresh data on people and businesses. We are a fully-managed API that sits between your application and raw data so that you can focus on building the application; instead of worrying about building a web-scraping team and processing data at scale.
 
-With Proxycurl, you can programatically:
+With Enrich Layer, you can programatically:
 
 - Enrich profiles on people and companies
 - Lookup people and companies
@@ -27,11 +27,11 @@ With Proxycurl, you can programatically:
 - Check if an email address is of a disposable nature
 - [And more..](https://nubela.co/proxycurl/docs#explain-it-to-me-like-i-39-m-5)
 
-Visit [Proxycurl&#39;s website](https://nubela.co/proxycurl) for more details.
+Visit [Enrich Layer&#39;s website](https://nubela.co/proxycurl) for more details.
 
 ## Before you install
 
-You should understand that `proxycurl-py` was designed with concurrency as a first class citizen from ground-up. To install `proxycurl-py`, *you have to pick a concurency model*.
+You should understand that `enrichlayer-api` was designed with concurrency as a first class citizen from ground-up. To install `enrichlayer-api`, *you have to pick a concurency model*.
 
 We support the following concurrency models:
 
@@ -39,37 +39,37 @@ We support the following concurrency models:
 * [gevent](https://www.gevent.org/) - See implementation example [here](https://github.com/nubelaco/proxycurl-linkedin-scraper/blob/main/examples/lib-gevent.py).
 * [twisted](https://twisted.org/) - See implementation example [here](https://github.com/nubelaco/proxycurl-linkedin-scraper/blob/main/examples/lib-twisted.py).
 
-The right way to use Proxycurl API is to make API calls concurrently. In fact, making API requests concurrently is the only way to achieve a high rate of throughput. On the default rate limit, you can enrich up to 432,000 profiles per day. See [this blog post](https://nubela.co/blog/how-to-maximize-throughput-on-proxycurl/) for context.
+The right way to use Enrich Layer API is to make API calls concurrently. In fact, making API requests concurrently is the only way to achieve a high rate of throughput. On the default rate limit, you can enrich up to 432,000 profiles per day. See [this blog post](https://nubela.co/blog/how-to-maximize-throughput-on-proxycurl/) for context.
 
 ## Installation and supported Python versions
 
-`proxycurl-py` is [available on PyPi](https://pypi.org/project/proxycurl-py/). For which you can install into your project with the following command:
+`enrichlayer-api` is [available on PyPi](https://pypi.org/project/enrichlayer-api/). For which you can install into your project with the following command:
 
 ```bash
-# install proxycurl-py with asyncio
-$ pip install 'proxycurl-py[asyncio]'
+# install enrichlayer-api with asyncio
+$ pip install 'enrichlayer-api[asyncio]'
 
-# install proxycurl-py with gevent
-$ pip install 'proxycurl-py[gevent]'
+# install enrichlayer-api with gevent
+$ pip install 'enrichlayer-api[gevent]'
 
-# install proxycurl-py with twisted
-$ pip install 'proxycurl-py[twisted]'
+# install enrichlayer-api with twisted
+$ pip install 'enrichlayer-api[twisted]'
 ```
 
-`proxycurl-py` is tested on Python `3.7`, `3.8` and `3.9`.
+`enrichlayer-api` is tested on Python `3.7`, `3.8` and `3.9`.
 
-## Initializing `proxycurl-py` with an API Key
+## Initializing `enrichlayer-api` with an API Key
 
-You can get an API key by [registering an account](https://nubela.co/proxycurl/auth/register) with Proxycurl. The API Key can be retrieved from the dashboard.
+You can get an API key by [registering an account](https://nubela.co/proxycurl/auth/register) with Enrich Layer. The API Key can be retrieved from the dashboard.
 
-To use Proxycurl with the API Key:
+To use Enrich Layer with the API Key:
 
-* You can run your script with  the `PROXYCURL_API_KEY` environment variable set.
-* Or, you can prepend your script with the API key injected into the environment. See `proxycurl/config.py` for an example.
+* You can run your script with  the `ENRICHLAYER_API_KEY` environment variable set.
+* Or, you can prepend your script with the API key injected into the environment. See `enrichlayer/config.py` for an example.
 
 ## Usage with examples
 
-I will be using `proxycurl-py` with the *asyncio* concurrency model to illustrate some examples on what you can do with Proxycurl and how the code will look with this library.
+I will be using `enrichlayer-api` with the *asyncio* concurrency model to illustrate some examples on what you can do with Enrich Layer and how the code will look with this library.
 
 Forexamples with other concurrency models such as:
 
@@ -78,15 +78,15 @@ Forexamples with other concurrency models such as:
 
 ### Enrich a Person Profile
 
-Given a *LinkedIn Member Profile URL*, you can get the entire profile back in structured data with Proxycurl's [Person Profile API Endpoint](https://nubela.co/proxycurl/docs#people-api-person-profile-endpoint).
+Given a *LinkedIn Member Profile URL*, you can get the entire profile back in structured data with Enrich Layer's [Person Profile API Endpoint](https://nubela.co/proxycurl/docs#people-api-person-profile-endpoint).
 
 ```python
-from proxycurl.asyncio import Proxycurl, do_bulk
+from enrichlayer.asyncio import EnrichLayer, do_bulk
 import asyncio
 import csv
 
-proxycurl = Proxycurl()
-person = asyncio.run(proxycurl.linkedin.person.get(
+enrichlayer = EnrichLayer()
+person = asyncio.run(enrichlayer.linkedin.person.get(
     linkedin_profile_url='https://www.linkedin.com/in/williamhgates/'
 ))
 print('Person Result:', person)
@@ -94,10 +94,10 @@ print('Person Result:', person)
 
 ### Enrich a Company Profile
 
-Given a *LinkedIn Company Profile URL*, enrich the URL with it's full profile with Proxycurl's [Company Profile API Endpoint](https://nubela.co/proxycurl/docs#company-api-company-profile-endpoint).
+Given a *LinkedIn Company Profile URL*, enrich the URL with it's full profile with Enrich Layer's [Company Profile API Endpoint](https://nubela.co/proxycurl/docs#company-api-company-profile-endpoint).
 
 ```python
-company = asyncio.run(proxycurl.linkedin.company.get(
+company = asyncio.run(enrichlayer.linkedin.company.get(
     url='https://www.linkedin.com/company/tesla-motors'
 ))
 print('Company Result:', company)
@@ -105,28 +105,28 @@ print('Company Result:', company)
 
 ### Lookup a person
 
-Given a first name and a company name or domain, lookup a person with Proxycurl's [Person Lookup API Endpoint](https://nubela.co/proxycurl/docs#people-api-person-lookup-endpoint).
+Given a first name and a company name or domain, lookup a person with Enrich Layer's [Person Lookup API Endpoint](https://nubela.co/proxycurl/docs#people-api-person-lookup-endpoint).
 
 ```python
-lookup_results = asyncio.run(proxycurl.linkedin.person.resolve(first_name="bill", last_name="gates", company_domain="microsoft"))
+lookup_results = asyncio.run(enrichlayer.linkedin.person.resolve(first_name="bill", last_name="gates", company_domain="microsoft"))
 print('Person Lookup Result:', lookup_results)
 ```
 
 ### Lookup a company
 
-Given a company name or a domain, lookup a company with Proxycurl's [Company Lookup API Endpoint](https://nubela.co/proxycurl/docs#company-api-company-lookup-endpoint).
+Given a company name or a domain, lookup a company with Enrich Layer's [Company Lookup API Endpoint](https://nubela.co/proxycurl/docs#company-api-company-lookup-endpoint).
 
 ```python
-company_lookup_results = asyncio.run(proxycurl.linkedin.company.resolve(company_name="microsoft", company_domain="microsoft.com"))
+company_lookup_results = asyncio.run(enrichlayer.linkedin.company.resolve(company_name="microsoft", company_domain="microsoft.com"))
 print('Company Lookup Result:', company_lookup_results)
 ```
 
 ### Lookup a LinkedIn Profile URL from a work email address
 
-Given a work email address, lookup a LinkedIn Profile URL with Proxycurl's [Reverse Work Email Lookup Endpoint](https://nubela.co/proxycurl/docs#contact-api-reverse-work-email-lookup-endpoint).
+Given a work email address, lookup a LinkedIn Profile URL with Enrich Layer's [Reverse Work Email Lookup Endpoint](https://nubela.co/proxycurl/docs#contact-api-reverse-work-email-lookup-endpoint).
 
 ```python
-lookup_results = asyncio.run(proxycurl.linkedin.person.resolve_by_email(work_email="anthony.tan@grab.com"))
+lookup_results = asyncio.run(enrichlayer.linkedin.person.resolve_by_email(work_email="anthony.tan@grab.com"))
 print('Reverse Work Email Lookup Result:', lookup_results)
 ```
 
@@ -142,7 +142,7 @@ with open('sample.csv', 'r') as file:
     next(reader, None)
     for row in reader:
         bulk_linkedin_person_data.append(
-            (proxycurl.linkedin.person.get, {'url': row[0]})
+            (enrichlayer.linkedin.person.get, {'url': row[0]})
         )
 results = asyncio.run(do_bulk(bulk_linkedin_person_data))
 
@@ -155,9 +155,9 @@ More *asyncio* examples can be found at `examples/lib-asyncio.py`
 
 ## Rate limit and error handling
 
-There is no need for you to handle rate limits (`429` HTTP status error). The [library handles rate limits automatically with exponential backoff](https://github.com/nubelaco/proxycurl-linkedin-scraper/blob/main/proxycurl/asyncio/base.py#L109).
+There is no need for you to handle rate limits (`429` HTTP status error). The [library handles rate limits automatically with exponential backoff](https://github.com/nubelaco/proxycurl-linkedin-scraper/blob/main/enrichlayer/asyncio/base.py#L109).
 
-However, there is a need for you to handle other error codes. Errors will be returned in the form of `ProxycurlException`. The [list of possible errors](https://nubela.co/proxycurl/docs#overview-errors) is listed in our API documentation.
+However, there is a need for you to handle other error codes. Errors will be returned in the form of `EnrichLayerException`. The [list of possible errors](https://nubela.co/proxycurl/docs#overview-errors) is listed in our API documentation.
 
 ## API Endpoints and their corresponding documentation
 
