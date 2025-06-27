@@ -81,6 +81,7 @@ async def test_compatibility_setup(api_key: str) -> bool:
     print_test_header("Compatibility Layer Setup")
     
     try:
+        from proxycurl.asyncio import Proxycurl
         # Import enrichlayer and enable compatibility
         import enrichlayer
         print_success("EnrichLayer imported successfully")
