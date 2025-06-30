@@ -23,6 +23,7 @@ Proxycurl compatibility:
 """
 
 from .compat import enable_proxycurl_compatibility
+from .compat.monkey_patch import ProxycurlException
 
 __version__ = "0.1.0.post2"
-__all__ = ['enable_proxycurl_compatibility']
+__all__ = ['enable_proxycurl_compatibility', 'ProxycurlException']

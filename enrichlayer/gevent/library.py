@@ -12,7 +12,7 @@ from enrichlayer.models import (
     PersonalContactNumbers,
     PDLEmailResult,
     ProfilePicture,
-    LinkedinCompany,
+    Company,
     CompanySearchResult,
     CompanyUrlEnrichResult,
     JobListPage,
@@ -20,7 +20,7 @@ from enrichlayer.models import (
     EmployeeCount,
     EmployeeList,
     RoleSearchEnrichedResult,
-    LinkedinSchool,
+    School,
     StudentList,
     JobProfile,
     CustomerList,
@@ -28,7 +28,7 @@ from enrichlayer.models import (
 )
 
 
-class _LinkedinPerson:
+class _Person:
     def __init__(self, enrichlayer):
         self.enrichlayer = enrichlayer
 
@@ -932,7 +932,7 @@ class _LinkedinPerson:
         )
 
 
-class _LinkedinCompany:
+class _Company:
     def __init__(self, enrichlayer):
         self.enrichlayer = enrichlayer
 
@@ -946,7 +946,7 @@ class _LinkedinCompany:
         exit_data: str = None,
         acquisitions: str = None,
         use_cache: str = None,
-    ) -> LinkedinCompany:
+    ) -> Company:
         """Company Profile Endpoint
         
                 Cost: 1 credit / successful request.
@@ -995,8 +995,8 @@ class _LinkedinCompany:
 
             `if-recent` API will make a best effort to return a fresh profile no older than 29 days.Costs an extra `1` credit on top of the cost of the base endpoint.
         :type use_cache: str
-        :return: An object of :class:`proxycurl.models.LinkedinCompany` or **None** if there is an error.
-        :rtype: :class:`proxycurl.models.LinkedinCompany`
+        :return: An object of :class:`enrichlayer.models.Company` or **None** if there is an error.
+        :rtype: :class:`enrichlayer.models.Company`
         :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
 
         """
@@ -1023,7 +1023,7 @@ class _LinkedinCompany:
             params=params,
             data={
             },
-            result_class=LinkedinCompany
+            result_class=Company
         )
 
     def search(
@@ -1793,7 +1793,7 @@ class _LinkedinCompany:
         )
 
 
-class _LinkedinSchool:
+class _School:
     def __init__(self, enrichlayer):
         self.enrichlayer = enrichlayer
 
@@ -1801,7 +1801,7 @@ class _LinkedinSchool:
         self,
         url: str,
         use_cache: str = None,
-    ) -> LinkedinSchool:
+    ) -> School:
         """School Profile Endpoint
         
                 Cost: 1 credit / successful request.
@@ -1815,8 +1815,8 @@ class _LinkedinSchool:
 
             `if-recent` API will make a best effort to return a fresh profile no older than 29 days.Costs an extra `1` credit on top of the cost of the base endpoint.
         :type use_cache: str
-        :return: An object of :class:`proxycurl.models.LinkedinSchool` or **None** if there is an error.
-        :rtype: :class:`proxycurl.models.LinkedinSchool`
+        :return: An object of :class:`enrichlayer.models.School` or **None** if there is an error.
+        :rtype: :class:`enrichlayer.models.School`
         :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
 
         """
@@ -1831,7 +1831,7 @@ class _LinkedinSchool:
             params=params,
             data={
             },
-            result_class=LinkedinSchool
+            result_class=School
         )
 
     def student_list(
@@ -1946,7 +1946,7 @@ class _LinkedinSchool:
         )
 
 
-class _LinkedinJob:
+class _Job:
     def __init__(self, enrichlayer):
         self.enrichlayer = enrichlayer
 
@@ -1984,7 +1984,7 @@ class _LinkedinJob:
         )
 
 
-class _LinkedinCustomers:
+class _Customers:
     def __init__(self, enrichlayer):
         self.enrichlayer = enrichlayer
 
@@ -2046,11 +2046,11 @@ class _LinkedinCustomers:
 
 
 class EnrichLayer(EnrichLayerBase):
-    person: _LinkedinPerson
-    company: _LinkedinCompany
-    school: _LinkedinSchool
-    job: _LinkedinJob
-    customers: _LinkedinCustomers
+    person: _Person
+    company: _Company
+    school: _School
+    job: _Job
+    customers: _Customers
 
     def __init__(
         self,
@@ -2065,11 +2065,11 @@ class EnrichLayer(EnrichLayerBase):
         self.timeout = timeout
         self.max_retries = max_retries
         self.max_backoff_seconds = max_backoff_seconds
-        self.person = _LinkedinPerson(self)
-        self.company = _LinkedinCompany(self)
-        self.school = _LinkedinSchool(self)
-        self.job = _LinkedinJob(self)
-        self.customers = _LinkedinCustomers(self)
+        self.person = _Person(self)
+        self.company = _Company(self)
+        self.school = _School(self)
+        self.job = _Job(self)
+        self.customers = _Customers(self)
 
     def get_balance(
         self,
@@ -2086,7 +2086,7 @@ class EnrichLayer(EnrichLayerBase):
         """
         params = {}
 
-        return self.enrichlayer.request(
+        return self.request(
             method='GET',
             url='/credit-balance',
             params=params,

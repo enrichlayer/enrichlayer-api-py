@@ -14,7 +14,7 @@ from enrichlayer.models import (
     PersonalContactNumbers,
     PDLEmailResult,
     ProfilePicture,
-    LinkedinCompany,
+    Company,
     CompanySearchResult,
     CompanyUrlEnrichResult,
     JobListPage,
@@ -22,7 +22,7 @@ from enrichlayer.models import (
     EmployeeCount,
     EmployeeList,
     RoleSearchEnrichedResult,
-    LinkedinSchool,
+    School,
     StudentList,
     JobProfile,
     CustomerList,
@@ -30,7 +30,7 @@ from enrichlayer.models import (
 )
 
 
-class _LinkedinPerson:
+class _Person:
     def __init__(self, enrichlayer):
         self.enrichlayer = enrichlayer
 
@@ -952,7 +952,7 @@ class _LinkedinPerson:
         defer.returnValue(resp)
 
 
-class _LinkedinCompany:
+class _Company:
     def __init__(self, enrichlayer):
         self.enrichlayer = enrichlayer
 
@@ -1044,7 +1044,7 @@ class _LinkedinCompany:
             params=params,
             data={
             },
-            result_class=LinkedinCompany
+            result_class=Company
         )
         defer.returnValue(resp)
 
@@ -1833,7 +1833,7 @@ class _LinkedinCompany:
         defer.returnValue(resp)
 
 
-class _LinkedinSchool:
+class _School:
     def __init__(self, enrichlayer):
         self.enrichlayer = enrichlayer
 
@@ -1872,7 +1872,7 @@ class _LinkedinSchool:
             params=params,
             data={
             },
-            result_class=LinkedinSchool
+            result_class=School
         )
         defer.returnValue(resp)
 
@@ -1990,7 +1990,7 @@ class _LinkedinSchool:
         defer.returnValue(resp)
 
 
-class _LinkedinJob:
+class _Job:
     def __init__(self, enrichlayer):
         self.enrichlayer = enrichlayer
 
@@ -2030,7 +2030,7 @@ class _LinkedinJob:
         defer.returnValue(resp)
 
 
-class _LinkedinCustomers:
+class _Customers:
     def __init__(self, enrichlayer):
         self.enrichlayer = enrichlayer
 
@@ -2095,11 +2095,11 @@ class _LinkedinCustomers:
 
 
 class EnrichLayer(EnrichLayerBase):
-    person: _LinkedinPerson
-    company: _LinkedinCompany
-    school: _LinkedinSchool
-    job: _LinkedinJob
-    customers: _LinkedinCustomers
+    person: _Person
+    company: _Company
+    school: _School
+    job: _Job
+    customers: _Customers
 
     def __init__(
         self,
@@ -2114,11 +2114,11 @@ class EnrichLayer(EnrichLayerBase):
         self.timeout = timeout
         self.max_retries = max_retries
         self.max_backoff_seconds = max_backoff_seconds
-        self.person = _LinkedinPerson(self)
-        self.company = _LinkedinCompany(self)
-        self.school = _LinkedinSchool(self)
-        self.job = _LinkedinJob(self)
-        self.customers = _LinkedinCustomers(self)
+        self.person = _Person(self)
+        self.company = _Company(self)
+        self.school = _School(self)
+        self.job = _Job(self)
+        self.customers = _Customers(self)
 
     @inlineCallbacks
     def get_balance(
@@ -2136,7 +2136,7 @@ class EnrichLayer(EnrichLayerBase):
         """
         params = {}
 
-        resp = yield self.enrichlayer.request(
+        resp = yield self.request(
             method='GET',
             url='/credit-balance',
             params=params,
