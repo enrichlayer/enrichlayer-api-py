@@ -160,19 +160,3 @@ test_*_real_api.py
 *.temp
 .DS_Store
 Thumbs.db
-
-# Test outputs and reports
-tests/equal_coverage_test_report.json
-tests/equal_coverage_summary.txt
-tests/comprehensive_test_report.json
-tests/comprehensive_test_summary.txt
-test_output*.txt
-*_test_report.json
-*_summary.txt
-
-# Backup files
-*.bak
-*.backup
-*.orig
-*.rej
-*~
