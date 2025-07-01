@@ -1,0 +1,82 @@
+{
+  "test_summary": {
+    "timestamp": "2025-07-01T09:58:30.044932",
+    "test_type": "proxycurl_compatibility_endpoint_test",
+    "total_tests": 7,
+    "successful_tests": 7,
+    "failed_tests": 0,
+    "success_rate": "100.0%",
+    "total_credits_used": 8,
+    "total_duration": 10.093
+  },
+  "detailed_results": [
+    {
+      "endpoint": "get_balance",
+      "status": "success",
+      "duration": 0.815,
+      "credits_used": 0,
+      "sample_data": {
+        "credit_balance": 96362613
+      }
+    },
+    {
+      "endpoint": "linkedin.person.resolve",
+      "status": "success",
+      "duration": 0.893,
+      "credits_used": 2,
+      "sample_data": {
+        "url": "https://www.linkedin.com/in/williamhgates",
+        "name_similarity_score": 1.0
+      }
+    },
+    {
+      "endpoint": "linkedin.company.get",
+      "status": "success",
+      "duration": 2.106,
+      "credits_used": 1,
+      "sample_data": {
+        "name": "Apple",
+        "industry": "Computers and Electronics Manufacturing"
+      }
+    },
+    {
+      "endpoint": "linkedin.company.resolve",
+      "status": "success",
+      "duration": 0.901,
+      "credits_used": 2,
+      "sample_data": {
+        "url": "https://www.linkedin.com/company/apple"
+      }
+    },
+    {
+      "endpoint": "linkedin.company.employee_count",
+      "status": "success",
+      "duration": 1.006,
+      "credits_used": 1,
+      "sample_data": {
+        "estimated_employee_count": null,
+        "verified_employee_count": 877
+      }
+    },
+    {
+      "endpoint": "linkedin.school.get",
+      "status": "success",
+      "duration": 2.715,
+      "credits_used": 1,
+      "sample_data": {
+        "name": "National University of Singapore",
+        "industry": "Higher Education"
+      }
+    },
+    {
+      "endpoint": "linkedin.job.get",
+      "status": "success",
+      "duration": 1.243,
+      "credits_used": 1,
+      "sample_data": {
+        "linkedin_internal_id": "3586148395",
+        "job_description": "<p><strong>Job Title: Application Support Analyst</strong></p><p><strong>Location: Milton Keynes (Two days a week)</strong></p><p><strong>Salary: \u00a335k to \u00a345k</strong></p><p><strong>Key Skills: Application Support SQL Relational Databases </strong></p><p><br/></p><p>An opportunity has arisen within a market leading operation based in Milton Keynes for an Application Support / Support Developer; the position will act as an escalation point for application support in addition to working with the wider business to improve efficiency of systems and resolving root cause of issues.</p><p><br/></p><p>You will gain exposure to different programming languages in addition to working with senior stakeholders, product owners, business analysts and various other teams; this position is a great opportunity for someone within application support who is looking to further their technical knowledge and develop their career.</p>"
+      }
+    }
+  ]
+}

@@ -1,0 +1,1023 @@
+{
+  "person": {
+    "get": {
+      "description": "Person Profile Endpoint",
+      "cost": "1",
+      "parameters": [
+        {
+          "name": "extra",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "github_profile_id",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "facebook_profile_id",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "twitter_profile_id",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "personal_contact_number",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "personal_email",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "inferred_salary",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "skills",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "use_cache",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "fallback_to_cache",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "twitter_profile_url",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "facebook_profile_url",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "linkedin_profile_url",
+          "type": "str",
+          "default": "None"
+        }
+      ],
+      "docstring": "Person Profile Endpoint\n\n                Cost: 1 credit / successful request.\n        Get structured data of a Personal Profile\n\n        :param extra: Enriches the Person Profile with extra details from external sources.\n            Extra details include gender, birth date, industry and interests.\n\n            This parameter accepts the following values:\n            - `exclude` (default value) - Does not provide extra data field.\n            - `include` - Append extra data to the person profile object.\n            Costs an extra `1` credit on top of the cost of the base endpoint (if data is available).\n        :type extra: str\n        :param github_profile_id: Enriches the Person Profile with Github Id from external sources.\n\n            This parameter accepts the following values:\n            - `exclude` (default value) - Does not provide Github Id data field.\n            - `include` - Append Github Id data to the person profile object.\n            Costs an extra `1` credit on top of the cost of the base endpoint (if data is available).\n        :type github_profile_id: str\n        :param facebook_profile_id: Enriches the Person Profile with Facebook Id from external sources.\n\n            This parameter accepts the following values:\n            - `exclude` (default value) - Does not provide Facebook Id data field.\n            - `include` - Append Facebook Id data to the person profile object.\n            Costs an extra `1` credit on top of the cost of the base endpoint (if data is available).\n        :type facebook_profile_id: str\n        :param twitter_profile_id: Enriches the Person Profile with Twitter Id from external sources.\n\n            This parameter accepts the following values:\n            - `exclude` (default value) - Does not provide Twitter Id data field.\n            - `include` - Append Twitter Id data to the person profile object.\n            Costs an extra `1` credit on top of the cost of the base endpoint (if data is available).\n        :type twitter_profile_id: str\n        :param personal_contact_number: Enriches the Person Profile with personal numbers from external sources.\n\n            This parameter accepts the following values:\n            - `exclude` (default value) - Does not provide personal numbers data field.\n            - `include` - Append personal numbers data to the person profile object.\n            Costs an extra `1` credit per email returned on top of the cost of the base endpoint (if data is available).\n        :type personal_contact_number: str\n        :param personal_email: Enriches the Person Profile with personal emails from external sources.\n\n            This parameter accepts the following values:\n            - `exclude` (default value) - Does not provide personal emails data field.\n            - `include` - Append personal emails data to the person profile object.\n            Costs an extra `1` credit per email returned on top of the cost of the base endpoint (if data is available).\n        :type personal_email: str\n        :param inferred_salary: Include inferred salary range from external sources.\n\n            This parameter accepts the following values:\n            - `exclude` (default value) - Does not provide inferred salary data field.\n            - `include` - Append inferred salary range data to the person profile object.\n            Costs an extra `1` credit on top of the cost of the base endpoint (if data is available).\n        :type inferred_salary: str\n        :param skills: Include skills data from external sources.\n\n            This parameter accepts the following values:\n            - `exclude` (default value) - Does not provide skills data field.\n            - `include` - Append skills data to the person profile object.\n            Costs an extra `1` credit on top of the cost of the base endpoint (if data is available).\n        :type skills: str\n        :param use_cache: `if-present` The default behavior.\n            Fetches profile from cache regardless of age of profile.\n            If profile is not available in cache, API will attempt to source profile externally.\n\n            `if-recent` API will make a best effort to return a fresh profile no older than 29 days.\"\n            Costs an extra `1` credit on top of the cost of the base endpoint.\n        :type use_cache: str\n        :param fallback_to_cache: Tweaks the fallback behavior if an error arises from fetching a fresh profile.\n\n            This parameter accepts the following values:\n            * `on-error` (default value) - Fallback to reading the profile from cache if an error arises.\n            * `never` - Do not ever read profile from cache.\n        :type fallback_to_cache: str\n        :param twitter_profile_url:                     The Twitter Profile URL from which you wish to extract person profile\n\n                                URL should be in the format of `https://twitter.com/<public-identifier>`\n\n            yes (Include only one of: `linkedin_profile_url`, `twitter_profile_url`, or `facebook_profile_url`)\n        :type twitter_profile_url: str\n        :param facebook_profile_url:                     The Facebook Profile URL from which you wish to extract person profile\n\n                                URL should be in the format of `https://facebook.com/<public-identifier>`\n\n            yes (Include only one of: `linkedin_profile_url`, `twitter_profile_url`, or `facebook_profile_url`)\n        :type facebook_profile_url: str\n        :param linkedin_profile_url:                     The LinkedIn Profile URL from which you wish to extract person profile\n\n                                URL should be in the format of `https://linkedin.com/in/<public-identifier>`\n\n            yes (Include only one of: `linkedin_profile_url`, `twitter_profile_url`, or `facebook_profile_url`)\n        :type linkedin_profile_url: str\n        :return: An object of Awaitable[:class:`proxycurl.models.PersonEndpointResponse]` or **None** if there is an error.\n        :rtype: Awaitable[:class:`proxycurl.models.PersonEndpointResponse]`\n        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`"
+    },
+    "search": {
+      "description": "Person Search Endpoint",
+      "cost": "35",
+      "parameters": [
+        {
+          "name": "country",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "first_name",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "last_name",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "education_field_of_study",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "education_degree_name",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "education_school_name",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "education_school_linkedin_profile_url",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "current_role_title",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "past_role_title",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "current_role_before",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "current_role_after",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "current_company_linkedin_profile_url",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "past_company_linkedin_profile_url",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "current_job_description",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "past_job_description",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "current_company_name",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "past_company_name",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "linkedin_groups",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "languages",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "region",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "city",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "headline",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "summary",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "industries",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "interests",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "skills",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "current_company_country",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "current_company_region",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "current_company_city",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "current_company_type",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "current_company_follower_count_min",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "current_company_follower_count_max",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "current_company_industry",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "current_company_employee_count_min",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "current_company_employee_count_max",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "current_company_description",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "current_company_founded_after_year",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "current_company_founded_before_year",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "current_company_funding_amount_min",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "current_company_funding_amount_max",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "current_company_funding_raised_after",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "current_company_funding_raised_before",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "public_identifier_in_list",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "public_identifier_not_in_list",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "page_size",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "enrich_profiles",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "after",
+          "type": "str",
+          "default": "None"
+        }
+      ],
+      "docstring": "Person Search Endpoint\n\n                Cost: 35 credits / successful request base charge.\n        Search for people who meet a set of criteria within our exhaustive dataset of people profiles.\n        This API endpoint can return at most 10,000 results per search.\n\n        :param country: Filter people located in this country.\n            This parameter accepts a case-insensitive [Alpha-2 ISO3166 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).\n        :type country: str\n        :param first_name: Filter people whose first names match the provided regular expression.\n\n            The default value of this parameter is `null`.\n\n            The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag.\n        :type first_name: str\n        :param last_name: Filter people whose last names match the provided regular expression.\n\n            The default value of this parameter is `null`.\n\n            The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag.\n        :type last_name: str\n        :param education_field_of_study: Filter people with a field of study matching the provided regular expression, based on education history.\n\n            The default value of this parameter is `null`.\n\n            The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag.\n        :type education_field_of_study: str\n        :param education_degree_name: Filter people who earned a degree matching the provided regular expression, based on education history.\n\n            The default value of this parameter is `null`.\n\n            The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag.\n        :type education_degree_name: str\n        :param education_school_name: Filter people who have attended a school whose name matches the provided regular expression, based on education history.\n\n            The default value of this parameter is `null`.\n\n            The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag.\n        :type education_school_name: str\n        :param education_school_linkedin_profile_url: Filter people who have attended a school with a specific LinkedIn profile URL, based on education history.\n\n            The default value of this parameter is `null`.\n        :type education_school_linkedin_profile_url: str\n        :param current_role_title: Filter people who are **currently** working as a role whose title matches the provided regular expression. You'll be looking for profiles that show a person's current job. However, keep in mind that some of these profiles may not be up-to-date, which means you might sometimes see a person's old job instead of their current job on LinkedIn.\n\n            The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag. The default value of this parameter is `null`.\n        :type current_role_title: str\n        :param past_role_title: Filter people who have **in the past** worked as a role whose title matches the provided regular expression.\n\n            The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag. The default value of this parameter is `null`.\n        :type past_role_title: str\n        :param current_role_before: Filter people who started their current role **before** this date. You'll be looking for profiles that show a person's current job. However, keep in mind that some of these profiles may not be up-to-date, which means you might sometimes see a person's old job instead of their current job on LinkedIn.\n\n            This parameter takes a ISO8601 date. Default value of this parameter is `null`.\n        :type current_role_before: str\n        :param current_role_after: Filter people who started their current role **after** this date. You'll be looking for profiles that show a person's current job. However, keep in mind that some of these profiles may not be up-to-date, which means you might sometimes see a person's old job instead of their current job on LinkedIn.\n\n            This parameter takes a ISO8601 date. Default value of this parameter is `null`.\n        :type current_role_after: str\n        :param current_company_linkedin_profile_url: Filter people who are **currently** working at a company represented by this LinkedIn Company Profile URL.\n\n            Default value of this parameter is `null`.\n        :type current_company_linkedin_profile_url: str\n        :param past_company_linkedin_profile_url: Filter people who have **in the past** worked at the company represented by this LinkedIn Company Profile URL.\n\n            This parameter takes a LinkedIn Company Profile URL. Default value of this parameter is `null`.\n        :type past_company_linkedin_profile_url: str\n        :param current_job_description: Filter people with **current** job descriptions matching the provided regular expression.\n\n            The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag. The default value of this parameter is `null`.\n        :type current_job_description: str\n        :param past_job_description: Filter people with **past** job descriptions matching the provided regular expression.\n\n            The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag. The default value of this parameter is `null`.\n        :type past_job_description: str\n        :param current_company_name: Filter people who are **currently** working at a company whose name matches the provided regular expression.\n\n            The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag. The default value of this parameter is `null`.\n        :type current_company_name: str\n        :param past_company_name: Filter people who **have previously** worked at a company whose name matches the provided regular expression.\n\n            The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag. The default value of this parameter is `null`.\n        :type past_company_name: str\n        :param linkedin_groups: Filter people who are members of LinkedIn groups whose names match the provided regular expression.\n\n            The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag. The default value of this parameter is `null`.\n        :type linkedin_groups: str\n        :param languages: Filter people who list a language matching the provided regular expression.\n\n            The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag. The default value of this parameter is `null`.\n        :type languages: str\n        :param region: Filter people located in a region matching the provided regular expression.\n            A \u201cregion\u201d in this context means \u201cstate,\u201d \u201cprovince,\u201d or similar political division, depending on what country you\u2019re querying.\n\n            The default value of this parameter is `null`.\n\n            The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag.\n        :type region: str\n        :param city: Filter people located in a city matching the provided regular expression.\n\n            The default value of this parameter is `null`.\n\n            The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag.\n        :type city: str\n        :param headline: Filter people whose LinkedIn headline fields match the provided regular expression.\n\n            The default value of this parameter is `null`.\n\n            The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag.\n        :type headline: str\n        :param summary: Filter people whose LinkedIn summary fields match the provided regular expression.\n\n            The default value of this parameter is `null`.\n\n            The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag.\n        :type summary: str\n        :param industries: Person's inferred industry. May sometimes exist when `current_company_industry` does not, but `current_company_industry` should be preferred when it exists.\n        :type industries: str\n        :param interests: Filter people whose Linkedin interest fields match the provided regular expression.\n\n            The default value of this parameter is `null`.\n\n            The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag.\n        :type interests: str\n        :param skills: Filter people whose Linkedin skill fields match the provided regular expression.\n\n            The default value of this parameter is `null`.\n\n            The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag.\n        :type skills: str\n        :param current_company_country: Filter people who are currently working at a company with an office based in this country.\n\n            This parameter accepts a case-insensitive [Alpha-2 ISO3166 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).\n        :type current_company_country: str\n        :param current_company_region: Filter people who are currently working at a company based in a region matching the provided regular expression.\n\n            The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag.\n            The default value of this parameter is null.\n        :type current_company_region: str\n        :param current_company_city: Filter people who are currently working at a company based in a city matching the provided regular expression.\n\n            The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag.\n            The default value of this parameter is null.\n        :type current_company_city: str\n        :param current_company_type: Filter people who are currently working at a company of the provided LinkedIn type.\n\n            Possible values:\n\n            * `EDUCATIONAL`: Educational Institution\n            * `GOVERNMENT_AGENCY`: Government Agency\n            * `NON_PROFIT` : Nonprofit\n            * `PARTNERSHIP` : Partnership\n            * `PRIVATELY_HELD` : Privately Held\n            * `PUBLIC_COMPANY` : Public Company\n            * `SELF_EMPLOYED` : Self-Employed\n            * `SELF_OWNED` : Sole Proprietorship\n        :type current_company_type: str\n        :param current_company_follower_count_min: Filter people who are currently working at a company with a LinkedIn follower count **more than** this value.\n        :type current_company_follower_count_min: str\n        :param current_company_follower_count_max: Filter people who are currently working at a company with a LinkedIn follower count **less than** this value.\n        :type current_company_follower_count_max: str\n        :param current_company_industry: Filter people who are currently working at a company belonging to an `industry` that matches the provided regular expression. The `industry` attribute, found in a LinkedIn Company profile, describes the industry in which the company operates. The value of this attribute is an enumerator. [This CSV file provides an exhaustive list of possible values for this attribute](https://drive.google.com/file/d/12yvYLuru7CRv3wKOIkHs5Ldocz31gJSS/view?usp=share_link).\n\n            The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag. The default value of this parameter is `null`.\n        :type current_company_industry: str\n        :param current_company_employee_count_min: Filter people who are currently working at a company with **at least** this many employees.\n        :type current_company_employee_count_min: str\n        :param current_company_employee_count_max: Filter people who are currently working at a company with **at most** this many employees.\n        :type current_company_employee_count_max: str\n        :param current_company_description: Filter people who are currently working at a company with a description matching the provided regular expression.\n\n            The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag.\n            The default value of this parameter is null.\n        :type current_company_description: str\n        :param current_company_founded_after_year: Filter people who are currently working at a company that was founded **after** this year.\n        :type current_company_founded_after_year: str\n        :param current_company_founded_before_year: Filter people who are currently working at a company that was founded **before** this year.\n        :type current_company_founded_before_year: str\n        :param current_company_funding_amount_min: Filter people who are currently working at a company that has raised **at least** this much (USD) funding amount.\n        :type current_company_funding_amount_min: str\n        :param current_company_funding_amount_max: Filter people who are currently working at a company that has raised **at most** this much (USD) funding amount.\n        :type current_company_funding_amount_max: str\n        :param current_company_funding_raised_after: Filter people who are currently working at a company that has raised funding **after** this date.\n        :type current_company_funding_raised_after: str\n        :param current_company_funding_raised_before: Filter people who are currently working at a company that has raised funding **before** this date.\n        :type current_company_funding_raised_before: str\n        :param public_identifier_in_list: A list of public identifiers (the identifying portion of the person\u2019s profile URL).\n            The target person\u2019s identifier must be a member of this list.\n        :type public_identifier_in_list: str\n        :param public_identifier_not_in_list: A list of public identifiers (the identifying portion of the person\u2019s profile URL).\n            The target person\u2019s identifier must **not** be a member of this list.\n        :type public_identifier_not_in_list: str\n        :param page_size: Tune the maximum results returned per API call.\n\n            The default value of this parameter is `100`.\n\n            Accepted values for this parameter is an integer ranging from `1` to `100`.\n\n            When `enrich_profiles=enrich`, this parameter accepts value ranging from `1` to `10`.\n        :type page_size: str\n        :param enrich_profiles: Get the person's complete profile data rather than just the URLs to their LinkedIn profiles.\n\n            Each request respond with a streaming response of profiles.\n\n            The valid values are:\n\n            * `skip` (default): lists person's profile url only\n            * `enrich`: include person's profile data in the list\n\n            Calling this API endpoint with this parameter would add `1` credit per result returned.\n        :type enrich_profiles: str\n        :return: An object of Awaitable[:class:`proxycurl.models.PersonSearchResult]` or **None** if there is an error.\n        :rtype: Awaitable[:class:`proxycurl.models.PersonSearchResult]`\n        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`"
+    },
+    "resolve": {
+      "description": "Person Lookup Endpoint",
+      "cost": "2",
+      "parameters": [
+        {
+          "name": "first_name",
+          "type": "str",
+          "default": null
+        },
+        {
+          "name": "company_domain",
+          "type": "str",
+          "default": null
+        },
+        {
+          "name": "similarity_checks",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "enrich_profile",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "location",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "title",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "last_name",
+          "type": "str",
+          "default": "None"
+        }
+      ],
+      "docstring": "Person Lookup Endpoint\n\n                Cost: 2 credits / successful request.\n        Look up a person with a name and company information.\n\n        :param first_name: First name of the user\n        :type first_name: str\n        :param company_domain: Company name or domain\n        :type company_domain: str\n        :param similarity_checks: Controls whether the API endpoint performs\n            similarity comparisons between the input parameters\n            and the results or simply returns the closest match.\n            For instance, if you are searching for a person named\n            \"Ben Chad\", and the closest result we have is \"Chavvy\n            Plum\", our similarity checks will discard the obviously\n            incorrect result and return `null` instead of a false\n            positive.\n\n            Include similarity checks to eliminate false positives.\n            However, be aware that this might yield fewer results\n            as false positives are discarded. Credits will still be\n            deducted even if we return `null`.\n\n            You can choose to skip similarity checks, in which\n            case no credits will be charged if we return `null`.\n\n            This parameter accepts the following values:\n            * `include` (default) - Perform similarity checks and\n            discard false positives. Credits will be deducted even\n            if we return null .\n            * `skip` - Bypass similarity checks. No credits will be\n            deducted if no results are returned.\n        :type similarity_checks: str\n        :param enrich_profile: Enrich the result with a cached profile of the lookup result.\n\n            The valid values are:\n\n            * `skip` (default): do not enrich the results with cached profile data\n            * `enrich`: enriches the result with cached profile data\n\n            Calling this API endpoint with this parameter would add 1 credit.\n\n            If you require [fresh profile data](https://enrichlayer.com/blog/how-fresh-are-profiles-returned-by-enrichlayer-api/),\n            please chain this API call with the [People Profile Endpoint](https://enrichlayer.com/docs/pc#people-api-person-profile-endpoint) with the `use_cache=if-recent` parameter.\n        :type enrich_profile: str\n        :param location: The location of this user.\n\n            Name of country, city or state.\n        :type location: str\n        :param title: Title that user is holding at his/her current job\n        :type title: str\n        :param last_name: Last name of the user\n        :type last_name: str\n        :return: An object of Awaitable[:class:`proxycurl.models.PersonLookupUrlEnrichResult]` or **None** if there is an error.\n        :rtype: Awaitable[:class:`proxycurl.models.PersonLookupUrlEnrichResult]`\n        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`"
+    },
+    "resolve_by_email": {
+      "description": "Reverse Email Lookup Endpoint",
+      "cost": "3",
+      "parameters": [
+        {
+          "name": "email",
+          "type": "str",
+          "default": null
+        },
+        {
+          "name": "lookup_depth",
+          "type": "str",
+          "default": null
+        },
+        {
+          "name": "enrich_profile",
+          "type": "str",
+          "default": "None"
+        }
+      ],
+      "docstring": "Reverse Email Lookup Endpoint\n\n                Cost: 3 credits / successful request.\n        Resolve social media profiles correlated from an email address.\n        This API endpoint works with both personal and work emails.\n\n        :param email: Email address of the user you want to look up.\n        :type email: str\n        :param lookup_depth: This parameter describes the depth options for our API lookup function. This endpoint can execute either a superficial or a deep lookup.\n\n            A **superficial lookup** involves comparing the provided email with entries in our database. This approach tends to yield fewer results and is typically less effective for work-related email addresses. However, it does not consume any credits if no results are returned.\n\n            On the other hand, a **deep lookup** extends beyond our database to utilize advanced heuristics and identify the individual associated with a given email. This method is particularly recommended for work emails.\n\n            Please note the following valid values for the depth of the lookup:\n\n            * `superficial`: No credits are consumed if no results are found.\n            * `deep` (default): Credits are used regardless of whether any results are returned.\n        :type lookup_depth: str\n        :param enrich_profile: Enrich the result with a cached LinkedIn profile of the LinkedIn Profile URL result (if any).\n\n            Valid values are:\n\n            * `skip` (default): do not enrich the results with cached profile data.\n            * `enrich`: enriches the result with cached profile data.\n\n            Calling this API endpoint with this parameter would add `1` additional credit.\n\n            If you require [fresh profile data](https://enrichlayer.com/blog/how-fresh-are-profiles-returned-by-enrichlayer-api/),  please chain this API call with the `linkedin_profile_url` result with the [Person Profile Endpoint](https://enrichlayer.com/docs/pc#people-api-person-profile-endpoint) with the `use_cache=if-recent` parameter.\n        :type enrich_profile: str\n        :return: An object of Awaitable[:class:`proxycurl.models.ReverseEmailUrlEnrichResult]` or **None** if there is an error.\n        :rtype: Awaitable[:class:`proxycurl.models.ReverseEmailUrlEnrichResult]`\n        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`"
+    },
+    "resolve_by_phone": {
+      "description": "Reverse Contact Number Lookup Endpoint",
+      "cost": "3",
+      "parameters": [
+        {
+          "name": "phone_number",
+          "type": "str",
+          "default": null
+        }
+      ],
+      "docstring": "Reverse Contact Number Lookup Endpoint\n\n                Cost: 3 credits / successful request.\n        Find social media profiles from a contact phone number.\n\n        :param phone_number: [E.164 formatted](https://www.twilio.com/docs/glossary/what-e164) phone number of the person you want to identify social media profiles of.\n        :type phone_number: str\n        :return: An object of Awaitable[:class:`proxycurl.models.ReverseContactNumberResult]` or **None** if there is an error.\n        :rtype: Awaitable[:class:`proxycurl.models.ReverseContactNumberResult]`\n        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`"
+    },
+    "lookup_email": {
+      "description": "Work Email Lookup Endpoint",
+      "cost": "3",
+      "parameters": [
+        {
+          "name": "linkedin_profile_url",
+          "type": "str",
+          "default": null
+        },
+        {
+          "name": "callback_url",
+          "type": "str",
+          "default": "None"
+        }
+      ],
+      "docstring": "Work Email Lookup Endpoint\n\n                Cost: 3 credits / request.\n        Lookup work email address of a LinkedIn Person Profile.\n\n        Email addresses returned are verified to not be role-based or catch-all emails. Email addresses\n        returned by our API endpoint come with a 95+% deliverability guarantee\n\n        **Endpoint behavior**\n\n        *This endpoint* **_may not_** *return results immediately.*\n\n        If you provided a webhook in your request parameter, our application will call your webhook with\n        the result once. See `Webhook request` below.\n\n        :param linkedin_profile_url: Linkedin Profile URL of the person you want to\n            extract work email address from.\n        :type linkedin_profile_url: str\n        :param callback_url: Webhook to notify your application when\n            the request has finished processing.\n        :type callback_url: str\n        :return: An object of Awaitable[:class:`proxycurl.models.ExtractionEmailResult]` or **None** if there is an error.\n        :rtype: Awaitable[:class:`proxycurl.models.ExtractionEmailResult]`\n        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`"
+    },
+    "personal_contact": {
+      "description": "Personal Contact Number Lookup Endpoint",
+      "cost": "1",
+      "parameters": [
+        {
+          "name": "page_size",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "twitter_profile_url",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "facebook_profile_url",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "linkedin_profile_url",
+          "type": "str",
+          "default": "None"
+        }
+      ],
+      "docstring": "Personal Contact Number Lookup Endpoint\n\n                Cost: 1 credit / contact number returned.\n        Find personal phone numbers associated with a given social media profile.\n\n        :param page_size: This controls the maximum number of numbers returned per API call.\n            It's useful for limiting credit consumption as the number of numbers\n            per identity can vary. The default value is 0, meaning there's no limit\n            to the number of returned results.\n        :type page_size: str\n        :param twitter_profile_url: The Twitter Profile URL from which you wish to extract personal\n            contact numbers\n\n\n            Yes (Include only one of: `linkedin_profile_url`,\n            `twitter_profile_url`, or `facebook_profile_url`)\n        :type twitter_profile_url: str\n        :param facebook_profile_url: The Facebook Profile URL from which you wish to extract personal\n            contact numbers\n\n\n            Yes (Include only one of: `linkedin_profile_url`,\n            `twitter_profile_url`, or `facebook_profile_url`)\n        :type facebook_profile_url: str\n        :param linkedin_profile_url: The LinkedIn Profile URL from which you wish to extract personal\n            contact numbers\n\n\n            Yes (Include only one of: `linkedin_profile_url`,\n            `twitter_profile_url`, or `facebook_profile_url`)\n        :type linkedin_profile_url: str\n        :return: An object of Awaitable[:class:`proxycurl.models.PersonalContactNumbers]` or **None** if there is an error.\n        :rtype: Awaitable[:class:`proxycurl.models.PersonalContactNumbers]`\n        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`"
+    },
+    "personal_email": {
+      "description": "Personal Email Lookup Endpoint",
+      "cost": "1",
+      "parameters": [
+        {
+          "name": "email_validation",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "page_size",
+          "type": "int",
+          "default": "None"
+        },
+        {
+          "name": "twitter_profile_url",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "facebook_profile_url",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "linkedin_profile_url",
+          "type": "str",
+          "default": "None"
+        }
+      ],
+      "docstring": "Personal Email Lookup Endpoint\n\n                Cost: 1 credit / email returned.\n        Find personal email addresses associated with a given social media profile.\n\n        :param email_validation: How to validate each email.\n\n            Takes the following values:\n             * `none` (default) - Do not perform email validation.\n             * `fast` - Perform fast email validation (does not cost extra credit).\n             * `precise` - Perform deliverability validation (costs 1 extra credit per email found).\n\n            For backward-compatibility these are also accepted:\n             * `include` - Equivalent to `precise`\n             * `exclude` - Equivalent to `none`\n        :type email_validation: str\n        :param page_size: This controls the maximum number of emails returned per API call. It's useful for limiting credit consumption as the number of emails per identity can vary. The default value is `0`, meaning there's no limit to the number of returned results.\n        :type page_size: int\n        :param twitter_profile_url: The Twitter Profile URL from which you wish to extract personal email addresses.\n            yes (Include only one of: `linkedin_profile_url`, `twitter_profile_url`, or `facebook_profile_url`)\n        :type twitter_profile_url: str\n        :param facebook_profile_url: The Facebook Profile URL from which you wish to extract personal email addresses.\n            yes (Include only one of: `linkedin_profile_url`, `twitter_profile_url`, or `facebook_profile_url`)\n        :type facebook_profile_url: str\n        :param linkedin_profile_url: The LinkedIn Profile URL from which you wish to extract personal email addresses.\n            yes (Include only one of: `linkedin_profile_url`, `twitter_profile_url`, or `facebook_profile_url`)\n        :type linkedin_profile_url: str\n        :return: An object of Awaitable[:class:`proxycurl.models.PDLEmailResult]` or **None** if there is an error.\n        :rtype: Awaitable[:class:`proxycurl.models.PDLEmailResult]`\n        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`"
+    },
+    "profile_picture": {
+      "description": "Person Profile Picture Endpoint",
+      "cost": "0",
+      "parameters": [
+        {
+          "name": "linkedin_person_profile_url",
+          "type": "str",
+          "default": null
+        }
+      ],
+      "docstring": "Person Profile Picture Endpoint\n\n                Cost: 0 credit / successful request.\n        Get the profile picture of a person.\n\n        Profile pictures are served from cached profiles.\n        If the profile does not exist in our dataset, then the API will return a `404` status code.\n\n        :param linkedin_person_profile_url: LinkedIn Profile URL of the person that you are trying to get the profile picture of.\n        :type linkedin_person_profile_url: str\n        :return: An object of Awaitable[:class:`proxycurl.models.ProfilePicture]` or **None** if there is an error.\n        :rtype: Awaitable[:class:`proxycurl.models.ProfilePicture]`\n        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`"
+    }
+  },
+  "company": {
+    "get": {
+      "description": "Company Profile Endpoint",
+      "cost": "1",
+      "parameters": [
+        {
+          "name": "url",
+          "type": "str",
+          "default": null
+        },
+        {
+          "name": "resolve_numeric_id",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "categories",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "funding_data",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "extra",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "exit_data",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "acquisitions",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "use_cache",
+          "type": "str",
+          "default": "None"
+        }
+      ],
+      "docstring": "Company Profile Endpoint\n\n                Cost: 1 credit / successful request.\n        Get structured data of a Company Profile\n\n        :param url: URL of the LinkedIn Company Profile to crawl.\n\n            URL should be in the format of `https://www.linkedin.com/company/<public_identifier>`\n        :type url: str\n        :param resolve_numeric_id: Enable support for Company Profile URLs with numerical IDs that you most frequently fetch from Sales Navigator.\n            We achieve this by resolving numerical IDs into vanity IDs using our cached company profiles.\n            For example, we will turn `https://www.linkedin.com/company/1234567890` to `https://www.linkedin.com/company/acme-corp` -- for which the API endpoint only supports the latter.\n\n            This parameter accepts the following values:\n            - `false` - Will not resolve numerical IDs.\n            - `true` (default value) - Enable support for Company Profile URLs with numerical IDs.\n            Costs an extra `2` credit on top of the base cost of the endpoint.\n        :type resolve_numeric_id: str\n        :param categories: Appends categories data of this company.\n\n            Default value is `\"exclude\"`.\n            The other acceptable value is `\"include\"`, which will include these categories (if available) for `1` extra credit.\n        :type categories: str\n        :param funding_data: Returns a list of funding rounds that this company has received.\n\n            Default value is `\"exclude\"`.\n            The other acceptable value is `\"include\"`, which will include these categories (if available) for `1` extra credit.\n        :type funding_data: str\n        :param extra: Enriches the Company Profile with extra details from external sources.\n            Details include Crunchbase ranking, contact email, phone number, Facebook account, Twitter account, funding rounds and amount, IPO status, investor information, etc.\n\n            Default value is `\"exclude\"`.\n            The other acceptable value is `\"include\"`, which will include these extra details (if available) for `1` extra credit.\n        :type extra: str\n        :param exit_data: Returns a list of investment portfolio exits.\n\n            Default value is `\"exclude\"`.\n            The other acceptable value is `\"include\"`, which will include these categories (if available) for `1` extra credit.\n        :type exit_data: str\n        :param acquisitions: Provides further enriched data on acquisitions made by this company from external sources.\n\n            Default value is `\"exclude\"`.\n            The other acceptable value is `\"include\"`, which will include these acquisition data (if available) for `1` extra credit.\n        :type acquisitions: str\n        :param use_cache: `if-present` The default behavior. Fetches profile from cache regardless of age of profile. If profile is not available in cache, API will attempt to source profile externally.\n\n            `if-recent` API will make a best effort to return a fresh profile no older than 29 days.Costs an extra `1` credit on top of the cost of the base endpoint.\n        :type use_cache: str\n        :return: An object of Awaitable[:class:`enrichlayer.models.Company]` or **None** if there is an error.\n        :rtype: Awaitable[:class:`enrichlayer.models.Company]`\n        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`"
+    },
+    "search": {
+      "description": "Company Search Endpoint",
+      "cost": "35",
+      "parameters": [
+        {
+          "name": "public_identifier_not_in_list",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "public_identifier_in_list",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "enrich_profiles",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "page_size",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "funding_raised_before",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "funding_raised_after",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "funding_amount_min",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "funding_amount_max",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "founded_before_year",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "founded_after_year",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "description",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "employee_count_min",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "employee_count_max",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "industry",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "name",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "follower_count_max",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "follower_count_min",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "type",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "city",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "region",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "country",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "after",
+          "type": "str",
+          "default": "None"
+        }
+      ],
+      "docstring": "Company Search Endpoint\n\n                Cost: 35 credits / successful request base charge.\n        Search for companies that meet a set of criteria within\n            our exhaustive dataset of company profiles.\n            This API endpoint can return at most of 10,000 results per search.\n\n        :param public_identifier_not_in_list: A list of public identifiers (the identifying portion of the company\u2019s profile URL).\n            The target company\u2019s identifier must **not** be a member of this list.\n        :type public_identifier_not_in_list: str\n        :param public_identifier_in_list: A list of public identifiers (the identifying portion of the company\u2019s profile URL).\n            The target company\u2019s identifier must be a member of this list.\n        :type public_identifier_in_list: str\n        :param enrich_profiles: Get the company's complete profile data rather than just the URLs to their LinkedIn profiles.\n\n            Each request respond with a streaming response of profiles.\n\n            The valid values are:\n\n            - skip (default): lists company's profile url\n            - enrich: include company's profile data in the list\n\n            Calling this API endpoint with this parameter would add 1 credit per result returned.\n        :type enrich_profiles: str\n        :param page_size: Tune the maximum results returned per API call.\n\n            The default value of this parameter is 100.\n\n            Accepted values for this parameter is an integer ranging from 1 to 100.\n\n            When `enrich_profiles=enrich`, this parameter accepts value ranging from `1` to `10`.\n        :type page_size: str\n        :param funding_raised_before: Filter companies that have raised funding **before** this date.\n        :type funding_raised_before: str\n        :param funding_raised_after: Filter companies that have raised funding **after** this date.\n        :type funding_raised_after: str\n        :param funding_amount_min: Filter companies that have raised **at least** this much (USD) funding amount.\n        :type funding_amount_min: str\n        :param funding_amount_max: Filter companies that have raised **at most** this much (USD) funding amount.\n        :type funding_amount_max: str\n        :param founded_before_year: Filter companies that were founded **before** this year.\n        :type founded_before_year: str\n        :param founded_after_year: Filter companies that were founded **after** this year.\n        :type founded_after_year: str\n        :param description: Filter companies with a description matching the provided regular expression.\n\n            The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag.\n            The default value of this parameter is null.\n        :type description: str\n        :param employee_count_min: Filter companies with **at least** this many employees.\n        :type employee_count_min: str\n        :param employee_count_max: Filter companies with **at most** this many employees.\n        :type employee_count_max: str\n        :param industry: Use this parameter to filter companies belonging to an `industry` that matches the provided regular expression. The `industry` attribute, found in a LinkedIn Company profile, describes the industry in which the company operates. The value of this attribute is an enumerator. [This CSV file provides an exhaustive list of possible values for this attribute](https://drive.google.com/file/d/12yvYLuru7CRv3wKOIkHs5Ldocz31gJSS/view?usp=share_link).\n\n            The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag. The default value of this parameter is `null`.\n        :type industry: str\n        :param name: Filter companies with a name matching the provided regular expression.\n\n            The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag.\n            The default value of this parameter is null.\n        :type name: str\n        :param follower_count_max: Filter companies with a LinkedIn follower count **less than** this value.\n        :type follower_count_max: str\n        :param follower_count_min: Filter companies with a LinkedIn follower count **more than** this value.\n        :type follower_count_min: str\n        :param type: Filter companies of the provided LinkedIn type.\n\n            Possible values:\n\n            * `EDUCATIONAL`: Educational Institution\n            * `GOVERNMENT_AGENCY`: Government Agency\n            * `NON_PROFIT` : Nonprofit\n            * `PARTNERSHIP` : Partnership\n            * `PRIVATELY_HELD` : Privately Held\n            * `PUBLIC_COMPANY` : Public Company\n            * `SELF_EMPLOYED` : Self-Employed\n            * `SELF_OWNED` : Sole Proprietorship\n        :type type: str\n        :param city: Filter companies based in cities matching the provided regular expression.\n\n            The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag.\n            The default value of this parameter is null.\n        :type city: str\n        :param region: Filter companies based in regions matching the provided regular expression.\n            A \u201cregion\u201d in this context means \u201cstate,\u201d \u201cprovince,\u201d or similar political division, depending on what country you\u2019re querying.\n\n            The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag.\n            The default value of this parameter is null.\n        :type region: str\n        :param country: Filter companies with an office based in this country.\n\n            This parameter accepts a case-insensitive [Alpha-2 ISO3166 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).\n        :type country: str\n        :return: An object of Awaitable[:class:`proxycurl.models.CompanySearchResult]` or **None** if there is an error.\n        :rtype: Awaitable[:class:`proxycurl.models.CompanySearchResult]`\n        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`"
+    },
+    "resolve": {
+      "description": "Company Lookup Endpoint",
+      "cost": "2",
+      "parameters": [
+        {
+          "name": "company_location",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "company_domain",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "company_name",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "enrich_profile",
+          "type": "str",
+          "default": "None"
+        }
+      ],
+      "docstring": "Company Lookup Endpoint\n\n                Cost: 2 credits / successful request.\n        Resolve Company LinkedIn Profile from company name,\n            domain name and location.\n\n        :param company_location: The location / region of company.\n            ISO 3166-1 alpha-2 codes\n        :type company_location: str\n        :param company_domain: Company website or Company domain\n            Requires either `company_domain` or `company_name`\n        :type company_domain: str\n        :param company_name: Company Name\n            Requires either `company_domain` or `company_name`\n        :type company_name: str\n        :param enrich_profile: Enrich the result with a cached profile of the lookup result.\n\n            The valid values are:\n\n            * `skip` (default): do not enrich the results with cached profile data\n            * `enrich`: enriches the result with cached profile data\n\n            Calling this API endpoint with this parameter would add 1 credit.\n\n            If you require [fresh profile data](https://enrichlayer.com/blog/how-fresh-are-profiles-returned-by-enrichlayer-api/),\n            please chain this API call with the [Company Profile Endpoint](https://enrichlayer.com/docs/pc#company-api-company-profile-endpoint) with the `use_cache=if-recent` parameter.\n        :type enrich_profile: str\n        :return: An object of Awaitable[:class:`proxycurl.models.CompanyUrlEnrichResult]` or **None** if there is an error.\n        :rtype: Awaitable[:class:`proxycurl.models.CompanyUrlEnrichResult]`\n        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`"
+    },
+    "find_job": {
+      "description": "Job Search Endpoint",
+      "cost": "2",
+      "parameters": [
+        {
+          "name": "job_type",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "experience_level",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "when",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "flexibility",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "geo_id",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "keyword",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "search_id",
+          "type": "str",
+          "default": "None"
+        }
+      ],
+      "docstring": "Job Search Endpoint\n\n                Cost: 2 credits / successful request.\n        List jobs posted by a company on LinkedIn\n\n        :param job_type: The nature of the job.\n            It accepts the following 7 case-insensitive values only:\n            - `full-time`\n            - `part-time`\n            - `contract`\n            - `internship`\n            - `temporary`\n            - `volunteer`\n            - `anything` (default)\n        :type job_type: str\n        :param experience_level: The experience level needed for the job.\n            It accepts the following 6 case-insensitive values only:\n            - `internship`\n            - `entry_level`\n            - `associate`\n            - `mid_senior_level`\n            - `director`\n            - `anything` (default)\n        :type experience_level: str\n        :param when: The time when the job is posted,\n            It accepts the following case-insensitive values only:\n            - `yesterday`\n            - `past-week`\n            - `past-month`\n            - `anytime` (default)\n        :type when: str\n        :param flexibility: The flexibility of the job.\n            It accepts the following 3 case insensitive values only:\n            - `remote`\n            - `on-site`\n            - `hybrid`\n            - `anything` (default)\n        :type flexibility: str\n        :param geo_id: The `geo_id` of the location to search for.\n            For example, `92000000` is the `geo_id` of world wide.\n\n            See [this article](https://enrichlayer.com/blog/how-to-fetch-geo_id-parameter-for-the-job-api) as to how you may be able to match regions to `geo_id` input values.\n        :type geo_id: str\n        :param keyword: The keyword to search for.\n        :type keyword: str\n        :param search_id: The `search_id` of the company on LinkedIn.\n            You can get the `search_id` of a LinkedIn company via\n            [Company Profile API](#company-api-company-profile-endpoint).\n        :type search_id: str\n        :return: An object of Awaitable[:class:`proxycurl.models.JobListPage]` or **None** if there is an error.\n        :rtype: Awaitable[:class:`proxycurl.models.JobListPage]`\n        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`"
+    },
+    "job_count": {
+      "description": "Jobs Listing Count Endpoint",
+      "cost": "2",
+      "parameters": [
+        {
+          "name": "job_type",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "experience_level",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "when",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "flexibility",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "geo_id",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "keyword",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "search_id",
+          "type": "str",
+          "default": "None"
+        }
+      ],
+      "docstring": "Jobs Listing Count Endpoint\n\n                Cost: 2 credits / successful request.\n        Count number of jobs posted by a company on LinkedIn\n\n        :param job_type: The nature of the job.\n            It accepts the following 7 case-insensitive values only:\n            - `full-time`\n            - `part-time`\n            - `contract`\n            - `internship`\n            - `temporary`\n            - `volunteer`\n            - `anything` (default)\n        :type job_type: str\n        :param experience_level: The experience level needed for the job.\n            It accepts the following 6 case-insensitive values only:\n            - `internship`\n            - `entry_level`\n            - `associate`\n            - `mid_senior_level`\n            - `director`\n            - `anything` (default)\n        :type experience_level: str\n        :param when: The time when the job is posted,\n            It accepts the following case-insensitive values only:\n            - `yesterday`\n            - `past-week`\n            - `past-month`\n            - `anytime` (default)\n        :type when: str\n        :param flexibility: The flexibility of the job.\n            It accepts the following 3 case insensitive values only:\n            - `remote`\n            - `on-site`\n            - `hybrid`\n            - `anything` (default)\n        :type flexibility: str\n        :param geo_id: The `geo_id` of the location to search for.\n            For example, `92000000` is the `geo_id` of world wide.\n\n            See [this article](https://enrichlayer.com/blog/how-to-fetch-geo_id-parameter-for-the-job-api) as to how you may be able to match regions to `geo_id` input values.\n        :type geo_id: str\n        :param keyword: The keyword to search for.\n        :type keyword: str\n        :param search_id: The `search_id` of the company on LinkedIn.\n            You can get the `search_id` of a LinkedIn company via\n            [Company Profile API](#company-api-company-profile-endpoint).\n        :type search_id: str\n        :return: An object of Awaitable[:class:`proxycurl.models.JobListCount]` or **None** if there is an error.\n        :rtype: Awaitable[:class:`proxycurl.models.JobListCount]`\n        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`"
+    },
+    "employee_count": {
+      "description": "Employee Count Endpoint",
+      "cost": "1",
+      "parameters": [
+        {
+          "name": "url",
+          "type": "str",
+          "default": null
+        },
+        {
+          "name": "use_cache",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "linkedin_employee_count",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "employment_status",
+          "type": "str",
+          "default": "None"
+        }
+      ],
+      "docstring": "Employee Count Endpoint\n\n                Cost: 1 credit / successful request.\n        Get a number of total employees of a Company.\n\n        Get an employee count of this company from various sources.\n\n        :param url: URL of the LinkedIn Company Profile to target.\n\n            URL should be in the format of `https://www.linkedin.com/company/<public_identifier>`\n        :type url: str\n        :param use_cache: `if-present`: The default behavior. Fetches data from cache regardless of age of profile.\n\n            `if-recent`: API will make a best effort to return a fresh data no older than 29 days. Costs an extra 1 credit on top of the cost of the base endpoint.\n        :type use_cache: str\n        :param linkedin_employee_count: Option to include a scraped employee count value from the target company's LinkedIn profile.\n\n            Valid values are `include` and `exclude`:\n\n            * `exclude` (default) : To exclude the scraped employee count.\n            * `include` : To include the scraped employee count.\n\n            Costs an extra `1` credit on top of the base cost of the endpoint.\n        :type linkedin_employee_count: str\n        :param employment_status: Parameter to tell the API to filter past or current employees.\n\n            Valid values are `current`, `past`, and `all`:\n\n            * `current` (default) : count current employees\n            * `past` : count past employees\n            * `all` : count current & past employees\n        :type employment_status: str\n        :return: An object of Awaitable[:class:`proxycurl.models.EmployeeCount]` or **None** if there is an error.\n        :rtype: Awaitable[:class:`proxycurl.models.EmployeeCount]`\n        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`"
+    },
+    "employee_list": {
+      "description": "Employee Listing Endpoint",
+      "cost": "3",
+      "parameters": [
+        {
+          "name": "url",
+          "type": "str",
+          "default": null
+        },
+        {
+          "name": "country",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "enrich_profiles",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "role_search",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "page_size",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "employment_status",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "sort_by",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "resolve_numeric_id",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "after",
+          "type": "str",
+          "default": "None"
+        }
+      ],
+      "docstring": "Employee Listing Endpoint\n\n                Cost: 3 credits / employee returned.\n        Get a list of employees of a Company.\n        :param url: URL of the LinkedIn Company Profile to target.\n\n            URL should be in the format of `https://www.linkedin.com/company/<public_identifier>`\n        :type url: str\n        :param country: Limit the result set to the country locality of the profile. For example, set the parameter of `country=us` if you only want profiles from the US. Or you can set the parameter to `country=us,sg` if you want employees from both the US and Singapore.\n\n            This parameter accepts a comma-separated case-insensitive values of [Alpha-2 ISO3166 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).\n\n            Costs an extra `3` credit per result returned.\n        :type country: str\n        :param enrich_profiles: Get the full profile of employees instead of only their profile urls.\n\n            Each request respond with a streaming response of profiles.\n\n            The valid values are:\n\n            * `skip` (default): lists employee's profile url\n            * `enrich`: lists full profile of employees\n\n            Calling this API endpoint with this parameter would add `1` credit per employee returned.\n        :type enrich_profiles: str\n        :param role_search: Filter employees by their title by matching the employee's title against a *regular expression*.\n\n            The default value of this parameter is `null`.\n\n            The accepted value for this parameter is a **case-insensitive** regular expression.\n\n            (The base cost of calling this API endpoint with this parameter would be `10` credits.\n            Each employee matched and returned would cost `6` credits per employee returned.)\n        :type role_search: str\n        :param page_size: Limit the maximum results returned per API call.\n\n            The default value of this parameter is `10`.\n\n            Accepted values for this parameter is an integer ranging from `1` to `200000`.\n\n            When `enrich_profiles=enrich`, this parameter accepts value ranging from `1` to `10` and the default value is `10`.\n        :type page_size: str\n        :param employment_status: Parameter to tell the API to return past or current employees.\n\n            Valid values are `current`, `past`, and `all`:\n\n            * `current` (default) : lists current employees\n            * `past` : lists past employees\n            * `all` : lists current & past employees\n        :type employment_status: str\n        :param sort_by: Sort employees by recency.\n\n            Valid values are:\n            * `recently-joined` - Sort employees by their join date. The most recent employee is on the top of the list.\n            * `recently-left` - Sort employees by their departure date. The most recent employee who had just left is on the top of this list.\n            * `oldest` - Returns the oldest employees first. The oldest employee who had joined this company historically is on the top of this list.\n            * `none` - The default value. Do not sort.\n\n            If this parameter is supplied with a value other than `none`, will add `50` credits to the base cost of the API endpoint regardless number of results returned. It will also add an additional cost of `10` credits per employee returned.\n        :type sort_by: str\n        :param resolve_numeric_id: Enable support for Company Profile URLs with numerical IDs that you most frequently fetch from Sales Navigator.\n            We achieve this by resolving numerical IDs into vanity IDs using our cached company profiles.\n            For example, we will turn `https://www.linkedin.com/company/1234567890` to `https://www.linkedin.com/company/acme-corp` -- for which the API endpoint only supports the latter.\n\n            This parameter accepts the following values:\n            - `false` (default value) - Will not resolve numerical IDs.\n            - `true` - Enable support for Company Profile URLs with numerical IDs.\n            Costs an extra `2` credit on top of the base cost of the endpoint.\n        :type resolve_numeric_id: str\n        :return: An object of Awaitable[:class:`proxycurl.models.EmployeeList]` or **None** if there is an error.\n        :rtype: Awaitable[:class:`proxycurl.models.EmployeeList]`\n        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`"
+    },
+    "employee_search": {
+      "description": "Employee Search Endpoint",
+      "cost": "10",
+      "parameters": [
+        {
+          "name": "keyword_regex",
+          "type": "str",
+          "default": null
+        },
+        {
+          "name": "linkedin_company_profile_url",
+          "type": "str",
+          "default": null
+        },
+        {
+          "name": "page_size",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "country",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "enrich_profiles",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "resolve_numeric_id",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "after",
+          "type": "str",
+          "default": "None"
+        }
+      ],
+      "docstring": "Employee Search Endpoint\n\n                Cost: 10 credits / successful request.\n        Search employees of a target by their job title. This API endpoint is syntactic\n        sugar for the role_search parameter under the [Employee Listing Endpoint](#company-api-employee-listing-endpoint).\n        This API endpoint is powered by [LinkDB](https://enrichlayer.com/linkdb), our comprehensive dataset of people\n        and company profiles. For a detailed comparison between this API endpoint\n        and the [Role Lookup Endpoint](#people-api-role-lookup-endpoint) or the [Person Search Endpoint](#search-api-person-search-endpoint), refer to [this article](https://enrichlayer.com/blog/what-is-the-difference-between-the-person-search-endpoint-role-lookup-endpoint-and-the-employee-search-endpoint).\n\n        :param keyword_regex: Job title keyword to search for in regular expression format.\n\n            The accepted value for this parameter is a **case-insensitive** regular expression.\n        :type keyword_regex: str\n        :param linkedin_company_profile_url: LinkedIn Profile URL of the target company.\n        :type linkedin_company_profile_url: str\n        :param page_size: Tune the maximum results returned per API call.\n            The default value of this parameter is `200000`.\n            Accepted values for this parameter is an integer ranging from `1` to `200000`.\n            When `enrich_profiles=enrich`, this parameter accepts value ranging from `1` to `10` and the default value is `100`.\n        :type page_size: str\n        :param country: Limit the result set to the country locality of the profile. For example, set the parameter of `country=us` if you only want profiles from the US.\n\n            This parameter accepts a case-insensitive [Alpha-2 ISO3166 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).\n\n            Costs an extra `3` credit per result returned.\n        :type country: str\n        :param enrich_profiles: Get the full profile of employees instead of only their profile urls.\n\n            Each request respond with a streaming response of profiles.\n\n            The valid values are:\n\n            * `skip` (default): lists employee's profile url\n            * `enrich`: lists full profile of employees\n\n            Calling this API endpoint with this parameter would add `1` credit per employee returned.\n        :type enrich_profiles: str\n        :param resolve_numeric_id: Enable support for Company Profile URLs with numerical IDs that you most frequently fetch from Sales Navigator.\n            We achieve this by resolving numerical IDs into vanity IDs using our cached company profiles.\n            For example, we will turn `https://www.linkedin.com/company/1234567890` to `https://www.linkedin.com/company/acme-corp` -- for which the API endpoint only supports the latter.\n\n            This parameter accepts the following values:\n            - `false` (default value) - Will not resolve numerical IDs.\n            - `true` - Enable support for Company Profile URLs with numerical IDs.\n            Costs an extra `2` credit on top of the base cost of the endpoint.\n        :type resolve_numeric_id: str\n        :return: An object of Awaitable[:class:`proxycurl.models.EmployeeList]` or **None** if there is an error.\n        :rtype: Awaitable[:class:`proxycurl.models.EmployeeList]`\n        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`"
+    },
+    "role_lookup": {
+      "description": "Role Lookup Endpoint",
+      "cost": "3",
+      "parameters": [
+        {
+          "name": "company_name",
+          "type": "str",
+          "default": null
+        },
+        {
+          "name": "role",
+          "type": "str",
+          "default": null
+        },
+        {
+          "name": "enrich_profile",
+          "type": "str",
+          "default": "None"
+        }
+      ],
+      "docstring": "Role Lookup Endpoint\n\n                Cost: 3 credits / successful request.\n        Returns the profile of a person who most closely matches a specified role\n        in a company. For instance, it can be used to identify the \"CTO\" of\n        \"Apple\". The endpoint yields a single result that represents the closest\n        match. For a detailed comparison between this API endpoint and the\n        [Employee Search Endpoint](#company-api-employee-search-endpoint)\n        or the [Person Search Endpoint](#search-api-person-search-endpoint),\n        refer to [this article](\n            https://enrichlayer.com/blog/what-is-the-difference-between-the-person-search-endpoint-role-lookup-endpoint-and-the-employee-search-endpoint).\n\n        :param company_name: Name of the company that you are searching for\n        :type company_name: str\n        :param role: Role of the profile that you are lookin up\n        :type role: str\n        :param enrich_profile: Enrich the result with a cached profile of the lookup result.\n\n            The valid values are:\n\n            * `skip` (default): do not enrich the results with cached profile data\n            * `enrich`: enriches the result with cached profile data\n\n            Calling this API endpoint with this parameter would add 1 credit.\n\n            If you require [fresh profile data](https://enrichlayer.com/blog/how-fresh-are-profiles-returned-by-enrichlayer-api/),\n            please chain this API call with the [Person Profile Endpoint](#people-api-person-profile-endpoint) with the `use_cache=if-recent` parameter.\n        :type enrich_profile: str\n        :return: An object of Awaitable[:class:`proxycurl.models.RoleSearchEnrichedResult]` or **None** if there is an error.\n        :rtype: Awaitable[:class:`proxycurl.models.RoleSearchEnrichedResult]`\n        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`"
+    },
+    "profile_picture": {
+      "description": "Company Profile Picture Endpoint",
+      "cost": "0",
+      "parameters": [
+        {
+          "name": "linkedin_company_profile_url",
+          "type": "str",
+          "default": null
+        }
+      ],
+      "docstring": "Company Profile Picture Endpoint\n\n                Cost: 0 credit / successful request.\n        Get the profile picture of a company.\n\n        Profile pictures are served from cached profiles.\n        If the profile does not exist in our dataset, then the API will return a `404` status code.\n\n        :param linkedin_company_profile_url: LinkedIn Profile URL of the company that you are trying to get the profile picture of.\n        :type linkedin_company_profile_url: str\n        :return: An object of Awaitable[:class:`proxycurl.models.ProfilePicture]` or **None** if there is an error.\n        :rtype: Awaitable[:class:`proxycurl.models.ProfilePicture]`\n        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`"
+    }
+  },
+  "school": {
+    "get": {
+      "description": "School Profile Endpoint",
+      "cost": "1",
+      "parameters": [
+        {
+          "name": "url",
+          "type": "str",
+          "default": null
+        },
+        {
+          "name": "use_cache",
+          "type": "str",
+          "default": "None"
+        }
+      ],
+      "docstring": "School Profile Endpoint\n\n                Cost: 1 credit / successful request.\n        Get structured data of a LinkedIn School Profile\n\n        :param url: URL of the LinkedIn School Profile to crawl.\n\n            URL should be in the format of `https://www.linkedin.com/school/<public_identifier>`\n        :type url: str\n        :param use_cache: `if-present` The default behavior. Fetches profile from cache regardless of age of profile. If profile is not available in cache, API will attempt to source profile externally.\n\n            `if-recent` API will make a best effort to return a fresh profile no older than 29 days.Costs an extra `1` credit on top of the cost of the base endpoint.\n        :type use_cache: str\n        :return: An object of Awaitable[:class:`enrichlayer.models.School]` or **None** if there is an error.\n        :rtype: Awaitable[:class:`enrichlayer.models.School]`\n        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`"
+    },
+    "student_list": {
+      "description": "Student Listing Endpoint",
+      "cost": "3",
+      "parameters": [
+        {
+          "name": "linkedin_school_url",
+          "type": "str",
+          "default": null
+        },
+        {
+          "name": "country",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "enrich_profiles",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "search_keyword",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "page_size",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "student_status",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "sort_by",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "resolve_numeric_id",
+          "type": "str",
+          "default": "None"
+        }
+      ],
+      "docstring": "Student Listing Endpoint\n\n                Cost: 3 credits / student returned.\n        Get a list of students of a school or university.\n\n        :param linkedin_school_url: URL of the LinkedIn School Profile to target.\n\n            URL should be in the format of `https://www.linkedin.com/school/<public_identifier>`\n        :type linkedin_school_url: str\n        :param country: Limit the result set to the country locality of the profile. For example, set the parameter of `country=us` if you only want profiles from the US.\n\n            This parameter accepts a case-insensitive [Alpha-2 ISO3166 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).\n\n            Costs an extra `3` credit per result returned.\n        :type country: str\n        :param enrich_profiles: Get the full profile of students instead of only their profile urls.\n\n            Each request respond with a streaming response of profiles.\n\n            The valid values are:\n\n            * `skip` (default): lists student's profile url\n            * `enrich`: lists full profile of students\n\n            *Calling this API endpoint with this parameter would add `1` credit per student returned.*\n        :type enrich_profiles: str\n        :param search_keyword: Filter students by their major by matching the student's major against a *regular expression*.\n\n            The default value of this parameter is `null`.\n\n            The accepted value for this parameter is a **case-insensitive** regular expression.\n\n            (The base cost of calling this API endpoint with this parameter would be `10` credits.\n            Each student matched and returned would cost `6` credits per student returned.)\n        :type search_keyword: str\n        :param page_size: Limit the maximum results returned per API call.\n\n            The default value of this parameter is `10`.\n\n            Accepted values for this parameter is an integer ranging from `1` to `200000`.\n\n            When `enrich_profiles=enrich`, this parameter accepts value ranging from `1` to `10` and the default value is `10`.\n        :type page_size: str\n        :param student_status: Parameter to tell the API to return past or current students.\n\n            Valid values are `current`, `past`, and `all`:\n\n            * `current` (default) : lists current students\n            * `past` : lists past students\n            * `all` : lists current & past students\n        :type student_status: str\n        :param sort_by: Sort students by matriculation or graduation dates.\n\n            Valid values are:\n            * `recently-matriculated` - Sort students by their matriculation date. Students who had had most recently started school is on the top of the list.\n            * `recently-graduated` - Sort students by their graduation date. The most recently graduated student is on the top of this list.\n            * `none` - The default value. Do not sort.\n\n            If this parameter is supplied with a value other than `none`, will add `50` credits to the base cost of the API endpoint regardless number of results returned. It will also add an additional cost of `10` credits per student returned.\n        :type sort_by: str\n        :param resolve_numeric_id: Enable support for School Profile URLs with numerical IDs that you most frequently fetch from Sales Navigator.\n            We achieve this by resolving numerical IDs into vanity IDs using our cached company profiles.\n            For example, we will turn `https://www.linkedin.com/school/1234567890` to `https://www.linkedin.com/school/acme-corp` -- for which the API endpoint only supports the latter.\n\n            This parameter accepts the following values:\n            - `false` (default value) - Will not resolve numerical IDs.\n            - `true` - Enable support for School Profile URLs with numerical IDs.\n            Costs an extra `2` credit on top of the base cost of the endpoint.\n        :type resolve_numeric_id: str\n        :return: An object of Awaitable[:class:`proxycurl.models.StudentList]` or **None** if there is an error.\n        :rtype: Awaitable[:class:`proxycurl.models.StudentList]`\n        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`"
+    }
+  },
+  "job": {
+    "get": {
+      "description": "Job Profile Endpoint",
+      "cost": "2",
+      "parameters": [
+        {
+          "name": "url",
+          "type": "str",
+          "default": null
+        }
+      ],
+      "docstring": "Job Profile Endpoint\n\n                Cost: 2 credits / successful request.\n        Get structured data of a LinkedIn Job Profile\n\n        :param url: URL of the LinkedIn Job Profile to target.\n\n            URL should be in the format of\n            `https://www.linkedin.com/jobs/view/<job_id>`.\n            [Jobs Listing Endpoint](#jobs-api-jobs-listing-endpoint)\n            can be used to retrieve a job URL.\n        :type url: str\n        :return: An object of Awaitable[:class:`proxycurl.models.JobProfile]` or **None** if there is an error.\n        :rtype: Awaitable[:class:`proxycurl.models.JobProfile]`\n        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`"
+    }
+  },
+  "customers": {
+    "listing": {
+      "description": "Customer Listing Endpoint",
+      "cost": "10",
+      "parameters": [
+        {
+          "name": "linkedin_company_profile_url",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "twitter_profile_url",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "page_size",
+          "type": "str",
+          "default": "None"
+        },
+        {
+          "name": "after",
+          "type": "str",
+          "default": "None"
+        }
+      ],
+      "docstring": "Customer Listing Endpoint\n\n                Cost: 10 credits / result for users on an annual subscription or Enterprise plan.\n        Get a list of probable corporate customers of a target company.\n\n        :param linkedin_company_profile_url: The LinkedIn Profile URL of the company from which you want to get a list of customers of.\n\n            URL should be in the format of `https://www.linkedin.com/company/<public-identifier>`\n\n\n            Yes (Include only one of: `linkedin_company_profile_url` or `twitter_profile_url`)\n        :type linkedin_company_profile_url: str\n        :param twitter_profile_url: The Twitter/X Profile URL belonging to the company that you want to get a list of customers of.\n\n            URL should be in the format of `https://x.com/<public-identifier>`\n\n\n            Yes (Include only one of: `linkedin_company_profile_url` or `twitter_profile_url`)\n        :type twitter_profile_url: str\n        :param page_size: Limit the maximum results of customer companies returned per API call.\n\n            The default value of this parameter is 10.\n\n            Accepted values for this parameter is an integer ranging from 0 to 1000.\n        :type page_size: str\n        :return: An object of Awaitable[:class:`proxycurl.models.CustomerList]` or **None** if there is an error.\n        :rtype: Awaitable[:class:`proxycurl.models.CustomerList]`\n        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`"
+    }
+  }
+}

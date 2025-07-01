@@ -1,0 +1,16 @@
+{
+  "test_summary": {
+    "timestamp": "2025-07-01T09:54:52.337783",
+    "test_type": "comprehensive_endpoint_testing_all_23_endpoints",
+    "total_tests": 0,
+    "successful_tests": 0,
+    "failed_tests": 0,
+    "success_rate": "0.0%",
+    "total_credits_used": 0,
+    "total_duration": 0.39,
+    "average_response_time": 0
+  },
+  "by_client_type": {},
+  "by_category": {},
+  "detailed_results": []
+}
