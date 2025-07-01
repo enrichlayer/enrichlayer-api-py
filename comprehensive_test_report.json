@@ -1,0 +1,18 @@
+{
+  "timestamp": "2025-07-01T12:39:42.651702",
+  "api_tests": {
+    "total": 49,
+    "successful": 47,
+    "success_rate": "95.9%",
+    "credits_used": 98
+  },
+  "core_tests": {
+    "test_enrichlayer": true,
+    "test_exception_mapping": true
+  },
+  "summary": {
+    "all_api_tests_passed": false,
+    "all_core_tests_passed": true,
+    "production_ready": false
+  }
+}

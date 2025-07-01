@@ -1,0 +1,71 @@
+CORE TEST SUITE OUTPUT
+==================================================
+
+TEST: test_enrichlayer
+------------------------------
+Success: True
+Return Code: 0
+
+STDOUT:
+
+STDERR:
+test_asyncio_client_import (__main__.TestEnrichLayerCore.test_asyncio_client_import)
+Test that asyncio client can be imported. ... ok
+test_client_initialization (__main__.TestEnrichLayerCore.test_client_initialization)
+Test that clients can be initialized. ... ok
+test_compatibility_import (__main__.TestEnrichLayerCore.test_compatibility_import)
+Test that compatibility module can be imported. ... /nix/store/2dgk1m594acjc9fys03g5ldx3c5nciak-python3-3.13.4-env/lib/python3.13/site-packages/proxycurl/gevent/base.py:3: MonkeyPatchWarning: Monkey-patching ssl after ssl has already been imported may lead to errors, including RecursionError on Python 3.6. It may also silently lead to incorrect behaviour on Python 3.7. Please monkey-patch earlier. See https://github.com/gevent/gevent/issues/1016. Modules that had direct imports (NOT patched): ['aiohttp.client_reqrep (/nix/store/2dgk1m594acjc9fys03g5ldx3c5nciak-python3-3.13.4-env/lib/python3.13/site-packages/aiohttp/client_reqrep.py)', 'aiohttp.client_exceptions (/nix/store/2dgk1m594acjc9fys03g5ldx3c5nciak-python3-3.13.4-env/lib/python3.13/site-packages/aiohttp/client_exceptions.py)', 'aiohttp.connector (/nix/store/2dgk1m594acjc9fys03g5ldx3c5nciak-python3-3.13.4-env/lib/python3.13/site-packages/aiohttp/connector.py)']. 
+  monkey.patch_all()
+ok
+test_config_import (__main__.TestEnrichLayerCore.test_config_import)
+Test that config can be imported. ... ok
+test_gevent_client_import (__main__.TestEnrichLayerCore.test_gevent_client_import)
+Test that gevent client can be imported. ... ok
+test_models_import (__main__.TestEnrichLayerCore.test_models_import)
+Test that models can be imported. ... ok
+test_twisted_client_import (__main__.TestEnrichLayerCore.test_twisted_client_import)
+Test that twisted client can be imported. ... ok
+test_version_import (__main__.TestEnrichLayerCore.test_version_import)
+Test that version can be imported. ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.324s
+
+OK
+
+==================================================
+
+TEST: test_exception_mapping
+------------------------------
+Success: True
+Return Code: 0
+
+STDOUT:
+
+STDERR:
+test_async_and_sync_decorator_compatibility (__main__.TestExceptionMapping.test_async_and_sync_decorator_compatibility)
+Test that decorator works with both async and sync functions. ... /nix/store/2dgk1m594acjc9fys03g5ldx3c5nciak-python3-3.13.4-env/lib/python3.13/site-packages/proxycurl/gevent/base.py:3: MonkeyPatchWarning: Monkey-patching ssl after ssl has already been imported may lead to errors, including RecursionError on Python 3.6. It may also silently lead to incorrect behaviour on Python 3.7. Please monkey-patch earlier. See https://github.com/gevent/gevent/issues/1016. Modules that had direct imports (NOT patched): ['aiohttp.client_exceptions (/nix/store/2dgk1m594acjc9fys03g5ldx3c5nciak-python3-3.13.4-env/lib/python3.13/site-packages/aiohttp/client_exceptions.py)', 'aiohttp.connector (/nix/store/2dgk1m594acjc9fys03g5ldx3c5nciak-python3-3.13.4-env/lib/python3.13/site-packages/aiohttp/connector.py)', 'aiohttp.client_reqrep (/nix/store/2dgk1m594acjc9fys03g5ldx3c5nciak-python3-3.13.4-env/lib/python3.13/site-packages/aiohttp/client_reqrep.py)']. 
+  monkey.patch_all()
+ok
+test_exception_chaining (__main__.TestExceptionMapping.test_exception_chaining)
+Test that exception chaining is preserved. ... ok
+test_exception_message_preservation (__main__.TestExceptionMapping.test_exception_message_preservation)
+Test that original exception messages are preserved in mapping. ... ok
+test_module_level_initialization (__main__.TestExceptionMapping.test_module_level_initialization)
+Test that exception mapping is initialized at module level. ... ok
+test_name_spoofing_resistance (__main__.TestExceptionMapping.test_name_spoofing_resistance)
+Test that fake exceptions with EnrichLayerException name are rejected. ... ok
+test_no_fallback_behavior (__main__.TestExceptionMapping.test_no_fallback_behavior)
+Test that unmapped exceptions are raised as-is without fallback. ... ok
+test_static_mapping_efficiency (__main__.TestExceptionMapping.test_static_mapping_efficiency)
+Test that static mapping is used instead of dynamic imports. ... ok
+test_variant_specific_mapping (__main__.TestExceptionMapping.test_variant_specific_mapping)
+Test that each variant maps to its corresponding proxycurl exception. ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.345s
+
+OK
+
+==================================================
+
