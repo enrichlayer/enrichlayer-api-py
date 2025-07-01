@@ -1,10 +1,10 @@
 from twisted.internet import defer
 from twisted.internet.defer import Deferred, inlineCallbacks
-from enrichlayer.config import (
+from enrichlayer_client.config import (
     BASE_URL, ENRICHLAYER_API_KEY, TIMEOUT, MAX_RETRIES, MAX_BACKOFF_SECONDS
 )
-from enrichlayer.twisted.base import EnrichLayerBase
-from enrichlayer.models import (
+from enrichlayer_client.twisted.base import EnrichLayerBase
+from enrichlayer_client.models import (
     {%- for namespace in ns_data %}
     {%- for result_class in ns_data[namespace]['result_classes'] %}
     {{result_class}},

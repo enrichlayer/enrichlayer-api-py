@@ -85,7 +85,7 @@ async def test_compatibility_setup(api_key: str) -> bool:
     try:
 
         # Import enrichlayer and enable compatibility
-        import enrichlayer
+        import enrichlayer_client
 
         print_success("EnrichLayer imported successfully")
 
@@ -126,8 +126,8 @@ async def test_proxycurl_import() -> bool:
         # This simulates what would happen if proxycurl-py was installed
 
         # Import enrichlayer classes directly
-        from enrichlayer.asyncio import EnrichLayer, do_bulk
-        from enrichlayer.compat.monkey_patch import create_proxycurl_wrapper_class
+        from enrichlayer_client.asyncio import EnrichLayer, do_bulk
+        from enrichlayer_client.compat.monkey_patch import create_proxycurl_wrapper_class
 
         print_success("EnrichLayer classes imported")
 
@@ -193,7 +193,7 @@ async def test_get_balance() -> bool:
 
             # Show equivalent enrichlayer call
             print_info("Equivalent enrichlayer call:")
-            print_info("  from enrichlayer.asyncio import EnrichLayer")
+            print_info("  from enrichlayer_client.asyncio import EnrichLayer")
             print_info("  enrichlayer = EnrichLayer()")
             print_info("  balance = await enrichlayer.get_balance()")
 
@@ -242,7 +242,7 @@ async def test_person_profile() -> bool:
 
             # Show equivalent enrichlayer call
             print_info("Equivalent enrichlayer call:")
-            print_info("  from enrichlayer.asyncio import EnrichLayer")
+            print_info("  from enrichlayer_client.asyncio import EnrichLayer")
             print_info("  enrichlayer = EnrichLayer()")
             print_info(
                 f"  person = await enrichlayer.person.get(linkedin_profile_url='{linkedin_url}')"
@@ -291,7 +291,7 @@ async def test_company_profile() -> bool:
 
             # Show equivalent enrichlayer call
             print_info("Equivalent enrichlayer call:")
-            print_info("  from enrichlayer.asyncio import EnrichLayer")
+            print_info("  from enrichlayer_client.asyncio import EnrichLayer")
             print_info("  enrichlayer = EnrichLayer()")
             print_info(
                 f"  company = await enrichlayer.company.get(url='{company_url}')"
@@ -335,7 +335,7 @@ async def test_person_lookup() -> bool:
 
             # Show equivalent enrichlayer call
             print_info("Equivalent enrichlayer call:")
-            print_info("  from enrichlayer.asyncio import EnrichLayer")
+            print_info("  from enrichlayer_client.asyncio import EnrichLayer")
             print_info("  enrichlayer = EnrichLayer()")
             print_info(
                 "  result = await enrichlayer.person.resolve(first_name='Bill', last_name='Gates', company_domain='microsoft.com')"
@@ -386,7 +386,7 @@ async def test_bulk_operations() -> bool:
 
             # Show equivalent enrichlayer call
             print_info("Equivalent enrichlayer call:")
-            print_info("  from enrichlayer.asyncio import EnrichLayer, do_bulk")
+            print_info("  from enrichlayer_client.asyncio import EnrichLayer, do_bulk")
             print_info("  enrichlayer = EnrichLayer()")
             print_info(
                 "  bulk_requests = [(enrichlayer.person.get, {'linkedin_profile_url': '...'})]"
@@ -463,7 +463,7 @@ def print_summary(results: Dict[str, bool]):
         print("🎉 All tests passed! The compatibility layer is working correctly.")
         print("\n💡 Migration Tips:")
         print(
-            "   1. Add 'import enrichlayer; enrichlayer.enable_proxycurl_compatibility()' to your existing code"
+            "   1. Add 'import enrichlayer_client; enrichlayer.enable_proxycurl_compatibility()' to your existing code"
         )
         print("   2. Your existing proxycurl-py code will work unchanged")
         print("   3. Gradually migrate to the new enrichlayer syntax when convenient")

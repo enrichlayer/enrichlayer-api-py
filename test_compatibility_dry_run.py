@@ -14,7 +14,7 @@ def test_import_and_setup():
     print("🧪 Testing enrichlayer import and compatibility setup...")
 
     try:
-        import enrichlayer
+        import enrichlayer_client
 
         print("✅ EnrichLayer imported successfully")
 
@@ -44,8 +44,8 @@ def test_wrapper_creation():
     print("\n🧪 Testing wrapper class creation...")
 
     try:
-        from enrichlayer.asyncio import EnrichLayer
-        from enrichlayer.compat.monkey_patch import create_proxycurl_wrapper_class
+        from enrichlayer_client.asyncio import EnrichLayer
+        from enrichlayer_client.compat.monkey_patch import create_proxycurl_wrapper_class
 
         # Create wrapper class
         ProxycurlWrapper = create_proxycurl_wrapper_class(EnrichLayer)
@@ -88,7 +88,7 @@ def test_direct_enrichlayer_usage():
     print("\n🧪 Testing direct enrichlayer usage...")
 
     try:
-        from enrichlayer.asyncio import EnrichLayer
+        from enrichlayer_client.asyncio import EnrichLayer
 
         # Create instance
         enrichlayer = EnrichLayer(api_key="test-key")

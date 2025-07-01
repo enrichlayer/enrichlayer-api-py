@@ -5,28 +5,18 @@ This module provides the core functionality to patch the existing proxycurl-py
 package to use EnrichLayer backend instead of the original Proxycurl backend.
 """
 
+from __future__ import annotations
+
 import os
 import sys
 import warnings
 import functools
 import asyncio
-from typing import Any, Dict, Optional, Type
+from typing import Any, Optional
 
 
-# Try to import the actual ProxycurlException from proxycurl-py if available
-try:
-    from proxycurl.base import ProxycurlException
-except ImportError:
-    # Fall back to our own implementation if proxycurl-py is not installed
-    class ProxycurlException(Exception):  # type: ignore[no-redef]
-        """
-        Exception class that mimics proxycurl-py's ProxycurlException.
-
-        This is raised when the compatibility layer encounters errors from EnrichLayer
-        to maintain compatibility with existing proxycurl-py error handling.
-        """
-
-        pass
+# Import ProxycurlException from proxycurl-py (required for compatibility module)
+from proxycurl.base import ProxycurlException
 
 
 def error_mapping_decorator(func: Any) -> Any:
@@ -43,13 +33,13 @@ def error_mapping_decorator(func: Any) -> Any:
             return await func(*args, **kwargs)
         except Exception as e:
             # Import here to avoid circular imports
-            from enrichlayer.asyncio.base import (
+            from enrichlayer_client.asyncio.base import (
                 EnrichLayerException as AsyncEnrichLayerException,
             )
 
             # Try to import gevent implementation
             try:
-                from enrichlayer.gevent.base import (
+                from enrichlayer_client.gevent.base import (
                     EnrichLayerException as GeventEnrichLayerException,
                 )
             except ImportError:
@@ -57,7 +47,7 @@ def error_mapping_decorator(func: Any) -> Any:
 
             # Try to import twisted implementation
             try:
-                from enrichlayer.twisted.base import (
+                from enrichlayer_client.twisted.base import (
                     EnrichLayerException as TwistedEnrichLayerException,
                 )
             except ImportError:
@@ -85,7 +75,7 @@ def error_mapping_decorator(func: Any) -> Any:
             # Import here to avoid circular imports
             # Try to import gevent implementation
             try:
-                from enrichlayer.gevent.base import (
+                from enrichlayer_client.gevent.base import (
                     EnrichLayerException as GeventEnrichLayerException,
                 )
             except ImportError:
@@ -93,7 +83,7 @@ def error_mapping_decorator(func: Any) -> Any:
 
             # Try to import twisted implementation
             try:
-                from enrichlayer.twisted.base import (
+                from enrichlayer_client.twisted.base import (
                     EnrichLayerException as TwistedEnrichLayerException,
                 )
             except ImportError:
@@ -174,7 +164,7 @@ class LinkedinCompatibilityWrapper:
         return ErrorMappingWrapper(self._enrichlayer.customers)
 
 
-def create_proxycurl_wrapper_class(enrichlayer_class: Type[Any]) -> Type[Any]:
+def create_proxycurl_wrapper_class(enrichlayer_class: type[Any]) -> type[Any]:
     """
     Creates a Proxycurl wrapper class that uses EnrichLayer backend.
 
@@ -209,7 +199,7 @@ def create_proxycurl_wrapper_class(enrichlayer_class: Type[Any]) -> Type[Any]:
                 )
 
             # Initialize the EnrichLayer backend with only non-None values
-            init_kwargs: Dict[str, Any] = {"api_key": api_key}
+            init_kwargs: dict[str, Any] = {"api_key": api_key}
             if base_url is not None:
                 init_kwargs["base_url"] = base_url
             if timeout is not None:
@@ -237,7 +227,7 @@ def create_proxycurl_wrapper_class(enrichlayer_class: Type[Any]) -> Type[Any]:
 
 
 def patch_proxycurl_module(
-    module_name: str, enrichlayer_class: Type[Any], show_warnings: bool = False
+    module_name: str, enrichlayer_class: type[Any], show_warnings: bool = False
 ) -> None:
     """
     Patch a specific proxycurl module to use EnrichLayer backend.
@@ -307,9 +297,9 @@ def enable_proxycurl_compatibility(
     """
 
     # Import EnrichLayer classes - let source modules handle missing dependencies
-    from enrichlayer.asyncio import EnrichLayer as AsyncIOEnrichLayer
-    from enrichlayer.gevent import EnrichLayer as GeventEnrichLayer
-    from enrichlayer.twisted import EnrichLayer as TwistedEnrichLayer
+    from enrichlayer_client.asyncio import EnrichLayer as AsyncIOEnrichLayer
+    from enrichlayer_client.gevent import EnrichLayer as GeventEnrichLayer
+    from enrichlayer_client.twisted import EnrichLayer as TwistedEnrichLayer
 
     # Set default configuration if provided
     if api_key is not None:
@@ -357,9 +347,9 @@ def _setup_import_hooks(show_warnings: bool = False) -> None:
         # Check if we imported a proxycurl module that needs patching
         if name.startswith("proxycurl."):
             # Import EnrichLayer classes for patching
-            from enrichlayer.asyncio import EnrichLayer as AsyncIOEnrichLayer
-            from enrichlayer.gevent import EnrichLayer as GeventEnrichLayer
-            from enrichlayer.twisted import EnrichLayer as TwistedEnrichLayer
+            from enrichlayer_client.asyncio import EnrichLayer as AsyncIOEnrichLayer
+            from enrichlayer_client.gevent import EnrichLayer as GeventEnrichLayer
+            from enrichlayer_client.twisted import EnrichLayer as TwistedEnrichLayer
 
             if name == "proxycurl.asyncio":
                 patch_proxycurl_module(name, AsyncIOEnrichLayer, show_warnings)

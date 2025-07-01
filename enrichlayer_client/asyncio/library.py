@@ -1,13 +1,13 @@
 from typing import Awaitable
-from enrichlayer.config import (
+from enrichlayer_client.config import (
     BASE_URL,
     ENRICHLAYER_API_KEY,
     TIMEOUT,
     MAX_RETRIES,
     MAX_BACKOFF_SECONDS,
 )
-from enrichlayer.asyncio.base import EnrichLayerBase
-from enrichlayer.models import (
+from enrichlayer_client.asyncio.base import EnrichLayerBase
+from enrichlayer_client.models import (
     PersonEndpointResponse,
     PersonSearchResult,
     PersonLookupUrlEnrichResult,

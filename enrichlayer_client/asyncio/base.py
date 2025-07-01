@@ -2,7 +2,7 @@ import asyncio
 from asyncio.queues import QueueEmpty
 import aiohttp
 import json
-from enrichlayer.config import MAX_WORKERS
+from enrichlayer_client.config import MAX_WORKERS
 from dataclasses import dataclass
 from typing import Generic, TypeVar, List, Tuple, Callable, Dict
 import logging

@@ -1,5 +1,5 @@
 import asyncio
-from enrichlayer.asyncio import EnrichLayer, do_bulk
+from enrichlayer_client.asyncio import EnrichLayer, do_bulk
 import csv
 
 enrichlayer = EnrichLayer()

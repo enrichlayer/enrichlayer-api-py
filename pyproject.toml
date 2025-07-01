@@ -2,14 +2,14 @@
 name = "enrichlayer-api"
 version = "0.1.0.post2"
 description = ""
-authors = ["Enrich Layer <tech@enrichlayer.com>"]
+authors = ["Enrich Layer <support@enrichlayer.com>"]
 packages = [
-    { include = "enrichlayer" },
+    { include = "enrichlayer_client" },
 ]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.8"
 
 gevent = { version = "^22.10.2", optional = true }
 requests = { version = "^2.25.0", optional = true }

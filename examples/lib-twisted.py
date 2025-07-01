@@ -1,4 +1,4 @@
-from enrichlayer.twisted import EnrichLayer, do_bulk
+from enrichlayer_client.twisted import EnrichLayer, do_bulk
 from twisted.internet import reactor
 from twisted.internet.defer import inlineCallbacks
 import csv

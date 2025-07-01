@@ -1,6 +1,6 @@
 from twisted.internet import defer, reactor
 from twisted.internet.defer import Deferred, inlineCallbacks
-from enrichlayer.config import MAX_WORKERS
+from enrichlayer_client.config import MAX_WORKERS
 import treq
 from dataclasses import dataclass
 from typing import Generic, TypeVar, List, Tuple, Callable, Dict

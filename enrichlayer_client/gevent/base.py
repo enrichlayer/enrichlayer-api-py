@@ -3,7 +3,7 @@ from gevent import monkey
 
 monkey.patch_all()
 from gevent.queue import Empty, Queue
-from enrichlayer.config import MAX_WORKERS
+from enrichlayer_client.config import MAX_WORKERS
 import requests
 from dataclasses import dataclass
 from typing import Generic, TypeVar, List, Tuple, Callable, Dict

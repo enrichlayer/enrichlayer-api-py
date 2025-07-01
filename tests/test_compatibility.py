@@ -24,15 +24,15 @@ class TestProxycurlCompatibility(unittest.TestCase):
 
     def test_enable_compatibility_function_exists(self):
         """Test that enable_proxycurl_compatibility function is accessible."""
-        import enrichlayer
+        import enrichlayer_client
 
         self.assertTrue(hasattr(enrichlayer, "enable_proxycurl_compatibility"))
         self.assertTrue(callable(enrichlayer.enable_proxycurl_compatibility))
 
     def test_compatibility_wrapper_class_creation(self):
         """Test that wrapper classes are created correctly."""
-        from enrichlayer.compat.monkey_patch import create_proxycurl_wrapper_class
-        from enrichlayer.asyncio import EnrichLayer
+        from enrichlayer_client.compat.monkey_patch import create_proxycurl_wrapper_class
+        from enrichlayer_client.asyncio import EnrichLayer
 
         # Create wrapper class
         WrapperClass = create_proxycurl_wrapper_class(EnrichLayer)
@@ -47,7 +47,7 @@ class TestProxycurlCompatibility(unittest.TestCase):
 
     def test_linkedin_wrapper_provides_correct_interface(self):
         """Test that LinkedinCompatibilityWrapper provides the right interface."""
-        from enrichlayer.compat.monkey_patch import LinkedinCompatibilityWrapper
+        from enrichlayer_client.compat.monkey_patch import LinkedinCompatibilityWrapper
 
         # Create mock enrichlayer instance
         mock_enrichlayer = Mock()
@@ -77,8 +77,8 @@ class TestProxycurlCompatibility(unittest.TestCase):
     def test_environment_variable_handling(self):
         """Test that PROXYCURL_API_KEY is handled correctly."""
         with patch.dict("os.environ", {"PROXYCURL_API_KEY": "test-key"}, clear=True):
-            from enrichlayer.compat.monkey_patch import create_proxycurl_wrapper_class
-            from enrichlayer.asyncio import EnrichLayer
+            from enrichlayer_client.compat.monkey_patch import create_proxycurl_wrapper_class
+            from enrichlayer_client.asyncio import EnrichLayer
 
             WrapperClass = create_proxycurl_wrapper_class(EnrichLayer)
 
@@ -94,8 +94,8 @@ class TestProxycurlCompatibility(unittest.TestCase):
     @patch("sys.modules")
     def test_module_patching(self, mock_modules):
         """Test that module patching works correctly."""
-        from enrichlayer.compat.monkey_patch import patch_proxycurl_module
-        from enrichlayer.asyncio import EnrichLayer
+        from enrichlayer_client.compat.monkey_patch import patch_proxycurl_module
+        from enrichlayer_client.asyncio import EnrichLayer
 
         # Create mock module with Proxycurl class
         mock_module = Mock()
@@ -119,7 +119,7 @@ class TestProxycurlCompatibility(unittest.TestCase):
             with patch(
                 "enrichlayer.compat.monkey_patch.patch_proxycurl_module"
             ) as mock_patch:
-                import enrichlayer
+                import enrichlayer_client
 
                 # Call with parameters
                 enrichlayer.enable_proxycurl_compatibility(

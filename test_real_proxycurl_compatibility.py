@@ -94,7 +94,7 @@ async def test_proxycurl_asyncio_compatibility(api_key: str):
         print("✅ proxycurl.asyncio imported")
 
         print("\n📦 Step 2: Import enrichlayer and enable compatibility")
-        import enrichlayer
+        import enrichlayer_client
 
         print("✅ EnrichLayer imported")
 
@@ -155,7 +155,7 @@ async def test_proxycurl_gevent_compatibility(api_key: str):
         print("✅ proxycurl.gevent imported")
 
         print("\n📦 Step 2: Import enrichlayer and enable compatibility")
-        import enrichlayer
+        import enrichlayer_client
 
         print("✅ EnrichLayer imported")
 
@@ -203,7 +203,7 @@ async def test_proxycurl_twisted_compatibility(api_key: str):
         print("✅ proxycurl.twisted imported")
 
         print("\n📦 Step 2: Import enrichlayer and enable compatibility")
-        import enrichlayer
+        import enrichlayer_client
 
         print("✅ EnrichLayer imported")
 
@@ -265,7 +265,7 @@ async def test_before_after_comparison(api_key: str):
         print(f"✅ Original module: {type(original_api).__module__}")
 
         print("\n📦 Step 2: Apply monkey patch")
-        import enrichlayer
+        import enrichlayer_client
 
         enrichlayer.enable_proxycurl_compatibility(api_key=api_key)
         print("✅ Monkey patch applied")
@@ -362,7 +362,7 @@ async def main():
         print("   with the real proxycurl-py package!")
         print("\n🔄 Usage pattern:")
         print("   import proxycurl")
-        print("   import enrichlayer")
+        print("   import enrichlayer_client")
         print("   enrichlayer.enable_proxycurl_compatibility()")
         print("   # Now use proxycurl normally - it uses EnrichLayer backend!")
     else:

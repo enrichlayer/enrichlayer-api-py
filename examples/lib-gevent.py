@@ -1,4 +1,4 @@
-from enrichlayer.gevent import EnrichLayer, do_bulk
+from enrichlayer_client.gevent import EnrichLayer, do_bulk
 import csv
 
 enrichlayer = EnrichLayer()

@@ -1,12 +1,14 @@
-from enrichlayer.config import (
+from twisted.internet import defer
+from twisted.internet.defer import Deferred, inlineCallbacks
+from enrichlayer_client.config import (
     BASE_URL,
     ENRICHLAYER_API_KEY,
     TIMEOUT,
     MAX_RETRIES,
     MAX_BACKOFF_SECONDS,
 )
-from enrichlayer.gevent.base import EnrichLayerBase
-from enrichlayer.models import (
+from enrichlayer_client.twisted.base import EnrichLayerBase
+from enrichlayer_client.models import (
     PersonEndpointResponse,
     PersonSearchResult,
     PersonLookupUrlEnrichResult,
@@ -36,6 +38,7 @@ class _Person:
     def __init__(self, enrichlayer):
         self.enrichlayer = enrichlayer
 
+    @inlineCallbacks
     def get(
         self,
         extra: str = None,
@@ -51,7 +54,7 @@ class _Person:
         twitter_profile_url: str = None,
         facebook_profile_url: str = None,
         linkedin_profile_url: str = None,
-    ) -> PersonEndpointResponse:
+    ) -> Deferred:
         """Person Profile Endpoint
 
                 Cost: 1 credit / successful request.
@@ -145,9 +148,9 @@ class _Person:
 
             yes (Include only one of: `linkedin_profile_url`, `twitter_profile_url`, or `facebook_profile_url`)
         :type linkedin_profile_url: str
-        :return: An object of :class:`proxycurl.models.PersonEndpointResponse` or **None** if there is an error.
-        :rtype: :class:`proxycurl.models.PersonEndpointResponse`
-        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
+        :return: An object of Deferred or **None** if there is an error.
+        :rtype: Deferred
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -178,14 +181,16 @@ class _Person:
         if linkedin_profile_url is not None:
             params["linkedin_profile_url"] = linkedin_profile_url
 
-        return self.enrichlayer.request(
+        resp = yield self.enrichlayer.request(
             method="GET",
             url="/profile",
             params=params,
             data={},
             result_class=PersonEndpointResponse,
         )
+        defer.returnValue(resp)
 
+    @inlineCallbacks
     def search(
         self,
         country: str = None,
@@ -235,7 +240,7 @@ class _Person:
         page_size: str = None,
         enrich_profiles: str = None,
         after: str = None,
-    ) -> PersonSearchResult:
+    ) -> Deferred:
         """Person Search Endpoint
 
                 Cost: 35 credits / successful request base charge.
@@ -447,9 +452,9 @@ class _Person:
 
             Calling this API endpoint with this parameter would add `1` credit per result returned.
         :type enrich_profiles: str
-        :return: An object of :class:`proxycurl.models.PersonSearchResult` or **None** if there is an error.
-        :rtype: :class:`proxycurl.models.PersonSearchResult`
-        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
+        :return: An object of Deferred or **None** if there is an error.
+        :rtype: Deferred
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -574,14 +579,16 @@ class _Person:
         if after is not None:
             params["after"] = after
 
-        return self.enrichlayer.request(
+        resp = yield self.enrichlayer.request(
             method="GET",
             url="/search/person",
             params=params,
             data={},
             result_class=PersonSearchResult,
         )
+        defer.returnValue(resp)
 
+    @inlineCallbacks
     def resolve(
         self,
         first_name: str,
@@ -591,7 +598,7 @@ class _Person:
         location: str = None,
         title: str = None,
         last_name: str = None,
-    ) -> PersonLookupUrlEnrichResult:
+    ) -> Deferred:
         """Person Lookup Endpoint
 
                 Cost: 2 credits / successful request.
@@ -645,9 +652,9 @@ class _Person:
         :type title: str
         :param last_name: Last name of the user
         :type last_name: str
-        :return: An object of :class:`proxycurl.models.PersonLookupUrlEnrichResult` or **None** if there is an error.
-        :rtype: :class:`proxycurl.models.PersonLookupUrlEnrichResult`
-        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
+        :return: An object of Deferred or **None** if there is an error.
+        :rtype: Deferred
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -664,20 +671,22 @@ class _Person:
         if last_name is not None:
             params["last_name"] = last_name
 
-        return self.enrichlayer.request(
+        resp = yield self.enrichlayer.request(
             method="GET",
             url="/profile/resolve",
             params=params,
             data={},
             result_class=PersonLookupUrlEnrichResult,
         )
+        defer.returnValue(resp)
 
+    @inlineCallbacks
     def resolve_by_email(
         self,
         email: str,
         lookup_depth: str,
         enrich_profile: str = None,
-    ) -> ReverseEmailUrlEnrichResult:
+    ) -> Deferred:
         """Reverse Email Lookup Endpoint
 
                 Cost: 3 credits / successful request.
@@ -708,9 +717,9 @@ class _Person:
 
             If you require [fresh profile data](https://enrichlayer.com/blog/how-fresh-are-profiles-returned-by-enrichlayer-api/),  please chain this API call with the `linkedin_profile_url` result with the [Person Profile Endpoint](https://enrichlayer.com/docs/pc#people-api-person-profile-endpoint) with the `use_cache=if-recent` parameter.
         :type enrich_profile: str
-        :return: An object of :class:`proxycurl.models.ReverseEmailUrlEnrichResult` or **None** if there is an error.
-        :rtype: :class:`proxycurl.models.ReverseEmailUrlEnrichResult`
-        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
+        :return: An object of Deferred or **None** if there is an error.
+        :rtype: Deferred
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -719,18 +728,20 @@ class _Person:
         if enrich_profile is not None:
             params["enrich_profile"] = enrich_profile
 
-        return self.enrichlayer.request(
+        resp = yield self.enrichlayer.request(
             method="GET",
             url="/profile/resolve/email",
             params=params,
             data={},
             result_class=ReverseEmailUrlEnrichResult,
         )
+        defer.returnValue(resp)
 
+    @inlineCallbacks
     def resolve_by_phone(
         self,
         phone_number: str,
-    ) -> ReverseContactNumberResult:
+    ) -> Deferred:
         """Reverse Contact Number Lookup Endpoint
 
                 Cost: 3 credits / successful request.
@@ -738,27 +749,29 @@ class _Person:
 
         :param phone_number: [E.164 formatted](https://www.twilio.com/docs/glossary/what-e164) phone number of the person you want to identify social media profiles of.
         :type phone_number: str
-        :return: An object of :class:`proxycurl.models.ReverseContactNumberResult` or **None** if there is an error.
-        :rtype: :class:`proxycurl.models.ReverseContactNumberResult`
-        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
+        :return: An object of Deferred or **None** if there is an error.
+        :rtype: Deferred
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
         params["phone_number"] = phone_number
 
-        return self.enrichlayer.request(
+        resp = yield self.enrichlayer.request(
             method="GET",
             url="/resolve/phone",
             params=params,
             data={},
             result_class=ReverseContactNumberResult,
         )
+        defer.returnValue(resp)
 
+    @inlineCallbacks
     def lookup_email(
         self,
         linkedin_profile_url: str,
         callback_url: str = None,
-    ) -> ExtractionEmailResult:
+    ) -> Deferred:
         """Work Email Lookup Endpoint
 
                 Cost: 3 credits / request.
@@ -780,9 +793,9 @@ class _Person:
         :param callback_url: Webhook to notify your application when
             the request has finished processing.
         :type callback_url: str
-        :return: An object of :class:`proxycurl.models.ExtractionEmailResult` or **None** if there is an error.
-        :rtype: :class:`proxycurl.models.ExtractionEmailResult`
-        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
+        :return: An object of Deferred or **None** if there is an error.
+        :rtype: Deferred
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -790,21 +803,23 @@ class _Person:
         if callback_url is not None:
             params["callback_url"] = callback_url
 
-        return self.enrichlayer.request(
+        resp = yield self.enrichlayer.request(
             method="GET",
             url="/profile/email",
             params=params,
             data={},
             result_class=ExtractionEmailResult,
         )
+        defer.returnValue(resp)
 
+    @inlineCallbacks
     def personal_contact(
         self,
         page_size: str = None,
         twitter_profile_url: str = None,
         facebook_profile_url: str = None,
         linkedin_profile_url: str = None,
-    ) -> PersonalContactNumbers:
+    ) -> Deferred:
         """Personal Contact Number Lookup Endpoint
 
                 Cost: 1 credit / contact number returned.
@@ -836,9 +851,9 @@ class _Person:
             Yes (Include only one of: `linkedin_profile_url`,
             `twitter_profile_url`, or `facebook_profile_url`)
         :type linkedin_profile_url: str
-        :return: An object of :class:`proxycurl.models.PersonalContactNumbers` or **None** if there is an error.
-        :rtype: :class:`proxycurl.models.PersonalContactNumbers`
-        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
+        :return: An object of Deferred or **None** if there is an error.
+        :rtype: Deferred
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -851,14 +866,16 @@ class _Person:
         if linkedin_profile_url is not None:
             params["linkedin_profile_url"] = linkedin_profile_url
 
-        return self.enrichlayer.request(
+        resp = yield self.enrichlayer.request(
             method="GET",
             url="/contact-api/personal-contact",
             params=params,
             data={},
             result_class=PersonalContactNumbers,
         )
+        defer.returnValue(resp)
 
+    @inlineCallbacks
     def personal_email(
         self,
         email_validation: str = None,
@@ -866,7 +883,7 @@ class _Person:
         twitter_profile_url: str = None,
         facebook_profile_url: str = None,
         linkedin_profile_url: str = None,
-    ) -> PDLEmailResult:
+    ) -> Deferred:
         """Personal Email Lookup Endpoint
 
                 Cost: 1 credit / email returned.
@@ -894,9 +911,9 @@ class _Person:
         :param linkedin_profile_url: The LinkedIn Profile URL from which you wish to extract personal email addresses.
             yes (Include only one of: `linkedin_profile_url`, `twitter_profile_url`, or `facebook_profile_url`)
         :type linkedin_profile_url: str
-        :return: An object of :class:`proxycurl.models.PDLEmailResult` or **None** if there is an error.
-        :rtype: :class:`proxycurl.models.PDLEmailResult`
-        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
+        :return: An object of Deferred or **None** if there is an error.
+        :rtype: Deferred
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -911,18 +928,20 @@ class _Person:
         if linkedin_profile_url is not None:
             params["linkedin_profile_url"] = linkedin_profile_url
 
-        return self.enrichlayer.request(
+        resp = yield self.enrichlayer.request(
             method="GET",
             url="/contact-api/personal-email",
             params=params,
             data={},
             result_class=PDLEmailResult,
         )
+        defer.returnValue(resp)
 
+    @inlineCallbacks
     def profile_picture(
         self,
         linkedin_person_profile_url: str,
-    ) -> ProfilePicture:
+    ) -> Deferred:
         """Person Profile Picture Endpoint
 
                 Cost: 0 credit / successful request.
@@ -933,27 +952,29 @@ class _Person:
 
         :param linkedin_person_profile_url: LinkedIn Profile URL of the person that you are trying to get the profile picture of.
         :type linkedin_person_profile_url: str
-        :return: An object of :class:`proxycurl.models.ProfilePicture` or **None** if there is an error.
-        :rtype: :class:`proxycurl.models.ProfilePicture`
-        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
+        :return: An object of Deferred or **None** if there is an error.
+        :rtype: Deferred
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
         params["linkedin_person_profile_url"] = linkedin_person_profile_url
 
-        return self.enrichlayer.request(
+        resp = yield self.enrichlayer.request(
             method="GET",
             url="/person/profile-picture",
             params=params,
             data={},
             result_class=ProfilePicture,
         )
+        defer.returnValue(resp)
 
 
 class _Company:
     def __init__(self, enrichlayer):
         self.enrichlayer = enrichlayer
 
+    @inlineCallbacks
     def get(
         self,
         url: str,
@@ -964,7 +985,7 @@ class _Company:
         exit_data: str = None,
         acquisitions: str = None,
         use_cache: str = None,
-    ) -> Company:
+    ) -> Deferred:
         """Company Profile Endpoint
 
                 Cost: 1 credit / successful request.
@@ -1013,9 +1034,9 @@ class _Company:
 
             `if-recent` API will make a best effort to return a fresh profile no older than 29 days.Costs an extra `1` credit on top of the cost of the base endpoint.
         :type use_cache: str
-        :return: An object of :class:`enrichlayer.models.Company` or **None** if there is an error.
-        :rtype: :class:`enrichlayer.models.Company`
-        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
+        :return: An object of Deferred or **None** if there is an error.
+        :rtype: Deferred
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -1035,10 +1056,12 @@ class _Company:
         if use_cache is not None:
             params["use_cache"] = use_cache
 
-        return self.enrichlayer.request(
+        resp = yield self.enrichlayer.request(
             method="GET", url="/company", params=params, data={}, result_class=Company
         )
+        defer.returnValue(resp)
 
+    @inlineCallbacks
     def search(
         self,
         public_identifier_not_in_list: str = None,
@@ -1063,7 +1086,7 @@ class _Company:
         region: str = None,
         country: str = None,
         after: str = None,
-    ) -> CompanySearchResult:
+    ) -> Deferred:
         """Company Search Endpoint
 
                 Cost: 35 credits / successful request base charge.
@@ -1158,9 +1181,9 @@ class _Company:
 
             This parameter accepts a case-insensitive [Alpha-2 ISO3166 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).
         :type country: str
-        :return: An object of :class:`proxycurl.models.CompanySearchResult` or **None** if there is an error.
-        :rtype: :class:`proxycurl.models.CompanySearchResult`
-        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
+        :return: An object of Deferred or **None** if there is an error.
+        :rtype: Deferred
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -1209,21 +1232,23 @@ class _Company:
         if after is not None:
             params["after"] = after
 
-        return self.enrichlayer.request(
+        resp = yield self.enrichlayer.request(
             method="GET",
             url="/search/company",
             params=params,
             data={},
             result_class=CompanySearchResult,
         )
+        defer.returnValue(resp)
 
+    @inlineCallbacks
     def resolve(
         self,
         company_location: str = None,
         company_domain: str = None,
         company_name: str = None,
         enrich_profile: str = None,
-    ) -> CompanyUrlEnrichResult:
+    ) -> Deferred:
         """Company Lookup Endpoint
 
                 Cost: 2 credits / successful request.
@@ -1251,9 +1276,9 @@ class _Company:
             If you require [fresh profile data](https://enrichlayer.com/blog/how-fresh-are-profiles-returned-by-enrichlayer-api/),
             please chain this API call with the [Company Profile Endpoint](https://enrichlayer.com/docs/pc#company-api-company-profile-endpoint) with the `use_cache=if-recent` parameter.
         :type enrich_profile: str
-        :return: An object of :class:`proxycurl.models.CompanyUrlEnrichResult` or **None** if there is an error.
-        :rtype: :class:`proxycurl.models.CompanyUrlEnrichResult`
-        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
+        :return: An object of Deferred or **None** if there is an error.
+        :rtype: Deferred
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -1266,14 +1291,16 @@ class _Company:
         if enrich_profile is not None:
             params["enrich_profile"] = enrich_profile
 
-        return self.enrichlayer.request(
+        resp = yield self.enrichlayer.request(
             method="GET",
             url="/company/resolve",
             params=params,
             data={},
             result_class=CompanyUrlEnrichResult,
         )
+        defer.returnValue(resp)
 
+    @inlineCallbacks
     def find_job(
         self,
         job_type: str = None,
@@ -1283,7 +1310,7 @@ class _Company:
         geo_id: str = None,
         keyword: str = None,
         search_id: str = None,
-    ) -> JobListPage:
+    ) -> Deferred:
         """Job Search Endpoint
 
                 Cost: 2 credits / successful request.
@@ -1333,9 +1360,9 @@ class _Company:
             You can get the `search_id` of a LinkedIn company via
             [Company Profile API](#company-api-company-profile-endpoint).
         :type search_id: str
-        :return: An object of :class:`proxycurl.models.JobListPage` or **None** if there is an error.
-        :rtype: :class:`proxycurl.models.JobListPage`
-        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
+        :return: An object of Deferred or **None** if there is an error.
+        :rtype: Deferred
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -1354,14 +1381,16 @@ class _Company:
         if search_id is not None:
             params["search_id"] = search_id
 
-        return self.enrichlayer.request(
+        resp = yield self.enrichlayer.request(
             method="GET",
             url="/company/job",
             params=params,
             data={},
             result_class=JobListPage,
         )
+        defer.returnValue(resp)
 
+    @inlineCallbacks
     def job_count(
         self,
         job_type: str = None,
@@ -1371,7 +1400,7 @@ class _Company:
         geo_id: str = None,
         keyword: str = None,
         search_id: str = None,
-    ) -> JobListCount:
+    ) -> Deferred:
         """Jobs Listing Count Endpoint
 
                 Cost: 2 credits / successful request.
@@ -1421,9 +1450,9 @@ class _Company:
             You can get the `search_id` of a LinkedIn company via
             [Company Profile API](#company-api-company-profile-endpoint).
         :type search_id: str
-        :return: An object of :class:`proxycurl.models.JobListCount` or **None** if there is an error.
-        :rtype: :class:`proxycurl.models.JobListCount`
-        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
+        :return: An object of Deferred or **None** if there is an error.
+        :rtype: Deferred
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -1442,21 +1471,23 @@ class _Company:
         if search_id is not None:
             params["search_id"] = search_id
 
-        return self.enrichlayer.request(
+        resp = yield self.enrichlayer.request(
             method="GET",
             url="/company/job/count",
             params=params,
             data={},
             result_class=JobListCount,
         )
+        defer.returnValue(resp)
 
+    @inlineCallbacks
     def employee_count(
         self,
         url: str,
         use_cache: str = None,
         linkedin_employee_count: str = None,
         employment_status: str = None,
-    ) -> EmployeeCount:
+    ) -> Deferred:
         """Employee Count Endpoint
 
                 Cost: 1 credit / successful request.
@@ -1489,9 +1520,9 @@ class _Company:
             * `past` : count past employees
             * `all` : count current & past employees
         :type employment_status: str
-        :return: An object of :class:`proxycurl.models.EmployeeCount` or **None** if there is an error.
-        :rtype: :class:`proxycurl.models.EmployeeCount`
-        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
+        :return: An object of Deferred or **None** if there is an error.
+        :rtype: Deferred
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -1503,14 +1534,16 @@ class _Company:
         if employment_status is not None:
             params["employment_status"] = employment_status
 
-        return self.enrichlayer.request(
+        resp = yield self.enrichlayer.request(
             method="GET",
             url="/company/employees/count",
             params=params,
             data={},
             result_class=EmployeeCount,
         )
+        defer.returnValue(resp)
 
+    @inlineCallbacks
     def employee_list(
         self,
         url: str,
@@ -1522,7 +1555,7 @@ class _Company:
         sort_by: str = None,
         resolve_numeric_id: str = None,
         after: str = None,
-    ) -> EmployeeList:
+    ) -> Deferred:
         """Employee Listing Endpoint
 
                 Cost: 3 credits / employee returned.
@@ -1592,9 +1625,9 @@ class _Company:
             - `true` - Enable support for Company Profile URLs with numerical IDs.
             Costs an extra `2` credit on top of the base cost of the endpoint.
         :type resolve_numeric_id: str
-        :return: An object of :class:`proxycurl.models.EmployeeList` or **None** if there is an error.
-        :rtype: :class:`proxycurl.models.EmployeeList`
-        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
+        :return: An object of Deferred or **None** if there is an error.
+        :rtype: Deferred
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -1616,14 +1649,16 @@ class _Company:
         if after is not None:
             params["after"] = after
 
-        return self.enrichlayer.request(
+        resp = yield self.enrichlayer.request(
             method="GET",
             url="/company/employees",
             params=params,
             data={},
             result_class=EmployeeList,
         )
+        defer.returnValue(resp)
 
+    @inlineCallbacks
     def employee_search(
         self,
         keyword_regex: str,
@@ -1633,7 +1668,7 @@ class _Company:
         enrich_profiles: str = None,
         resolve_numeric_id: str = None,
         after: str = None,
-    ) -> EmployeeList:
+    ) -> Deferred:
         """Employee Search Endpoint
 
                 Cost: 10 credits / successful request.
@@ -1680,9 +1715,9 @@ class _Company:
             - `true` - Enable support for Company Profile URLs with numerical IDs.
             Costs an extra `2` credit on top of the base cost of the endpoint.
         :type resolve_numeric_id: str
-        :return: An object of :class:`proxycurl.models.EmployeeList` or **None** if there is an error.
-        :rtype: :class:`proxycurl.models.EmployeeList`
-        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
+        :return: An object of Deferred or **None** if there is an error.
+        :rtype: Deferred
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -1699,20 +1734,22 @@ class _Company:
         if after is not None:
             params["after"] = after
 
-        return self.enrichlayer.request(
+        resp = yield self.enrichlayer.request(
             method="GET",
             url="/company/employee/search",
             params=params,
             data={},
             result_class=EmployeeList,
         )
+        defer.returnValue(resp)
 
+    @inlineCallbacks
     def role_lookup(
         self,
         company_name: str,
         role: str,
         enrich_profile: str = None,
-    ) -> RoleSearchEnrichedResult:
+    ) -> Deferred:
         """Role Lookup Endpoint
 
                 Cost: 3 credits / successful request.
@@ -1741,9 +1778,9 @@ class _Company:
             If you require [fresh profile data](https://enrichlayer.com/blog/how-fresh-are-profiles-returned-by-enrichlayer-api/),
             please chain this API call with the [Person Profile Endpoint](#people-api-person-profile-endpoint) with the `use_cache=if-recent` parameter.
         :type enrich_profile: str
-        :return: An object of :class:`proxycurl.models.RoleSearchEnrichedResult` or **None** if there is an error.
-        :rtype: :class:`proxycurl.models.RoleSearchEnrichedResult`
-        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
+        :return: An object of Deferred or **None** if there is an error.
+        :rtype: Deferred
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -1752,18 +1789,20 @@ class _Company:
         if enrich_profile is not None:
             params["enrich_profile"] = enrich_profile
 
-        return self.enrichlayer.request(
+        resp = yield self.enrichlayer.request(
             method="GET",
             url="/find/company/role",
             params=params,
             data={},
             result_class=RoleSearchEnrichedResult,
         )
+        defer.returnValue(resp)
 
+    @inlineCallbacks
     def profile_picture(
         self,
         linkedin_company_profile_url: str,
-    ) -> ProfilePicture:
+    ) -> Deferred:
         """Company Profile Picture Endpoint
 
                 Cost: 0 credit / successful request.
@@ -1774,32 +1813,34 @@ class _Company:
 
         :param linkedin_company_profile_url: LinkedIn Profile URL of the company that you are trying to get the profile picture of.
         :type linkedin_company_profile_url: str
-        :return: An object of :class:`proxycurl.models.ProfilePicture` or **None** if there is an error.
-        :rtype: :class:`proxycurl.models.ProfilePicture`
-        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
+        :return: An object of Deferred or **None** if there is an error.
+        :rtype: Deferred
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
         params["linkedin_company_profile_url"] = linkedin_company_profile_url
 
-        return self.enrichlayer.request(
+        resp = yield self.enrichlayer.request(
             method="GET",
             url="/company/profile-picture",
             params=params,
             data={},
             result_class=ProfilePicture,
         )
+        defer.returnValue(resp)
 
 
 class _School:
     def __init__(self, enrichlayer):
         self.enrichlayer = enrichlayer
 
+    @inlineCallbacks
     def get(
         self,
         url: str,
         use_cache: str = None,
-    ) -> School:
+    ) -> Deferred:
         """School Profile Endpoint
 
                 Cost: 1 credit / successful request.
@@ -1813,9 +1854,9 @@ class _School:
 
             `if-recent` API will make a best effort to return a fresh profile no older than 29 days.Costs an extra `1` credit on top of the cost of the base endpoint.
         :type use_cache: str
-        :return: An object of :class:`enrichlayer.models.School` or **None** if there is an error.
-        :rtype: :class:`enrichlayer.models.School`
-        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
+        :return: An object of Deferred or **None** if there is an error.
+        :rtype: Deferred
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -1823,10 +1864,12 @@ class _School:
         if use_cache is not None:
             params["use_cache"] = use_cache
 
-        return self.enrichlayer.request(
+        resp = yield self.enrichlayer.request(
             method="GET", url="/school", params=params, data={}, result_class=School
         )
+        defer.returnValue(resp)
 
+    @inlineCallbacks
     def student_list(
         self,
         linkedin_school_url: str,
@@ -1837,7 +1880,7 @@ class _School:
         student_status: str = None,
         sort_by: str = None,
         resolve_numeric_id: str = None,
-    ) -> StudentList:
+    ) -> Deferred:
         """Student Listing Endpoint
 
                 Cost: 3 credits / student returned.
@@ -1907,9 +1950,9 @@ class _School:
             - `true` - Enable support for School Profile URLs with numerical IDs.
             Costs an extra `2` credit on top of the base cost of the endpoint.
         :type resolve_numeric_id: str
-        :return: An object of :class:`proxycurl.models.StudentList` or **None** if there is an error.
-        :rtype: :class:`proxycurl.models.StudentList`
-        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
+        :return: An object of Deferred or **None** if there is an error.
+        :rtype: Deferred
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -1929,23 +1972,25 @@ class _School:
         if resolve_numeric_id is not None:
             params["resolve_numeric_id"] = resolve_numeric_id
 
-        return self.enrichlayer.request(
+        resp = yield self.enrichlayer.request(
             method="GET",
             url="/school/students",
             params=params,
             data={},
             result_class=StudentList,
         )
+        defer.returnValue(resp)
 
 
 class _Job:
     def __init__(self, enrichlayer):
         self.enrichlayer = enrichlayer
 
+    @inlineCallbacks
     def get(
         self,
         url: str,
-    ) -> JobProfile:
+    ) -> Deferred:
         """Job Profile Endpoint
 
                 Cost: 2 credits / successful request.
@@ -1958,30 +2003,32 @@ class _Job:
             [Jobs Listing Endpoint](#jobs-api-jobs-listing-endpoint)
             can be used to retrieve a job URL.
         :type url: str
-        :return: An object of :class:`proxycurl.models.JobProfile` or **None** if there is an error.
-        :rtype: :class:`proxycurl.models.JobProfile`
-        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
+        :return: An object of Deferred or **None** if there is an error.
+        :rtype: Deferred
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
         params["url"] = url
 
-        return self.enrichlayer.request(
+        resp = yield self.enrichlayer.request(
             method="GET", url="/job", params=params, data={}, result_class=JobProfile
         )
+        defer.returnValue(resp)
 
 
 class _Customers:
     def __init__(self, enrichlayer):
         self.enrichlayer = enrichlayer
 
+    @inlineCallbacks
     def listing(
         self,
         linkedin_company_profile_url: str = None,
         twitter_profile_url: str = None,
         page_size: str = None,
         after: str = None,
-    ) -> CustomerList:
+    ) -> Deferred:
         """Customer Listing Endpoint
 
                 Cost: 10 credits / result for users on an annual subscription or Enterprise plan.
@@ -2007,9 +2054,9 @@ class _Customers:
 
             Accepted values for this parameter is an integer ranging from 0 to 1000.
         :type page_size: str
-        :return: An object of :class:`proxycurl.models.CustomerList` or **None** if there is an error.
-        :rtype: :class:`proxycurl.models.CustomerList`
-        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
+        :return: An object of Deferred or **None** if there is an error.
+        :rtype: Deferred
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
@@ -2022,13 +2069,14 @@ class _Customers:
         if after is not None:
             params["after"] = after
 
-        return self.enrichlayer.request(
+        resp = yield self.enrichlayer.request(
             method="GET",
             url="/customers",
             params=params,
             data={},
             result_class=CustomerList,
         )
+        defer.returnValue(resp)
 
 
 class EnrichLayer(EnrichLayerBase):
@@ -2057,25 +2105,27 @@ class EnrichLayer(EnrichLayerBase):
         self.job = _Job(self)
         self.customers = _Customers(self)
 
+    @inlineCallbacks
     def get_balance(
         self,
-    ) -> CreditBalance:
+    ) -> Deferred:
         """View Credit Balance Endpoint
 
                 Cost: 0 credit / successful request.
         Get your current credit(s) balance
 
-        :return: An object of :class:`proxycurl.models.CreditBalance` or **None** if there is an error.
-        :rtype: :class:`proxycurl.models.CreditBalance`
-        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
+        :return: An object of Deferred or **None** if there is an error.
+        :rtype: Deferred
+        :raise EnrichLayerException: Every error will raise a :class:`proxycurl.twisted.EnrichLayerException`
 
         """
         params = {}
 
-        return self.request(
+        resp = yield self.request(
             method="GET",
             url="/credit-balance",
             params=params,
             data={},
             result_class=CreditBalance,
         )
+        defer.returnValue(resp)
