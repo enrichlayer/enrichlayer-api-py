@@ -13,66 +13,106 @@ import asyncio
 from typing import Any, Dict, Optional, Type
 
 
-class ProxycurlException(Exception):
-    """
-    Exception class that mimics proxycurl-py's ProxycurlException.
-    
-    This is raised when the compatibility layer encounters errors from EnrichLayer
-    to maintain compatibility with existing proxycurl-py error handling.
-    """
-    pass
+# Try to import the actual ProxycurlException from proxycurl-py if available
+try:
+    from proxycurl.base import ProxycurlException
+except ImportError:
+    # Fall back to our own implementation if proxycurl-py is not installed
+    class ProxycurlException(Exception):  # type: ignore[no-redef]
+        """
+        Exception class that mimics proxycurl-py's ProxycurlException.
+
+        This is raised when the compatibility layer encounters errors from EnrichLayer
+        to maintain compatibility with existing proxycurl-py error handling.
+        """
+
+        pass
 
 
 def error_mapping_decorator(func: Any) -> Any:
     """
     Decorator that catches EnrichLayerException and re-raises as ProxycurlException.
-    
+
     This ensures that users of the compatibility layer see proxycurl-style errors
     instead of enrichlayer-specific errors.
     """
+
     @functools.wraps(func)
     async def async_wrapper(*args, **kwargs):
         try:
             return await func(*args, **kwargs)
         except Exception as e:
             # Import here to avoid circular imports
-            from enrichlayer.asyncio.base import EnrichLayerException as AsyncEnrichLayerException
+            from enrichlayer.asyncio.base import (
+                EnrichLayerException as AsyncEnrichLayerException,
+            )
+
+            # Try to import gevent implementation
             try:
-                from enrichlayer.gevent.base import EnrichLayerException as GeventEnrichLayerException
-                from enrichlayer.twisted.base import EnrichLayerException as TwistedEnrichLayerException
+                from enrichlayer.gevent.base import (
+                    EnrichLayerException as GeventEnrichLayerException,
+                )
             except ImportError:
-                GeventEnrichLayerException = type(None)
-                TwistedEnrichLayerException = type(None)
-            
+                GeventEnrichLayerException = None  # type: ignore
+
+            # Try to import twisted implementation
+            try:
+                from enrichlayer.twisted.base import (
+                    EnrichLayerException as TwistedEnrichLayerException,
+                )
+            except ImportError:
+                TwistedEnrichLayerException = None  # type: ignore
+
             # Check if this is an EnrichLayer exception from any implementation
-            if isinstance(e, (AsyncEnrichLayerException, GeventEnrichLayerException, TwistedEnrichLayerException)):
+            exception_types = [AsyncEnrichLayerException]
+            if GeventEnrichLayerException is not None:
+                exception_types.append(GeventEnrichLayerException)  # type: ignore
+            if TwistedEnrichLayerException is not None:
+                exception_types.append(TwistedEnrichLayerException)  # type: ignore
+            
+            if isinstance(e, tuple(exception_types)):
                 # Re-raise as ProxycurlException with the same message and context
                 raise ProxycurlException(str(e)) from e
             else:
                 # Re-raise other exceptions unchanged
                 raise
-    
+
     @functools.wraps(func)
     def sync_wrapper(*args, **kwargs):
         try:
             return func(*args, **kwargs)
         except Exception as e:
             # Import here to avoid circular imports
+            # Try to import gevent implementation
             try:
-                from enrichlayer.gevent.base import EnrichLayerException as GeventEnrichLayerException
-                from enrichlayer.twisted.base import EnrichLayerException as TwistedEnrichLayerException
+                from enrichlayer.gevent.base import (
+                    EnrichLayerException as GeventEnrichLayerException,
+                )
             except ImportError:
-                GeventEnrichLayerException = type(None)
-                TwistedEnrichLayerException = type(None)
-            
+                GeventEnrichLayerException = None  # type: ignore
+
+            # Try to import twisted implementation
+            try:
+                from enrichlayer.twisted.base import (
+                    EnrichLayerException as TwistedEnrichLayerException,
+                )
+            except ImportError:
+                TwistedEnrichLayerException = None  # type: ignore
+
             # Check if this is an EnrichLayer exception from any implementation
-            if isinstance(e, (GeventEnrichLayerException, TwistedEnrichLayerException)):
+            exception_types = []
+            if GeventEnrichLayerException is not None:
+                exception_types.append(GeventEnrichLayerException)  # type: ignore
+            if TwistedEnrichLayerException is not None:
+                exception_types.append(TwistedEnrichLayerException)  # type: ignore
+            
+            if exception_types and isinstance(e, tuple(exception_types)):
                 # Re-raise as ProxycurlException with the same message and context
                 raise ProxycurlException(str(e)) from e
             else:
                 # Re-raise other exceptions unchanged
                 raise
-    
+
     # Return appropriate wrapper based on whether the function is async
     if asyncio.iscoroutinefunction(func):
         return async_wrapper
@@ -83,14 +123,14 @@ def error_mapping_decorator(func: Any) -> Any:
 class ErrorMappingWrapper:
     """
     Wrapper that applies error mapping to all methods of an object.
-    
+
     This ensures that all method calls from the wrapped object get proper
     error mapping from EnrichLayerException to ProxycurlException.
     """
-    
+
     def __init__(self, wrapped_object: Any) -> None:
         self._wrapped = wrapped_object
-        
+
     def __getattr__(self, name: str) -> Any:
         attr = getattr(self._wrapped, name)
         if callable(attr):
@@ -300,35 +340,39 @@ def _setup_import_hooks(show_warnings: bool = False) -> None:
     This ensures that even if proxycurl modules are imported after calling
     enable_proxycurl_compatibility(), they will still be patched.
     """
-    
+
     # Store original __import__ to call later
-    original_import = __builtins__['__import__'] if isinstance(__builtins__, dict) else __builtins__.__import__
-    
+    original_import = (
+        __builtins__["__import__"]
+        if isinstance(__builtins__, dict)
+        else __builtins__.__import__
+    )
+
     def patching_import(name, globals=None, locals=None, fromlist=(), level=0):
         """Custom import function that patches proxycurl modules after they're imported."""
-        
+
         # Call the original import first
         module = original_import(name, globals, locals, fromlist, level)
-        
+
         # Check if we imported a proxycurl module that needs patching
-        if name.startswith('proxycurl.'):
+        if name.startswith("proxycurl."):
             # Import EnrichLayer classes for patching
             from enrichlayer.asyncio import EnrichLayer as AsyncIOEnrichLayer
             from enrichlayer.gevent import EnrichLayer as GeventEnrichLayer
             from enrichlayer.twisted import EnrichLayer as TwistedEnrichLayer
-            
-            if name == 'proxycurl.asyncio':
+
+            if name == "proxycurl.asyncio":
                 patch_proxycurl_module(name, AsyncIOEnrichLayer, show_warnings)
-            elif name == 'proxycurl.gevent':
+            elif name == "proxycurl.gevent":
                 patch_proxycurl_module(name, GeventEnrichLayer, show_warnings)
-            elif name == 'proxycurl.twisted':
+            elif name == "proxycurl.twisted":
                 patch_proxycurl_module(name, TwistedEnrichLayer, show_warnings)
-        
+
         return module
-    
+
     # Replace the built-in __import__ function
     if isinstance(__builtins__, dict):
-        __builtins__['__import__'] = patching_import
+        __builtins__["__import__"] = patching_import
     else:
         __builtins__.__import__ = patching_import
 

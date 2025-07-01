@@ -1,9 +1,10 @@
-from typing import (
-    Awaitable,
-    Optional
-)
+from typing import Awaitable
 from enrichlayer.config import (
-    BASE_URL, ENRICHLAYER_API_KEY, TIMEOUT, MAX_RETRIES, MAX_BACKOFF_SECONDS
+    BASE_URL,
+    ENRICHLAYER_API_KEY,
+    TIMEOUT,
+    MAX_RETRIES,
+    MAX_BACKOFF_SECONDS,
 )
 from enrichlayer.asyncio.base import EnrichLayerBase
 from enrichlayer.models import (
@@ -53,10 +54,10 @@ class _Person:
         linkedin_profile_url: str = None,
     ) -> Awaitable[PersonEndpointResponse]:
         """Person Profile Endpoint
-        
+
                 Cost: 1 credit / successful request.
         Get structured data of a Personal Profile
-        
+
         :param extra: Enriches the Person Profile with extra details from external sources.
             Extra details include gender, birth date, industry and interests.
 
@@ -153,39 +154,38 @@ class _Person:
 
         params = {}
         if extra is not None:
-            params['extra'] = extra
+            params["extra"] = extra
         if github_profile_id is not None:
-            params['github_profile_id'] = github_profile_id
+            params["github_profile_id"] = github_profile_id
         if facebook_profile_id is not None:
-            params['facebook_profile_id'] = facebook_profile_id
+            params["facebook_profile_id"] = facebook_profile_id
         if twitter_profile_id is not None:
-            params['twitter_profile_id'] = twitter_profile_id
+            params["twitter_profile_id"] = twitter_profile_id
         if personal_contact_number is not None:
-            params['personal_contact_number'] = personal_contact_number
+            params["personal_contact_number"] = personal_contact_number
         if personal_email is not None:
-            params['personal_email'] = personal_email
+            params["personal_email"] = personal_email
         if inferred_salary is not None:
-            params['inferred_salary'] = inferred_salary
+            params["inferred_salary"] = inferred_salary
         if skills is not None:
-            params['skills'] = skills
+            params["skills"] = skills
         if use_cache is not None:
-            params['use_cache'] = use_cache
+            params["use_cache"] = use_cache
         if fallback_to_cache is not None:
-            params['fallback_to_cache'] = fallback_to_cache
+            params["fallback_to_cache"] = fallback_to_cache
         if twitter_profile_url is not None:
-            params['twitter_profile_url'] = twitter_profile_url
+            params["twitter_profile_url"] = twitter_profile_url
         if facebook_profile_url is not None:
-            params['facebook_profile_url'] = facebook_profile_url
+            params["facebook_profile_url"] = facebook_profile_url
         if linkedin_profile_url is not None:
-            params['linkedin_profile_url'] = linkedin_profile_url
+            params["linkedin_profile_url"] = linkedin_profile_url
 
         resp = await self.enrichlayer.request(
-            method='GET',
-            url='/profile',
+            method="GET",
+            url="/profile",
             params=params,
-            data={
-            },
-            result_class=PersonEndpointResponse
+            data={},
+            result_class=PersonEndpointResponse,
         )
         return resp
 
@@ -240,14 +240,11 @@ class _Person:
         after: str = None,
     ) -> Awaitable[PersonSearchResult]:
         """Person Search Endpoint
-        
+
                 Cost: 35 credits / successful request base charge.
         Search for people who meet a set of criteria within our exhaustive dataset of people profiles.
-
-        This API endpoint is powered by [LinkDB](https://enrichlayer.com/linkdb), our exhaustive dataset of people and company profiles.
-
         This API endpoint can return at most 10,000 results per search.
-        
+
         :param country: Filter people located in this country.
             This parameter accepts a case-insensitive [Alpha-2 ISO3166 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).
         :type country: str
@@ -285,7 +282,7 @@ class _Person:
 
             The default value of this parameter is `null`.
         :type education_school_linkedin_profile_url: str
-        :param current_role_title: Filter people who are **currently** working as a role whose title matches the provided regular expression. You'll be looking for profiles on [LinkDB](https://enrichlayer.com/linkdb) that show a person's current job. However, keep in mind that some of these profiles may not be up-to-date, which means you might sometimes see a person's old job instead of their current job on LinkedIn.
+        :param current_role_title: Filter people who are **currently** working as a role whose title matches the provided regular expression. You'll be looking for profiles that show a person's current job. However, keep in mind that some of these profiles may not be up-to-date, which means you might sometimes see a person's old job instead of their current job on LinkedIn.
 
             The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag. The default value of this parameter is `null`.
         :type current_role_title: str
@@ -293,11 +290,11 @@ class _Person:
 
             The accepted value for this parameter is a regular expression which is **case sensitive** by default and accepts an `(?i)` flag. The default value of this parameter is `null`.
         :type past_role_title: str
-        :param current_role_before: Filter people who started their current role **before** this date. You'll be looking for profiles on [LinkDB](https://enrichlayer.com/linkdb) that show a person's current job. However, keep in mind that some of these profiles may not be up-to-date, which means you might sometimes see a person's old job instead of their current job on LinkedIn.
+        :param current_role_before: Filter people who started their current role **before** this date. You'll be looking for profiles that show a person's current job. However, keep in mind that some of these profiles may not be up-to-date, which means you might sometimes see a person's old job instead of their current job on LinkedIn.
 
             This parameter takes a ISO8601 date. Default value of this parameter is `null`.
         :type current_role_before: str
-        :param current_role_after: Filter people who started their current role **after** this date. You'll be looking for profiles on [LinkDB](https://enrichlayer.com/linkdb) that show a person's current job. However, keep in mind that some of these profiles may not be up-to-date, which means you might sometimes see a person's old job instead of their current job on LinkedIn.
+        :param current_role_after: Filter people who started their current role **after** this date. You'll be looking for profiles that show a person's current job. However, keep in mind that some of these profiles may not be up-to-date, which means you might sometimes see a person's old job instead of their current job on LinkedIn.
 
             This parameter takes a ISO8601 date. Default value of this parameter is `null`.
         :type current_role_after: str
@@ -461,107 +458,132 @@ class _Person:
 
         params = {}
         if country is not None:
-            params['country'] = country
+            params["country"] = country
         if first_name is not None:
-            params['first_name'] = first_name
+            params["first_name"] = first_name
         if last_name is not None:
-            params['last_name'] = last_name
+            params["last_name"] = last_name
         if education_field_of_study is not None:
-            params['education_field_of_study'] = education_field_of_study
+            params["education_field_of_study"] = education_field_of_study
         if education_degree_name is not None:
-            params['education_degree_name'] = education_degree_name
+            params["education_degree_name"] = education_degree_name
         if education_school_name is not None:
-            params['education_school_name'] = education_school_name
+            params["education_school_name"] = education_school_name
         if education_school_linkedin_profile_url is not None:
-            params['education_school_linkedin_profile_url'] = education_school_linkedin_profile_url
+            params["education_school_linkedin_profile_url"] = (
+                education_school_linkedin_profile_url
+            )
         if current_role_title is not None:
-            params['current_role_title'] = current_role_title
+            params["current_role_title"] = current_role_title
         if past_role_title is not None:
-            params['past_role_title'] = past_role_title
+            params["past_role_title"] = past_role_title
         if current_role_before is not None:
-            params['current_role_before'] = current_role_before
+            params["current_role_before"] = current_role_before
         if current_role_after is not None:
-            params['current_role_after'] = current_role_after
+            params["current_role_after"] = current_role_after
         if current_company_linkedin_profile_url is not None:
-            params['current_company_linkedin_profile_url'] = current_company_linkedin_profile_url
+            params["current_company_linkedin_profile_url"] = (
+                current_company_linkedin_profile_url
+            )
         if past_company_linkedin_profile_url is not None:
-            params['past_company_linkedin_profile_url'] = past_company_linkedin_profile_url
+            params["past_company_linkedin_profile_url"] = (
+                past_company_linkedin_profile_url
+            )
         if current_job_description is not None:
-            params['current_job_description'] = current_job_description
+            params["current_job_description"] = current_job_description
         if past_job_description is not None:
-            params['past_job_description'] = past_job_description
+            params["past_job_description"] = past_job_description
         if current_company_name is not None:
-            params['current_company_name'] = current_company_name
+            params["current_company_name"] = current_company_name
         if past_company_name is not None:
-            params['past_company_name'] = past_company_name
+            params["past_company_name"] = past_company_name
         if linkedin_groups is not None:
-            params['linkedin_groups'] = linkedin_groups
+            params["linkedin_groups"] = linkedin_groups
         if languages is not None:
-            params['languages'] = languages
+            params["languages"] = languages
         if region is not None:
-            params['region'] = region
+            params["region"] = region
         if city is not None:
-            params['city'] = city
+            params["city"] = city
         if headline is not None:
-            params['headline'] = headline
+            params["headline"] = headline
         if summary is not None:
-            params['summary'] = summary
+            params["summary"] = summary
         if industries is not None:
-            params['industries'] = industries
+            params["industries"] = industries
         if interests is not None:
-            params['interests'] = interests
+            params["interests"] = interests
         if skills is not None:
-            params['skills'] = skills
+            params["skills"] = skills
         if current_company_country is not None:
-            params['current_company_country'] = current_company_country
+            params["current_company_country"] = current_company_country
         if current_company_region is not None:
-            params['current_company_region'] = current_company_region
+            params["current_company_region"] = current_company_region
         if current_company_city is not None:
-            params['current_company_city'] = current_company_city
+            params["current_company_city"] = current_company_city
         if current_company_type is not None:
-            params['current_company_type'] = current_company_type
+            params["current_company_type"] = current_company_type
         if current_company_follower_count_min is not None:
-            params['current_company_follower_count_min'] = current_company_follower_count_min
+            params["current_company_follower_count_min"] = (
+                current_company_follower_count_min
+            )
         if current_company_follower_count_max is not None:
-            params['current_company_follower_count_max'] = current_company_follower_count_max
+            params["current_company_follower_count_max"] = (
+                current_company_follower_count_max
+            )
         if current_company_industry is not None:
-            params['current_company_industry'] = current_company_industry
+            params["current_company_industry"] = current_company_industry
         if current_company_employee_count_min is not None:
-            params['current_company_employee_count_min'] = current_company_employee_count_min
+            params["current_company_employee_count_min"] = (
+                current_company_employee_count_min
+            )
         if current_company_employee_count_max is not None:
-            params['current_company_employee_count_max'] = current_company_employee_count_max
+            params["current_company_employee_count_max"] = (
+                current_company_employee_count_max
+            )
         if current_company_description is not None:
-            params['current_company_description'] = current_company_description
+            params["current_company_description"] = current_company_description
         if current_company_founded_after_year is not None:
-            params['current_company_founded_after_year'] = current_company_founded_after_year
+            params["current_company_founded_after_year"] = (
+                current_company_founded_after_year
+            )
         if current_company_founded_before_year is not None:
-            params['current_company_founded_before_year'] = current_company_founded_before_year
+            params["current_company_founded_before_year"] = (
+                current_company_founded_before_year
+            )
         if current_company_funding_amount_min is not None:
-            params['current_company_funding_amount_min'] = current_company_funding_amount_min
+            params["current_company_funding_amount_min"] = (
+                current_company_funding_amount_min
+            )
         if current_company_funding_amount_max is not None:
-            params['current_company_funding_amount_max'] = current_company_funding_amount_max
+            params["current_company_funding_amount_max"] = (
+                current_company_funding_amount_max
+            )
         if current_company_funding_raised_after is not None:
-            params['current_company_funding_raised_after'] = current_company_funding_raised_after
+            params["current_company_funding_raised_after"] = (
+                current_company_funding_raised_after
+            )
         if current_company_funding_raised_before is not None:
-            params['current_company_funding_raised_before'] = current_company_funding_raised_before
+            params["current_company_funding_raised_before"] = (
+                current_company_funding_raised_before
+            )
         if public_identifier_in_list is not None:
-            params['public_identifier_in_list'] = public_identifier_in_list
+            params["public_identifier_in_list"] = public_identifier_in_list
         if public_identifier_not_in_list is not None:
-            params['public_identifier_not_in_list'] = public_identifier_not_in_list
+            params["public_identifier_not_in_list"] = public_identifier_not_in_list
         if page_size is not None:
-            params['page_size'] = page_size
+            params["page_size"] = page_size
         if enrich_profiles is not None:
-            params['enrich_profiles'] = enrich_profiles
+            params["enrich_profiles"] = enrich_profiles
         if after is not None:
-            params['after'] = after
+            params["after"] = after
 
         resp = await self.enrichlayer.request(
-            method='GET',
-            url='/search/person',
+            method="GET",
+            url="/search/person",
             params=params,
-            data={
-            },
-            result_class=PersonSearchResult
+            data={},
+            result_class=PersonSearchResult,
         )
         return resp
 
@@ -576,10 +598,10 @@ class _Person:
         last_name: str = None,
     ) -> Awaitable[PersonLookupUrlEnrichResult]:
         """Person Lookup Endpoint
-        
+
                 Cost: 2 credits / successful request.
         Look up a person with a name and company information.
-        
+
         :param first_name: First name of the user
         :type first_name: str
         :param company_domain: Company name or domain
@@ -635,26 +657,25 @@ class _Person:
         """
 
         params = {}
-        params['first_name'] = first_name
-        params['company_domain'] = company_domain
+        params["first_name"] = first_name
+        params["company_domain"] = company_domain
         if similarity_checks is not None:
-            params['similarity_checks'] = similarity_checks
+            params["similarity_checks"] = similarity_checks
         if enrich_profile is not None:
-            params['enrich_profile'] = enrich_profile
+            params["enrich_profile"] = enrich_profile
         if location is not None:
-            params['location'] = location
+            params["location"] = location
         if title is not None:
-            params['title'] = title
+            params["title"] = title
         if last_name is not None:
-            params['last_name'] = last_name
+            params["last_name"] = last_name
 
         resp = await self.enrichlayer.request(
-            method='GET',
-            url='/profile/resolve',
+            method="GET",
+            url="/profile/resolve",
             params=params,
-            data={
-            },
-            result_class=PersonLookupUrlEnrichResult
+            data={},
+            result_class=PersonLookupUrlEnrichResult,
         )
         return resp
 
@@ -665,11 +686,11 @@ class _Person:
         enrich_profile: str = None,
     ) -> Awaitable[ReverseEmailUrlEnrichResult]:
         """Reverse Email Lookup Endpoint
-        
+
                 Cost: 3 credits / successful request.
         Resolve social media profiles correlated from an email address.
         This API endpoint works with both personal and work emails.
-        
+
         :param email: Email address of the user you want to look up.
         :type email: str
         :param lookup_depth: This parameter describes the depth options for our API lookup function. This endpoint can execute either a superficial or a deep lookup.
@@ -688,7 +709,7 @@ class _Person:
             Valid values are:
 
             * `skip` (default): do not enrich the results with cached profile data.
-            * `enrich`: enriches the result with cached profile data. 
+            * `enrich`: enriches the result with cached profile data.
 
             Calling this API endpoint with this parameter would add `1` additional credit.
 
@@ -701,18 +722,17 @@ class _Person:
         """
 
         params = {}
-        params['email'] = email
-        params['lookup_depth'] = lookup_depth
+        params["email"] = email
+        params["lookup_depth"] = lookup_depth
         if enrich_profile is not None:
-            params['enrich_profile'] = enrich_profile
+            params["enrich_profile"] = enrich_profile
 
         resp = await self.enrichlayer.request(
-            method='GET',
-            url='/profile/resolve/email',
+            method="GET",
+            url="/profile/resolve/email",
             params=params,
-            data={
-            },
-            result_class=ReverseEmailUrlEnrichResult
+            data={},
+            result_class=ReverseEmailUrlEnrichResult,
         )
         return resp
 
@@ -721,10 +741,10 @@ class _Person:
         phone_number: str,
     ) -> Awaitable[ReverseContactNumberResult]:
         """Reverse Contact Number Lookup Endpoint
-        
+
                 Cost: 3 credits / successful request.
         Find social media profiles from a contact phone number.
-        
+
         :param phone_number: [E.164 formatted](https://www.twilio.com/docs/glossary/what-e164) phone number of the person you want to identify social media profiles of.
         :type phone_number: str
         :return: An object of Awaitable[:class:`proxycurl.models.ReverseContactNumberResult]` or **None** if there is an error.
@@ -734,15 +754,14 @@ class _Person:
         """
 
         params = {}
-        params['phone_number'] = phone_number
+        params["phone_number"] = phone_number
 
         resp = await self.enrichlayer.request(
-            method='GET',
-            url='/resolve/phone',
+            method="GET",
+            url="/resolve/phone",
             params=params,
-            data={
-            },
-            result_class=ReverseContactNumberResult
+            data={},
+            result_class=ReverseContactNumberResult,
         )
         return resp
 
@@ -752,7 +771,7 @@ class _Person:
         callback_url: str = None,
     ) -> Awaitable[ExtractionEmailResult]:
         """Work Email Lookup Endpoint
-        
+
                 Cost: 3 credits / request.
         Lookup work email address of a LinkedIn Person Profile.
 
@@ -765,7 +784,7 @@ class _Person:
 
         If you provided a webhook in your request parameter, our application will call your webhook with
         the result once. See `Webhook request` below.
-        
+
         :param linkedin_profile_url: Linkedin Profile URL of the person you want to
             extract work email address from.
         :type linkedin_profile_url: str
@@ -779,17 +798,16 @@ class _Person:
         """
 
         params = {}
-        params['linkedin_profile_url'] = linkedin_profile_url
+        params["linkedin_profile_url"] = linkedin_profile_url
         if callback_url is not None:
-            params['callback_url'] = callback_url
+            params["callback_url"] = callback_url
 
         resp = await self.enrichlayer.request(
-            method='GET',
-            url='/profile/email',
+            method="GET",
+            url="/profile/email",
             params=params,
-            data={
-            },
-            result_class=ExtractionEmailResult
+            data={},
+            result_class=ExtractionEmailResult,
         )
         return resp
 
@@ -801,10 +819,10 @@ class _Person:
         linkedin_profile_url: str = None,
     ) -> Awaitable[PersonalContactNumbers]:
         """Personal Contact Number Lookup Endpoint
-        
+
                 Cost: 1 credit / contact number returned.
         Find personal phone numbers associated with a given social media profile.
-        
+
         :param page_size: This controls the maximum number of numbers returned per API call.
             It's useful for limiting credit consumption as the number of numbers
             per identity can vary. The default value is 0, meaning there's no limit
@@ -839,21 +857,20 @@ class _Person:
 
         params = {}
         if page_size is not None:
-            params['page_size'] = page_size
+            params["page_size"] = page_size
         if twitter_profile_url is not None:
-            params['twitter_profile_url'] = twitter_profile_url
+            params["twitter_profile_url"] = twitter_profile_url
         if facebook_profile_url is not None:
-            params['facebook_profile_url'] = facebook_profile_url
+            params["facebook_profile_url"] = facebook_profile_url
         if linkedin_profile_url is not None:
-            params['linkedin_profile_url'] = linkedin_profile_url
+            params["linkedin_profile_url"] = linkedin_profile_url
 
         resp = await self.enrichlayer.request(
-            method='GET',
-            url='/contact-api/personal-contact',
+            method="GET",
+            url="/contact-api/personal-contact",
             params=params,
-            data={
-            },
-            result_class=PersonalContactNumbers
+            data={},
+            result_class=PersonalContactNumbers,
         )
         return resp
 
@@ -866,10 +883,10 @@ class _Person:
         linkedin_profile_url: str = None,
     ) -> Awaitable[PDLEmailResult]:
         """Personal Email Lookup Endpoint
-        
+
                 Cost: 1 credit / email returned.
         Find personal email addresses associated with a given social media profile.
-        
+
         :param email_validation: How to validate each email.
 
             Takes the following values:
@@ -900,23 +917,22 @@ class _Person:
 
         params = {}
         if email_validation is not None:
-            params['email_validation'] = email_validation
+            params["email_validation"] = email_validation
         if page_size is not None:
-            params['page_size'] = page_size
+            params["page_size"] = page_size
         if twitter_profile_url is not None:
-            params['twitter_profile_url'] = twitter_profile_url
+            params["twitter_profile_url"] = twitter_profile_url
         if facebook_profile_url is not None:
-            params['facebook_profile_url'] = facebook_profile_url
+            params["facebook_profile_url"] = facebook_profile_url
         if linkedin_profile_url is not None:
-            params['linkedin_profile_url'] = linkedin_profile_url
+            params["linkedin_profile_url"] = linkedin_profile_url
 
         resp = await self.enrichlayer.request(
-            method='GET',
-            url='/contact-api/personal-email',
+            method="GET",
+            url="/contact-api/personal-email",
             params=params,
-            data={
-            },
-            result_class=PDLEmailResult
+            data={},
+            result_class=PDLEmailResult,
         )
         return resp
 
@@ -925,13 +941,13 @@ class _Person:
         linkedin_person_profile_url: str,
     ) -> Awaitable[ProfilePicture]:
         """Person Profile Picture Endpoint
-        
+
                 Cost: 0 credit / successful request.
         Get the profile picture of a person.
 
-        Profile pictures are served from cached people profiles found within [LinkDB](https://enrichlayer.com/linkdb).
-        If the profile does not exist within [LinkDB](https://enrichlayer.com/linkdb), then the API will return a `404` status code.
-        
+        Profile pictures are served from cached profiles.
+        If the profile does not exist in our dataset, then the API will return a `404` status code.
+
         :param linkedin_person_profile_url: LinkedIn Profile URL of the person that you are trying to get the profile picture of.
         :type linkedin_person_profile_url: str
         :return: An object of Awaitable[:class:`proxycurl.models.ProfilePicture]` or **None** if there is an error.
@@ -941,15 +957,14 @@ class _Person:
         """
 
         params = {}
-        params['linkedin_person_profile_url'] = linkedin_person_profile_url
+        params["linkedin_person_profile_url"] = linkedin_person_profile_url
 
         resp = await self.enrichlayer.request(
-            method='GET',
-            url='/person/profile-picture',
+            method="GET",
+            url="/person/profile-picture",
             params=params,
-            data={
-            },
-            result_class=ProfilePicture
+            data={},
+            result_class=ProfilePicture,
         )
         return resp
 
@@ -970,16 +985,16 @@ class _Company:
         use_cache: str = None,
     ) -> Awaitable[Company]:
         """Company Profile Endpoint
-        
+
                 Cost: 1 credit / successful request.
         Get structured data of a Company Profile
-        
+
         :param url: URL of the LinkedIn Company Profile to crawl.
 
             URL should be in the format of `https://www.linkedin.com/company/<public_identifier>`
         :type url: str
         :param resolve_numeric_id: Enable support for Company Profile URLs with numerical IDs that you most frequently fetch from Sales Navigator.
-            We achieve this by resolving numerical IDs into vanity IDs with cached company profiles from [LinkDB](https://enrichlayer.com/linkdb).
+            We achieve this by resolving numerical IDs into vanity IDs using our cached company profiles.
             For example, we will turn `https://www.linkedin.com/company/1234567890` to `https://www.linkedin.com/company/acme-corp` -- for which the API endpoint only supports the latter.
 
             This parameter accepts the following values:
@@ -1024,29 +1039,24 @@ class _Company:
         """
 
         params = {}
-        params['url'] = url
+        params["url"] = url
         if resolve_numeric_id is not None:
-            params['resolve_numeric_id'] = resolve_numeric_id
+            params["resolve_numeric_id"] = resolve_numeric_id
         if categories is not None:
-            params['categories'] = categories
+            params["categories"] = categories
         if funding_data is not None:
-            params['funding_data'] = funding_data
+            params["funding_data"] = funding_data
         if extra is not None:
-            params['extra'] = extra
+            params["extra"] = extra
         if exit_data is not None:
-            params['exit_data'] = exit_data
+            params["exit_data"] = exit_data
         if acquisitions is not None:
-            params['acquisitions'] = acquisitions
+            params["acquisitions"] = acquisitions
         if use_cache is not None:
-            params['use_cache'] = use_cache
+            params["use_cache"] = use_cache
 
         resp = await self.enrichlayer.request(
-            method='GET',
-            url='/company',
-            params=params,
-            data={
-            },
-            result_class=Company
+            method="GET", url="/company", params=params, data={}, result_class=Company
         )
         return resp
 
@@ -1076,15 +1086,12 @@ class _Company:
         after: str = None,
     ) -> Awaitable[CompanySearchResult]:
         """Company Search Endpoint
-        
+
                 Cost: 35 credits / successful request base charge.
         Search for companies that meet a set of criteria within
             our exhaustive dataset of company profiles.
-
-            This API endpoint is powered by [LinkDB](https://enrichlayer.com/linkdb), our exhaustive dataset of company profiles.
-
             This API endpoint can return at most of 10,000 results per search.
-        
+
         :param public_identifier_not_in_list: A list of public identifiers (the identifying portion of the company’s profile URL).
             The target company’s identifier must **not** be a member of this list.
         :type public_identifier_not_in_list: str
@@ -1180,57 +1187,56 @@ class _Company:
 
         params = {}
         if public_identifier_not_in_list is not None:
-            params['public_identifier_not_in_list'] = public_identifier_not_in_list
+            params["public_identifier_not_in_list"] = public_identifier_not_in_list
         if public_identifier_in_list is not None:
-            params['public_identifier_in_list'] = public_identifier_in_list
+            params["public_identifier_in_list"] = public_identifier_in_list
         if enrich_profiles is not None:
-            params['enrich_profiles'] = enrich_profiles
+            params["enrich_profiles"] = enrich_profiles
         if page_size is not None:
-            params['page_size'] = page_size
+            params["page_size"] = page_size
         if funding_raised_before is not None:
-            params['funding_raised_before'] = funding_raised_before
+            params["funding_raised_before"] = funding_raised_before
         if funding_raised_after is not None:
-            params['funding_raised_after'] = funding_raised_after
+            params["funding_raised_after"] = funding_raised_after
         if funding_amount_min is not None:
-            params['funding_amount_min'] = funding_amount_min
+            params["funding_amount_min"] = funding_amount_min
         if funding_amount_max is not None:
-            params['funding_amount_max'] = funding_amount_max
+            params["funding_amount_max"] = funding_amount_max
         if founded_before_year is not None:
-            params['founded_before_year'] = founded_before_year
+            params["founded_before_year"] = founded_before_year
         if founded_after_year is not None:
-            params['founded_after_year'] = founded_after_year
+            params["founded_after_year"] = founded_after_year
         if description is not None:
-            params['description'] = description
+            params["description"] = description
         if employee_count_min is not None:
-            params['employee_count_min'] = employee_count_min
+            params["employee_count_min"] = employee_count_min
         if employee_count_max is not None:
-            params['employee_count_max'] = employee_count_max
+            params["employee_count_max"] = employee_count_max
         if industry is not None:
-            params['industry'] = industry
+            params["industry"] = industry
         if name is not None:
-            params['name'] = name
+            params["name"] = name
         if follower_count_max is not None:
-            params['follower_count_max'] = follower_count_max
+            params["follower_count_max"] = follower_count_max
         if follower_count_min is not None:
-            params['follower_count_min'] = follower_count_min
+            params["follower_count_min"] = follower_count_min
         if type is not None:
-            params['type'] = type
+            params["type"] = type
         if city is not None:
-            params['city'] = city
+            params["city"] = city
         if region is not None:
-            params['region'] = region
+            params["region"] = region
         if country is not None:
-            params['country'] = country
+            params["country"] = country
         if after is not None:
-            params['after'] = after
+            params["after"] = after
 
         resp = await self.enrichlayer.request(
-            method='GET',
-            url='/search/company',
+            method="GET",
+            url="/search/company",
             params=params,
-            data={
-            },
-            result_class=CompanySearchResult
+            data={},
+            result_class=CompanySearchResult,
         )
         return resp
 
@@ -1242,11 +1248,11 @@ class _Company:
         enrich_profile: str = None,
     ) -> Awaitable[CompanyUrlEnrichResult]:
         """Company Lookup Endpoint
-        
+
                 Cost: 2 credits / successful request.
         Resolve Company LinkedIn Profile from company name,
             domain name and location.
-        
+
         :param company_location: The location / region of company.
             ISO 3166-1 alpha-2 codes
         :type company_location: str
@@ -1276,21 +1282,20 @@ class _Company:
 
         params = {}
         if company_location is not None:
-            params['company_location'] = company_location
+            params["company_location"] = company_location
         if company_domain is not None:
-            params['company_domain'] = company_domain
+            params["company_domain"] = company_domain
         if company_name is not None:
-            params['company_name'] = company_name
+            params["company_name"] = company_name
         if enrich_profile is not None:
-            params['enrich_profile'] = enrich_profile
+            params["enrich_profile"] = enrich_profile
 
         resp = await self.enrichlayer.request(
-            method='GET',
-            url='/company/resolve',
+            method="GET",
+            url="/company/resolve",
             params=params,
-            data={
-            },
-            result_class=CompanyUrlEnrichResult
+            data={},
+            result_class=CompanyUrlEnrichResult,
         )
         return resp
 
@@ -1305,10 +1310,10 @@ class _Company:
         search_id: str = None,
     ) -> Awaitable[JobListPage]:
         """Job Search Endpoint
-        
+
                 Cost: 2 credits / successful request.
         List jobs posted by a company on LinkedIn
-        
+
         :param job_type: The nature of the job.
             It accepts the following 7 case-insensitive values only:
             - `full-time`
@@ -1361,27 +1366,26 @@ class _Company:
 
         params = {}
         if job_type is not None:
-            params['job_type'] = job_type
+            params["job_type"] = job_type
         if experience_level is not None:
-            params['experience_level'] = experience_level
+            params["experience_level"] = experience_level
         if when is not None:
-            params['when'] = when
+            params["when"] = when
         if flexibility is not None:
-            params['flexibility'] = flexibility
+            params["flexibility"] = flexibility
         if geo_id is not None:
-            params['geo_id'] = geo_id
+            params["geo_id"] = geo_id
         if keyword is not None:
-            params['keyword'] = keyword
+            params["keyword"] = keyword
         if search_id is not None:
-            params['search_id'] = search_id
+            params["search_id"] = search_id
 
         resp = await self.enrichlayer.request(
-            method='GET',
-            url='/company/job',
+            method="GET",
+            url="/company/job",
             params=params,
-            data={
-            },
-            result_class=JobListPage
+            data={},
+            result_class=JobListPage,
         )
         return resp
 
@@ -1396,10 +1400,10 @@ class _Company:
         search_id: str = None,
     ) -> Awaitable[JobListCount]:
         """Jobs Listing Count Endpoint
-        
+
                 Cost: 2 credits / successful request.
         Count number of jobs posted by a company on LinkedIn
-        
+
         :param job_type: The nature of the job.
             It accepts the following 7 case-insensitive values only:
             - `full-time`
@@ -1452,27 +1456,26 @@ class _Company:
 
         params = {}
         if job_type is not None:
-            params['job_type'] = job_type
+            params["job_type"] = job_type
         if experience_level is not None:
-            params['experience_level'] = experience_level
+            params["experience_level"] = experience_level
         if when is not None:
-            params['when'] = when
+            params["when"] = when
         if flexibility is not None:
-            params['flexibility'] = flexibility
+            params["flexibility"] = flexibility
         if geo_id is not None:
-            params['geo_id'] = geo_id
+            params["geo_id"] = geo_id
         if keyword is not None:
-            params['keyword'] = keyword
+            params["keyword"] = keyword
         if search_id is not None:
-            params['search_id'] = search_id
+            params["search_id"] = search_id
 
         resp = await self.enrichlayer.request(
-            method='GET',
-            url='/company/job/count',
+            method="GET",
+            url="/company/job/count",
             params=params,
-            data={
-            },
-            result_class=JobListCount
+            data={},
+            result_class=JobListCount,
         )
         return resp
 
@@ -1484,17 +1487,17 @@ class _Company:
         employment_status: str = None,
     ) -> Awaitable[EmployeeCount]:
         """Employee Count Endpoint
-        
+
                 Cost: 1 credit / successful request.
         Get a number of total employees of a Company.
 
         Get an employee count of this company from various sources.
-        
+
         :param url: URL of the LinkedIn Company Profile to target.
 
             URL should be in the format of `https://www.linkedin.com/company/<public_identifier>`
         :type url: str
-        :param use_cache: `if-present`: The default behavior. Fetches data from LinkDB cache regardless of age of profile.
+        :param use_cache: `if-present`: The default behavior. Fetches data from cache regardless of age of profile.
 
             `if-recent`: API will make a best effort to return a fresh data no older than 29 days. Costs an extra 1 credit on top of the cost of the base endpoint.
         :type use_cache: str
@@ -1522,21 +1525,20 @@ class _Company:
         """
 
         params = {}
-        params['url'] = url
+        params["url"] = url
         if use_cache is not None:
-            params['use_cache'] = use_cache
+            params["use_cache"] = use_cache
         if linkedin_employee_count is not None:
-            params['linkedin_employee_count'] = linkedin_employee_count
+            params["linkedin_employee_count"] = linkedin_employee_count
         if employment_status is not None:
-            params['employment_status'] = employment_status
+            params["employment_status"] = employment_status
 
         resp = await self.enrichlayer.request(
-            method='GET',
-            url='/company/employees/count',
+            method="GET",
+            url="/company/employees/count",
             params=params,
-            data={
-            },
-            result_class=EmployeeCount
+            data={},
+            result_class=EmployeeCount,
         )
         return resp
 
@@ -1553,12 +1555,9 @@ class _Company:
         after: str = None,
     ) -> Awaitable[EmployeeList]:
         """Employee Listing Endpoint
-        
+
                 Cost: 3 credits / employee returned.
         Get a list of employees of a Company.
-
-        This API endpoint is powered by [LinkDB](https://enrichlayer.com/linkdb), our comprehensive dataset of people and company profiles.
-        
         :param url: URL of the LinkedIn Company Profile to target.
 
             URL should be in the format of `https://www.linkedin.com/company/<public_identifier>`
@@ -1615,13 +1614,13 @@ class _Company:
 
             If this parameter is supplied with a value other than `none`, will add `50` credits to the base cost of the API endpoint regardless number of results returned. It will also add an additional cost of `10` credits per employee returned.
         :type sort_by: str
-        :param resolve_numeric_id: Enable support for Company Profile URLs with numerical IDs that you most frequently fetch from Sales Navigator. 
-            We achieve this by resolving numerical IDs into vanity IDs with cached company profiles from [LinkDB](https://enrichlayer.com/linkdb). 
+        :param resolve_numeric_id: Enable support for Company Profile URLs with numerical IDs that you most frequently fetch from Sales Navigator.
+            We achieve this by resolving numerical IDs into vanity IDs using our cached company profiles.
             For example, we will turn `https://www.linkedin.com/company/1234567890` to `https://www.linkedin.com/company/acme-corp` -- for which the API endpoint only supports the latter.
 
             This parameter accepts the following values:
             - `false` (default value) - Will not resolve numerical IDs.
-            - `true` - Enable support for Company Profile URLs with numerical IDs. 
+            - `true` - Enable support for Company Profile URLs with numerical IDs.
             Costs an extra `2` credit on top of the base cost of the endpoint.
         :type resolve_numeric_id: str
         :return: An object of Awaitable[:class:`proxycurl.models.EmployeeList]` or **None** if there is an error.
@@ -1631,31 +1630,30 @@ class _Company:
         """
 
         params = {}
-        params['url'] = url
+        params["url"] = url
         if country is not None:
-            params['country'] = country
+            params["country"] = country
         if enrich_profiles is not None:
-            params['enrich_profiles'] = enrich_profiles
+            params["enrich_profiles"] = enrich_profiles
         if role_search is not None:
-            params['role_search'] = role_search
+            params["role_search"] = role_search
         if page_size is not None:
-            params['page_size'] = page_size
+            params["page_size"] = page_size
         if employment_status is not None:
-            params['employment_status'] = employment_status
+            params["employment_status"] = employment_status
         if sort_by is not None:
-            params['sort_by'] = sort_by
+            params["sort_by"] = sort_by
         if resolve_numeric_id is not None:
-            params['resolve_numeric_id'] = resolve_numeric_id
+            params["resolve_numeric_id"] = resolve_numeric_id
         if after is not None:
-            params['after'] = after
+            params["after"] = after
 
         resp = await self.enrichlayer.request(
-            method='GET',
-            url='/company/employees',
+            method="GET",
+            url="/company/employees",
             params=params,
-            data={
-            },
-            result_class=EmployeeList
+            data={},
+            result_class=EmployeeList,
         )
         return resp
 
@@ -1670,14 +1668,14 @@ class _Company:
         after: str = None,
     ) -> Awaitable[EmployeeList]:
         """Employee Search Endpoint
-        
+
                 Cost: 10 credits / successful request.
         Search employees of a target by their job title. This API endpoint is syntactic
         sugar for the role_search parameter under the [Employee Listing Endpoint](#company-api-employee-listing-endpoint).
         This API endpoint is powered by [LinkDB](https://enrichlayer.com/linkdb), our comprehensive dataset of people
         and company profiles. For a detailed comparison between this API endpoint
         and the [Role Lookup Endpoint](#people-api-role-lookup-endpoint) or the [Person Search Endpoint](#search-api-person-search-endpoint), refer to [this article](https://enrichlayer.com/blog/what-is-the-difference-between-the-person-search-endpoint-role-lookup-endpoint-and-the-employee-search-endpoint).
-        
+
         :param keyword_regex: Job title keyword to search for in regular expression format.
 
             The accepted value for this parameter is a **case-insensitive** regular expression.
@@ -1706,13 +1704,13 @@ class _Company:
 
             Calling this API endpoint with this parameter would add `1` credit per employee returned.
         :type enrich_profiles: str
-        :param resolve_numeric_id: Enable support for Company Profile URLs with numerical IDs that you most frequently fetch from Sales Navigator. 
-            We achieve this by resolving numerical IDs into vanity IDs with cached company profiles from [LinkDB](https://enrichlayer.com/linkdb). 
+        :param resolve_numeric_id: Enable support for Company Profile URLs with numerical IDs that you most frequently fetch from Sales Navigator.
+            We achieve this by resolving numerical IDs into vanity IDs using our cached company profiles.
             For example, we will turn `https://www.linkedin.com/company/1234567890` to `https://www.linkedin.com/company/acme-corp` -- for which the API endpoint only supports the latter.
 
             This parameter accepts the following values:
             - `false` (default value) - Will not resolve numerical IDs.
-            - `true` - Enable support for Company Profile URLs with numerical IDs. 
+            - `true` - Enable support for Company Profile URLs with numerical IDs.
             Costs an extra `2` credit on top of the base cost of the endpoint.
         :type resolve_numeric_id: str
         :return: An object of Awaitable[:class:`proxycurl.models.EmployeeList]` or **None** if there is an error.
@@ -1722,26 +1720,25 @@ class _Company:
         """
 
         params = {}
-        params['keyword_regex'] = keyword_regex
-        params['linkedin_company_profile_url'] = linkedin_company_profile_url
+        params["keyword_regex"] = keyword_regex
+        params["linkedin_company_profile_url"] = linkedin_company_profile_url
         if page_size is not None:
-            params['page_size'] = page_size
+            params["page_size"] = page_size
         if country is not None:
-            params['country'] = country
+            params["country"] = country
         if enrich_profiles is not None:
-            params['enrich_profiles'] = enrich_profiles
+            params["enrich_profiles"] = enrich_profiles
         if resolve_numeric_id is not None:
-            params['resolve_numeric_id'] = resolve_numeric_id
+            params["resolve_numeric_id"] = resolve_numeric_id
         if after is not None:
-            params['after'] = after
+            params["after"] = after
 
         resp = await self.enrichlayer.request(
-            method='GET',
-            url='/company/employee/search',
+            method="GET",
+            url="/company/employee/search",
             params=params,
-            data={
-            },
-            result_class=EmployeeList
+            data={},
+            result_class=EmployeeList,
         )
         return resp
 
@@ -1752,7 +1749,7 @@ class _Company:
         enrich_profile: str = None,
     ) -> Awaitable[RoleSearchEnrichedResult]:
         """Role Lookup Endpoint
-        
+
                 Cost: 3 credits / successful request.
         Returns the profile of a person who most closely matches a specified role
         in a company. For instance, it can be used to identify the "CTO" of
@@ -1762,7 +1759,7 @@ class _Company:
         or the [Person Search Endpoint](#search-api-person-search-endpoint),
         refer to [this article](
             https://enrichlayer.com/blog/what-is-the-difference-between-the-person-search-endpoint-role-lookup-endpoint-and-the-employee-search-endpoint).
-        
+
         :param company_name: Name of the company that you are searching for
         :type company_name: str
         :param role: Role of the profile that you are lookin up
@@ -1786,18 +1783,17 @@ class _Company:
         """
 
         params = {}
-        params['company_name'] = company_name
-        params['role'] = role
+        params["company_name"] = company_name
+        params["role"] = role
         if enrich_profile is not None:
-            params['enrich_profile'] = enrich_profile
+            params["enrich_profile"] = enrich_profile
 
         resp = await self.enrichlayer.request(
-            method='GET',
-            url='/find/company/role',
+            method="GET",
+            url="/find/company/role",
             params=params,
-            data={
-            },
-            result_class=RoleSearchEnrichedResult
+            data={},
+            result_class=RoleSearchEnrichedResult,
         )
         return resp
 
@@ -1806,13 +1802,13 @@ class _Company:
         linkedin_company_profile_url: str,
     ) -> Awaitable[ProfilePicture]:
         """Company Profile Picture Endpoint
-        
+
                 Cost: 0 credit / successful request.
         Get the profile picture of a company.
 
-        Profile pictures are served from cached company profiles found within [LinkDB](https://enrichlayer.com/linkdb).
-        If the profile does not exist within [LinkDB](https://enrichlayer.com/linkdb), then the API will return a `404` status code.
-        
+        Profile pictures are served from cached profiles.
+        If the profile does not exist in our dataset, then the API will return a `404` status code.
+
         :param linkedin_company_profile_url: LinkedIn Profile URL of the company that you are trying to get the profile picture of.
         :type linkedin_company_profile_url: str
         :return: An object of Awaitable[:class:`proxycurl.models.ProfilePicture]` or **None** if there is an error.
@@ -1822,15 +1818,14 @@ class _Company:
         """
 
         params = {}
-        params['linkedin_company_profile_url'] = linkedin_company_profile_url
+        params["linkedin_company_profile_url"] = linkedin_company_profile_url
 
         resp = await self.enrichlayer.request(
-            method='GET',
-            url='/company/profile-picture',
+            method="GET",
+            url="/company/profile-picture",
             params=params,
-            data={
-            },
-            result_class=ProfilePicture
+            data={},
+            result_class=ProfilePicture,
         )
         return resp
 
@@ -1845,10 +1840,10 @@ class _School:
         use_cache: str = None,
     ) -> Awaitable[School]:
         """School Profile Endpoint
-        
+
                 Cost: 1 credit / successful request.
         Get structured data of a LinkedIn School Profile
-        
+
         :param url: URL of the LinkedIn School Profile to crawl.
 
             URL should be in the format of `https://www.linkedin.com/school/<public_identifier>`
@@ -1864,17 +1859,12 @@ class _School:
         """
 
         params = {}
-        params['url'] = url
+        params["url"] = url
         if use_cache is not None:
-            params['use_cache'] = use_cache
+            params["use_cache"] = use_cache
 
         resp = await self.enrichlayer.request(
-            method='GET',
-            url='/school',
-            params=params,
-            data={
-            },
-            result_class=School
+            method="GET", url="/school", params=params, data={}, result_class=School
         )
         return resp
 
@@ -1890,10 +1880,10 @@ class _School:
         resolve_numeric_id: str = None,
     ) -> Awaitable[StudentList]:
         """Student Listing Endpoint
-        
+
                 Cost: 3 credits / student returned.
         Get a list of students of a school or university.
-        
+
         :param linkedin_school_url: URL of the LinkedIn School Profile to target.
 
             URL should be in the format of `https://www.linkedin.com/school/<public_identifier>`
@@ -1949,13 +1939,13 @@ class _School:
 
             If this parameter is supplied with a value other than `none`, will add `50` credits to the base cost of the API endpoint regardless number of results returned. It will also add an additional cost of `10` credits per student returned.
         :type sort_by: str
-        :param resolve_numeric_id: Enable support for School Profile URLs with numerical IDs that you most frequently fetch from Sales Navigator. 
-            We achieve this by resolving numerical IDs into vanity IDs with cached company profiles from [LinkDB](https://enrichlayer.com/linkdb). 
+        :param resolve_numeric_id: Enable support for School Profile URLs with numerical IDs that you most frequently fetch from Sales Navigator.
+            We achieve this by resolving numerical IDs into vanity IDs using our cached company profiles.
             For example, we will turn `https://www.linkedin.com/school/1234567890` to `https://www.linkedin.com/school/acme-corp` -- for which the API endpoint only supports the latter.
 
             This parameter accepts the following values:
             - `false` (default value) - Will not resolve numerical IDs.
-            - `true` - Enable support for School Profile URLs with numerical IDs. 
+            - `true` - Enable support for School Profile URLs with numerical IDs.
             Costs an extra `2` credit on top of the base cost of the endpoint.
         :type resolve_numeric_id: str
         :return: An object of Awaitable[:class:`proxycurl.models.StudentList]` or **None** if there is an error.
@@ -1965,29 +1955,28 @@ class _School:
         """
 
         params = {}
-        params['linkedin_school_url'] = linkedin_school_url
+        params["linkedin_school_url"] = linkedin_school_url
         if country is not None:
-            params['country'] = country
+            params["country"] = country
         if enrich_profiles is not None:
-            params['enrich_profiles'] = enrich_profiles
+            params["enrich_profiles"] = enrich_profiles
         if search_keyword is not None:
-            params['search_keyword'] = search_keyword
+            params["search_keyword"] = search_keyword
         if page_size is not None:
-            params['page_size'] = page_size
+            params["page_size"] = page_size
         if student_status is not None:
-            params['student_status'] = student_status
+            params["student_status"] = student_status
         if sort_by is not None:
-            params['sort_by'] = sort_by
+            params["sort_by"] = sort_by
         if resolve_numeric_id is not None:
-            params['resolve_numeric_id'] = resolve_numeric_id
+            params["resolve_numeric_id"] = resolve_numeric_id
 
         resp = await self.enrichlayer.request(
-            method='GET',
-            url='/school/students',
+            method="GET",
+            url="/school/students",
             params=params,
-            data={
-            },
-            result_class=StudentList
+            data={},
+            result_class=StudentList,
         )
         return resp
 
@@ -2001,10 +1990,10 @@ class _Job:
         url: str,
     ) -> Awaitable[JobProfile]:
         """Job Profile Endpoint
-        
+
                 Cost: 2 credits / successful request.
         Get structured data of a LinkedIn Job Profile
-        
+
         :param url: URL of the LinkedIn Job Profile to target.
 
             URL should be in the format of
@@ -2019,15 +2008,10 @@ class _Job:
         """
 
         params = {}
-        params['url'] = url
+        params["url"] = url
 
         resp = await self.enrichlayer.request(
-            method='GET',
-            url='/job',
-            params=params,
-            data={
-            },
-            result_class=JobProfile
+            method="GET", url="/job", params=params, data={}, result_class=JobProfile
         )
         return resp
 
@@ -2044,10 +2028,10 @@ class _Customers:
         after: str = None,
     ) -> Awaitable[CustomerList]:
         """Customer Listing Endpoint
-        
+
                 Cost: 10 credits / result for users on an annual subscription or Enterprise plan.
         Get a list of probable corporate customers of a target company.
-        
+
         :param linkedin_company_profile_url: The LinkedIn Profile URL of the company from which you want to get a list of customers of.
 
             URL should be in the format of `https://www.linkedin.com/company/<public-identifier>`
@@ -2076,25 +2060,22 @@ class _Customers:
 
         params = {}
         if linkedin_company_profile_url is not None:
-            params['linkedin_company_profile_url'] = linkedin_company_profile_url
+            params["linkedin_company_profile_url"] = linkedin_company_profile_url
         if twitter_profile_url is not None:
-            params['twitter_profile_url'] = twitter_profile_url
+            params["twitter_profile_url"] = twitter_profile_url
         if page_size is not None:
-            params['page_size'] = page_size
+            params["page_size"] = page_size
         if after is not None:
-            params['after'] = after
+            params["after"] = after
 
         resp = await self.enrichlayer.request(
-            method='GET',
-            url='/customers',
+            method="GET",
+            url="/customers",
             params=params,
-            data={
-            },
-            result_class=CustomerList
+            data={},
+            result_class=CustomerList,
         )
         return resp
-
-
 
 
 class EnrichLayer(EnrichLayerBase):
@@ -2110,14 +2091,14 @@ class EnrichLayer(EnrichLayerBase):
         base_url: str = BASE_URL,
         timeout: int = TIMEOUT,
         max_retries: int = MAX_RETRIES,
-        max_backoff_seconds: int = MAX_BACKOFF_SECONDS
+        max_backoff_seconds: int = MAX_BACKOFF_SECONDS,
     ) -> None:
         super().__init__(
             api_key=api_key,
             base_url=base_url,
             timeout=timeout,
             max_retries=max_retries,
-            max_backoff_seconds=max_backoff_seconds
+            max_backoff_seconds=max_backoff_seconds,
         )
         self.person = _Person(self)
         self.company = _Company(self)
@@ -2129,10 +2110,10 @@ class EnrichLayer(EnrichLayerBase):
         self,
     ) -> Awaitable[CreditBalance]:
         """View Credit Balance Endpoint
-        
+
                 Cost: 0 credit / successful request.
         Get your current credit(s) balance
-        
+
         :return: An object of Awaitable[:class:`proxycurl.models.CreditBalance]` or **None** if there is an error.
         :rtype: Awaitable[:class:`proxycurl.models.CreditBalance]`
         :raise EnrichLayerException: Every error will raise a :class:`proxycurl.asyncio.EnrichLayerException`
@@ -2142,11 +2123,10 @@ class EnrichLayer(EnrichLayerBase):
         params = {}
 
         resp = await self.request(
-            method='GET',
-            url='/credit-balance',
+            method="GET",
+            url="/credit-balance",
             params=params,
-            data={
-            },
-            result_class=CreditBalance
+            data={},
+            result_class=CreditBalance,
         )
         return resp

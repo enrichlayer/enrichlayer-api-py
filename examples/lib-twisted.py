@@ -5,38 +5,39 @@ import csv
 
 enrichlayer = EnrichLayer()
 
+
 @inlineCallbacks
 def main():
     balance = yield enrichlayer.get_balance()
-    print('Balance:', balance)
-
+    print("Balance:", balance)
 
     person = yield enrichlayer.person.get(
-        linkedin_profile_url='https://sg.linkedin.com/in/williamhgates'
+        linkedin_profile_url="https://sg.linkedin.com/in/williamhgates"
     )
 
-    print('Person:', person)
+    print("Person:", person)
 
     company = yield enrichlayer.company.get(
-        url='https://www.linkedin.com/company/apple'
+        url="https://www.linkedin.com/company/apple"
     )
 
-    print('Company:', company)
+    print("Company:", company)
 
     # PROCESS BULK WITH CSV
     bulk_linkedin_person_data = []
-    with open('sample.csv', 'r') as file:
+    with open("sample.csv", "r") as file:
         reader = csv.reader(file)
         next(reader, None)
         for row in reader:
             bulk_linkedin_person_data.append(
-                (enrichlayer.person.get, {'linkedin_profile_url': row[0]})
+                (enrichlayer.person.get, {"linkedin_profile_url": row[0]})
             )
     bulk = yield do_bulk(bulk_linkedin_person_data)
 
-    print('Bulk:', bulk)
+    print("Bulk:", bulk)
 
     reactor.stop()
+
 
 main()
 

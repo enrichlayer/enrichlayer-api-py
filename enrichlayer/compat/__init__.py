@@ -7,4 +7,4 @@ proxycurl-py code work with the new enrichlayer-api backend.
 
 from .monkey_patch import enable_proxycurl_compatibility, ProxycurlException
 
-__all__ = ['enable_proxycurl_compatibility', 'ProxycurlException']
+__all__ = ["enable_proxycurl_compatibility", "ProxycurlException"]

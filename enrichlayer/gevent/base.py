@@ -1,23 +1,17 @@
 import gevent
 from gevent import monkey
+
 monkey.patch_all()
 from gevent.queue import Empty, Queue
 from enrichlayer.config import MAX_WORKERS
 import requests
 from dataclasses import dataclass
-from typing import (
-    Generic,
-    TypeVar,
-    List,
-    Tuple,
-    Callable,
-    Dict
-)
+from typing import Generic, TypeVar, List, Tuple, Callable, Dict
 import logging
 
 logger = logging.getLogger(__name__)
 
-T = TypeVar('T')
+T = TypeVar("T")
 Op = Tuple[Callable, Dict]
 
 
@@ -30,6 +24,7 @@ class Result(Generic[T]):
 
 class EnrichLayerException(Exception):
     """Raised when InternalServerError or network error or request error"""
+
     pass
 
 
@@ -46,7 +41,7 @@ class EnrichLayerBase:
         base_url: str,
         timeout: int,
         max_retries: int,
-        max_backoff_seconds: int
+        max_backoff_seconds: int,
     ) -> None:
         self.api_key = api_key
         self.base_url = base_url
@@ -62,23 +57,25 @@ class EnrichLayerBase:
         params: dict = dict(),
         data: dict = dict(),
     ) -> Generic[T]:
-        api_endpoint = f'{self.base_url}{url}'
-        header_dic = {'Authorization': 'Bearer ' + self.api_key}
+        api_endpoint = f"{self.base_url}{url}"
+        header_dic = {"Authorization": "Bearer " + self.api_key}
         backoff_in_seconds = 1
         for i in range(0, self.max_retries):
             try:
-                if method.lower() == 'get':
+                if method.lower() == "get":
                     r = requests.get(
-                            api_endpoint,
-                            params=params,
-                            headers=header_dic,
-                            timeout=self.timeout)
-                elif method.lower() == 'post':
+                        api_endpoint,
+                        params=params,
+                        headers=header_dic,
+                        timeout=self.timeout,
+                    )
+                elif method.lower() == "post":
                     r = requests.post(
-                            api_endpoint,
-                            json=data,
-                            headers=header_dic,
-                            timeout=self.timeout)
+                        api_endpoint,
+                        json=data,
+                        headers=header_dic,
+                        timeout=self.timeout,
+                    )
 
                 if r.status_code in [200, 202]:
                     response_json = r.json()
@@ -101,7 +98,7 @@ class EnrichLayerBase:
                         raise e
 
                 if r.status_code == 429:
-                    sleep = (backoff_in_seconds * 2 ** i)
+                    sleep = backoff_in_seconds * 2**i
                     gevent.sleep(min(self.max_backoff_seconds, sleep))
 
                 if i < self.max_retries:

@@ -3,19 +3,12 @@ from twisted.internet.defer import Deferred, inlineCallbacks
 from enrichlayer.config import MAX_WORKERS
 import treq
 from dataclasses import dataclass
-from typing import (
-    Generic,
-    TypeVar,
-    List,
-    Tuple,
-    Callable,
-    Dict
-)
+from typing import Generic, TypeVar, List, Tuple, Callable, Dict
 import logging
 
 logger = logging.getLogger(__name__)
 
-T = TypeVar('T')
+T = TypeVar("T")
 Op = Tuple[Callable, Dict]
 
 
@@ -28,6 +21,7 @@ class Result(Generic[T]):
 
 class EnrichLayerException(Exception):
     """Raised when InternalServerError or network error or request error"""
+
     pass
 
 
@@ -44,7 +38,7 @@ class EnrichLayerBase:
         base_url: str,
         timeout: int,
         max_retries: int,
-        max_backoff_seconds: int
+        max_backoff_seconds: int,
     ) -> None:
         self.api_key = api_key
         self.base_url = base_url
@@ -59,7 +53,7 @@ class EnrichLayerBase:
         url: str,
         result_class: Generic[T],
         params: dict = dict(),
-        data: dict = dict()
+        data: dict = dict(),
     ) -> Deferred:
         backoff_in_seconds = 1
         for i in range(0, self.max_retries):
@@ -93,7 +87,7 @@ class EnrichLayerBase:
                         raise e
 
                 if r.code == 429:
-                    sleep = (backoff_in_seconds * 2 ** i)
+                    sleep = backoff_in_seconds * 2**i
                     yield self._sleep(min(self.max_backoff_seconds, sleep))
 
                 if i < self.max_retries:
@@ -108,27 +102,22 @@ class EnrichLayerBase:
                     raise e
 
     def _call(
-        self,
-        method: str,
-        url: str,
-        params: dict = dict(),
-        data: dict = dict()
+        self, method: str, url: str, params: dict = dict(), data: dict = dict()
     ) -> Deferred:
-        api_endpoint = f'{self.base_url}{url}'
-        header_dic = {'Authorization': 'Bearer ' + self.api_key}
-        if method.lower() == 'get':
+        api_endpoint = f"{self.base_url}{url}"
+        header_dic = {"Authorization": "Bearer " + self.api_key}
+        if method.lower() == "get":
             return treq.get(
-                api_endpoint,
-                params=params,
-                headers=header_dic,
-                timeout=self.timeout)
-        elif method.lower() == 'post':
+                api_endpoint, params=params, headers=header_dic, timeout=self.timeout
+            )
+        elif method.lower() == "post":
             return treq.post(
                 api_endpoint,
                 params=params,
                 json=data,
                 headers=header_dic,
-                timeout=self.timeout)
+                timeout=self.timeout,
+            )
 
     def _sleep(secs):
         d = defer.Deferred()

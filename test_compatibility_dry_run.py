@@ -12,27 +12,27 @@ import traceback
 def test_import_and_setup():
     """Test that enrichlayer can be imported and compatibility enabled."""
     print("🧪 Testing enrichlayer import and compatibility setup...")
-    
+
     try:
         import enrichlayer
+
         print("✅ EnrichLayer imported successfully")
-        
+
         # Test compatibility function exists
-        if hasattr(enrichlayer, 'enable_proxycurl_compatibility'):
+        if hasattr(enrichlayer, "enable_proxycurl_compatibility"):
             print("✅ enable_proxycurl_compatibility function found")
         else:
             print("❌ enable_proxycurl_compatibility function not found")
             return False
-        
+
         # Enable compatibility (dry run)
         enrichlayer.enable_proxycurl_compatibility(
-            api_key='test-key-for-dry-run',
-            deprecation_warnings=False
+            api_key="test-key-for-dry-run", deprecation_warnings=False
         )
         print("✅ Compatibility layer enabled successfully")
-        
+
         return True
-        
+
     except Exception as e:
         print(f"❌ Failed to setup compatibility: {e}")
         traceback.print_exc()
@@ -42,41 +42,41 @@ def test_import_and_setup():
 def test_wrapper_creation():
     """Test creating proxycurl wrapper classes."""
     print("\n🧪 Testing wrapper class creation...")
-    
+
     try:
         from enrichlayer.asyncio import EnrichLayer
         from enrichlayer.compat.monkey_patch import create_proxycurl_wrapper_class
-        
+
         # Create wrapper class
         ProxycurlWrapper = create_proxycurl_wrapper_class(EnrichLayer)
         print("✅ Wrapper class created successfully")
-        
+
         # Test instantiation (with mock API key)
-        wrapper = ProxycurlWrapper(api_key='test-key')
+        wrapper = ProxycurlWrapper(api_key="test-key")
         print("✅ Wrapper instance created successfully")
-        
+
         # Test interface
-        if hasattr(wrapper, 'linkedin'):
+        if hasattr(wrapper, "linkedin"):
             print("✅ linkedin attribute found")
         else:
             print("❌ linkedin attribute not found")
             return False
-            
-        if hasattr(wrapper.linkedin, 'person'):
+
+        if hasattr(wrapper.linkedin, "person"):
             print("✅ linkedin.person attribute found")
         else:
-            print("❌ linkedin.person attribute not found") 
+            print("❌ linkedin.person attribute not found")
             return False
-            
-        if hasattr(wrapper.linkedin, 'company'):
+
+        if hasattr(wrapper.linkedin, "company"):
             print("✅ linkedin.company attribute found")
         else:
             print("❌ linkedin.company attribute not found")
             return False
-        
+
         print("✅ All expected attributes found")
         return True
-        
+
     except Exception as e:
         print(f"❌ Failed to create wrapper: {e}")
         traceback.print_exc()
@@ -86,36 +86,36 @@ def test_wrapper_creation():
 def test_direct_enrichlayer_usage():
     """Test using enrichlayer directly to verify the new API structure."""
     print("\n🧪 Testing direct enrichlayer usage...")
-    
+
     try:
         from enrichlayer.asyncio import EnrichLayer
-        
+
         # Create instance
-        enrichlayer = EnrichLayer(api_key='test-key')
+        enrichlayer = EnrichLayer(api_key="test-key")
         print("✅ EnrichLayer instance created")
-        
+
         # Test new direct API structure
-        if hasattr(enrichlayer, 'person'):
+        if hasattr(enrichlayer, "person"):
             print("✅ person attribute found")
         else:
             print("❌ person attribute not found")
             return False
-            
-        if hasattr(enrichlayer, 'company'):
-            print("✅ company attribute found") 
+
+        if hasattr(enrichlayer, "company"):
+            print("✅ company attribute found")
         else:
             print("❌ company attribute not found")
             return False
-            
-        if hasattr(enrichlayer, 'school'):
+
+        if hasattr(enrichlayer, "school"):
             print("✅ school attribute found")
         else:
             print("❌ school attribute not found")
             return False
-            
+
         print("✅ New API structure verified")
         return True
-        
+
     except Exception as e:
         print(f"❌ Failed direct enrichlayer test: {e}")
         traceback.print_exc()
@@ -128,15 +128,15 @@ def main():
     print("=" * 60)
     print("Testing compatibility layer setup without API calls")
     print()
-    
+
     tests = [
         ("Import & Setup", test_import_and_setup),
         ("Wrapper Creation", test_wrapper_creation),
-        ("Direct EnrichLayer", test_direct_enrichlayer_usage)
+        ("Direct EnrichLayer", test_direct_enrichlayer_usage),
     ]
-    
+
     results = {}
-    
+
     for test_name, test_func in tests:
         try:
             success = test_func()
@@ -144,21 +144,21 @@ def main():
         except Exception as e:
             print(f"❌ Test {test_name} failed with exception: {e}")
             results[test_name] = False
-    
+
     # Print summary
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print("📊 TEST SUMMARY")
-    print(f"{'='*60}")
-    
+    print(f"{'=' * 60}")
+
     passed = sum(1 for success in results.values() if success)
     total = len(results)
-    
+
     for test_name, success in results.items():
         status = "✅ PASS" if success else "❌ FAIL"
         print(f"{status} {test_name}")
-    
+
     print(f"\n📈 Overall: {passed}/{total} tests passed")
-    
+
     if passed == total:
         print("🎉 All dry-run tests passed!")
         print("\n💡 Next Steps:")
@@ -169,7 +169,7 @@ def main():
         failed_tests = [name for name, success in results.items() if not success]
         print(f"⚠️  Some tests failed: {', '.join(failed_tests)}")
         return 1
-    
+
     return 0
 
 

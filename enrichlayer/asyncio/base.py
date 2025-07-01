@@ -4,19 +4,12 @@ import aiohttp
 import json
 from enrichlayer.config import MAX_WORKERS
 from dataclasses import dataclass
-from typing import (
-    Generic,
-    TypeVar,
-    List,
-    Tuple,
-    Callable,
-    Dict
-)
+from typing import Generic, TypeVar, List, Tuple, Callable, Dict
 import logging
 
 logger = logging.getLogger(__name__)
 
-T = TypeVar('T')
+T = TypeVar("T")
 Op = Tuple[Callable, Dict]
 
 
@@ -29,6 +22,7 @@ class Result(Generic[T]):
 
 class EnrichLayerException(Exception):
     """Raised when InternalServerError or network error or request error"""
+
     pass
 
 
@@ -45,7 +39,7 @@ class EnrichLayerBase:
         base_url: str,
         timeout: int,
         max_retries: int,
-        max_backoff_seconds: int
+        max_backoff_seconds: int,
     ) -> None:
         self.api_key = api_key
         self.base_url = base_url
@@ -61,28 +55,28 @@ class EnrichLayerBase:
         params: dict = dict(),
         data: dict = dict(),
     ) -> Generic[T]:
-        api_endpoint = f'{self.base_url}{url}'
-        header_dic = {'Authorization': 'Bearer ' + self.api_key}
+        api_endpoint = f"{self.base_url}{url}"
+        header_dic = {"Authorization": "Bearer " + self.api_key}
         backoff_in_seconds = 1
         for i in range(0, self.max_retries):
             try:
-                if method.lower() == 'get':
+                if method.lower() == "get":
                     async with aiohttp.ClientSession() as session:
                         async with session.get(
                             api_endpoint,
                             params=params,
                             headers=header_dic,
-                            timeout=self.timeout
+                            timeout=self.timeout,
                         ) as response:
                             response_result = await response.read()
                             status = response.status
-                elif method.lower() == 'post':
+                elif method.lower() == "post":
                     async with aiohttp.ClientSession() as session:
                         async with session.post(
                             api_endpoint,
                             json=data,
                             headers=header_dic,
-                            timeout=self.timeout
+                            timeout=self.timeout,
                         ) as response:
                             response_result = await response.read()
                             status = response.status
@@ -107,7 +101,7 @@ class EnrichLayerBase:
                         raise e
 
                 if status == 429:
-                    sleep = (backoff_in_seconds * 2 ** i)
+                    sleep = backoff_in_seconds * 2**i
                     await asyncio.sleep(min(self.max_backoff_seconds, sleep))
 
                 if i < self.max_retries:
@@ -116,10 +110,7 @@ class EnrichLayerBase:
                     raise e
 
 
-async def do_bulk(
-    ops: List[Op],
-    max_workers: int = MAX_WORKERS
-) -> List[Result]:
+async def do_bulk(ops: List[Op], max_workers: int = MAX_WORKERS) -> List[Result]:
     """Bulk operation
 
     This function can be used to run bulk operations using a limited number of concurrent requests.

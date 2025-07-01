@@ -1,6 +1,7 @@
 from enum import Enum, auto
 from typing import Optional, List, Tuple
 import sys
+
 if sys.version_info >= (3, 8):
     from typing import TypedDict
 else:
@@ -433,7 +434,6 @@ class EmployeeList(TypedDict):
 class EmployeeCount(TypedDict):
     total_employee: int
     linkedin_employee_count: Optional[int]
-    linkdb_employee_count: int
     regression_notice: str
 
 
