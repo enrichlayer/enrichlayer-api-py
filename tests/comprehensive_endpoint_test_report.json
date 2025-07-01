@@ -1,16 +1,42 @@
 {
   "test_summary": {
-    "timestamp": "2025-07-01T09:54:52.337783",
+    "timestamp": "2025-07-01T12:52:50.245294",
     "test_type": "comprehensive_endpoint_testing_all_23_endpoints",
-    "total_tests": 0,
-    "successful_tests": 0,
+    "total_tests": 1,
+    "successful_tests": 1,
     "failed_tests": 0,
-    "success_rate": "0.0%",
-    "total_credits_used": 0,
-    "total_duration": 0.39,
-    "average_response_time": 0
+    "success_rate": "100.0%",
+    "total_credits_used": 3,
+    "total_duration": 4.008,
+    "average_response_time": 4.007
   },
-  "by_client_type": {},
-  "by_category": {},
-  "detailed_results": []
+  "by_client_type": {
+    "direct": {
+      "total": 1,
+      "success": 1,
+      "error": 0
+    }
+  },
+  "by_category": {
+    "general": {
+      "total": 1,
+      "success": 1,
+      "error": 0
+    }
+  },
+  "detailed_results": [
+    {
+      "endpoint": "do_bulk",
+      "client_type": "direct",
+      "status": "success",
+      "duration": 4.007,
+      "credits_used": 3,
+      "timestamp": "2025-07-01T12:52:50.244684",
+      "sample_data": {
+        "total_tasks": 3,
+        "successful_results": 3,
+        "first_result_type": "Result"
+      }
+    }
+  ]
 }

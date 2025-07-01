@@ -1,0 +1,26 @@
+CONSOLIDATED ENDPOINT TEST RESULTS
+======================================================================
+Generated: 2025-07-01 12:52:50
+======================================================================
+
+📊 OVERALL SUMMARY
+------------------------------
+Total Tests: 1
+Successful: 1
+Failed: 0
+Success Rate: 100.0%
+Total Credits Used: 3
+Duration: 4.01s
+
+📊 BY CLIENT TYPE
+------------------------------
+DIRECT: 1/1 successful (100.0%)
+
+📊 BY CATEGORY
+------------------------------
+GENERAL: 1/1 successful (100.0%)
+
+✅ SUCCESSFUL ENDPOINTS
+------------------------------
+  ✅ do_bulk (direct) - 3 credits, 4.007s
+
