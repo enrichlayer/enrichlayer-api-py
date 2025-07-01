@@ -4,7 +4,7 @@ import aiohttp
 import json
 from enrichlayer_client.config import MAX_WORKERS
 from dataclasses import dataclass
-from typing import Generic, TypeVar, List, Tuple, Callable, Dict
+from typing import Generic, TypeVar, List, Tuple, Callable, Dict, Type, Any, Union
 import logging
 
 logger = logging.getLogger(__name__)
@@ -51,10 +51,14 @@ class EnrichLayerBase:
         self,
         method: str,
         url: str,
-        result_class: Generic[T],
-        params: dict = dict(),
-        data: dict = dict(),
-    ) -> Generic[T]:
+        result_class: Type[T],
+        params: dict = None,
+        data: dict = None,
+    ) -> Union[T, dict]:
+        if params is None:
+            params = {}
+        if data is None:
+            data = {}
         api_endpoint = f"{self.base_url}{url}"
         header_dic = {"Authorization": "Bearer " + self.api_key}
         backoff_in_seconds = 1
@@ -108,6 +112,9 @@ class EnrichLayerBase:
                     continue
                 else:
                     raise e
+        
+        # If we reach here, all retries failed
+        raise EnrichLayerException("Max retries exceeded")
 
 
 async def do_bulk(ops: List[Op], max_workers: int = MAX_WORKERS) -> List[Result]:
@@ -124,9 +131,9 @@ async def do_bulk(ops: List[Op], max_workers: int = MAX_WORKERS) -> List[Result]
 
     """
 
-    results = [None for _ in range(len(ops))]
+    results: List[Result[Any]] = [None for _ in range(len(ops))]  # type: ignore
 
-    queue = asyncio.Queue()
+    queue: asyncio.Queue = asyncio.Queue()
 
     for job in enumerate(ops):
         await queue.put(job)

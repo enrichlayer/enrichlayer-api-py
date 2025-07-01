@@ -1,6 +1,6 @@
 EQUAL COVERAGE ENDPOINT TEST RESULTS
 ======================================================================
-Generated: 2025-07-01 13:11:13
+Generated: 2025-07-01 13:51:44
 ======================================================================
 
 📊 OVERALL SUMMARY
@@ -10,7 +10,7 @@ Successful: 2
 Failed: 0
 Success Rate: 100.0%
 Total Credits Used: 6
-Duration: 5.80s
+Duration: 5.86s
 
 🎯 COVERAGE BY CLIENT TYPE
 ----------------------------------------
@@ -32,6 +32,6 @@ All 4 client types now test the same comprehensive endpoint set:
 
 ✅ SUCCESSFUL ENDPOINTS
 ------------------------------
-  ✅ do_bulk (gevent) - 3 credits, 2.969s
-  ✅ do_bulk (asyncio) - 3 credits, 5.801s
+  ✅ do_bulk (gevent) - 3 credits, 2.925s
+  ✅ do_bulk (asyncio) - 3 credits, 5.86s
 

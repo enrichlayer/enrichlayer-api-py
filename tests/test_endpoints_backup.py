@@ -12,7 +12,7 @@ import os
 import json
 import time
 from datetime import datetime
-from typing import Dict, Any, List, Optional
+from typing import Any
 
 # Add project root to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -607,16 +607,16 @@ class TestAllEndpoints(unittest.TestCase):
         print(f"Success Rate: {success_rate:.1f}%")
         print(f"Total Credits Used: {cls.total_credits_used}")
         print(f"Duration: {total_duration:.2f}s")
-        print(f"\nBY CATEGORY:")
+        print("\nBY CATEGORY:")
         for category, stats in by_category.items():
             print(f"  {category.upper()}: {stats['success']}/{stats['total']} successful")
-        print(f"\nBY CLIENT TYPE:")
+        print("\nBY CLIENT TYPE:")
         for client_type, stats in by_client_type.items():
             print(f"  {client_type.upper()}: {stats['success']}/{stats['total']} successful")
-        print(f"\n📁 Reports saved to:")
-        print(f"   • tests/comprehensive_endpoint_test_report.json")
-        print(f"   • tests/endpoint_test_summary.txt")
-        print(f"   • tests/executive_summary.json")
+        print("\n📁 Reports saved to:")
+        print("   • tests/comprehensive_endpoint_test_report.json")
+        print("   • tests/endpoint_test_summary.txt")
+        print("   • tests/executive_summary.json")
 
 
 if __name__ == "__main__":

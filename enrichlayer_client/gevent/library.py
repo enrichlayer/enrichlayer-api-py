@@ -1,3 +1,4 @@
+from typing import Union
 from enrichlayer_client.config import (
     BASE_URL,
     ENRICHLAYER_API_KEY,
@@ -150,7 +151,7 @@ class _Person:
         :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
 
         """
-        params = {}
+        params: dict = {}
         if extra is not None:
             params["extra"] = extra
         if github_profile_id is not None:
@@ -452,7 +453,7 @@ class _Person:
         :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
 
         """
-        params = {}
+        params: dict = {}
         if country is not None:
             params["country"] = country
         if first_name is not None:
@@ -650,7 +651,7 @@ class _Person:
         :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
 
         """
-        params = {}
+        params: dict = {}
         params["first_name"] = first_name
         params["company_domain"] = company_domain
         if similarity_checks is not None:
@@ -713,7 +714,7 @@ class _Person:
         :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
 
         """
-        params = {}
+        params: dict = {}
         params["email"] = email
         params["lookup_depth"] = lookup_depth
         if enrich_profile is not None:
@@ -743,7 +744,7 @@ class _Person:
         :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
 
         """
-        params = {}
+        params: dict = {}
         params["phone_number"] = phone_number
 
         return self.enrichlayer.request(
@@ -785,7 +786,7 @@ class _Person:
         :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
 
         """
-        params = {}
+        params: dict = {}
         params["linkedin_profile_url"] = linkedin_profile_url
         if callback_url is not None:
             params["callback_url"] = callback_url
@@ -841,7 +842,7 @@ class _Person:
         :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
 
         """
-        params = {}
+        params: dict = {}
         if page_size is not None:
             params["page_size"] = page_size
         if twitter_profile_url is not None:
@@ -899,7 +900,7 @@ class _Person:
         :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
 
         """
-        params = {}
+        params: dict = {}
         if email_validation is not None:
             params["email_validation"] = email_validation
         if page_size is not None:
@@ -938,7 +939,7 @@ class _Person:
         :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
 
         """
-        params = {}
+        params: dict = {}
         params["linkedin_person_profile_url"] = linkedin_person_profile_url
 
         return self.enrichlayer.request(
@@ -1018,7 +1019,7 @@ class _Company:
         :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
 
         """
-        params = {}
+        params: dict = {}
         params["url"] = url
         if resolve_numeric_id is not None:
             params["resolve_numeric_id"] = resolve_numeric_id
@@ -1163,7 +1164,7 @@ class _Company:
         :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
 
         """
-        params = {}
+        params: dict = {}
         if public_identifier_not_in_list is not None:
             params["public_identifier_not_in_list"] = public_identifier_not_in_list
         if public_identifier_in_list is not None:
@@ -1256,7 +1257,7 @@ class _Company:
         :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
 
         """
-        params = {}
+        params: dict = {}
         if company_location is not None:
             params["company_location"] = company_location
         if company_domain is not None:
@@ -1338,7 +1339,7 @@ class _Company:
         :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
 
         """
-        params = {}
+        params: dict = {}
         if job_type is not None:
             params["job_type"] = job_type
         if experience_level is not None:
@@ -1426,7 +1427,7 @@ class _Company:
         :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
 
         """
-        params = {}
+        params: dict = {}
         if job_type is not None:
             params["job_type"] = job_type
         if experience_level is not None:
@@ -1494,7 +1495,7 @@ class _Company:
         :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
 
         """
-        params = {}
+        params: dict = {}
         params["url"] = url
         if use_cache is not None:
             params["use_cache"] = use_cache
@@ -1597,7 +1598,7 @@ class _Company:
         :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
 
         """
-        params = {}
+        params: dict = {}
         params["url"] = url
         if country is not None:
             params["country"] = country
@@ -1685,7 +1686,7 @@ class _Company:
         :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
 
         """
-        params = {}
+        params: dict = {}
         params["keyword_regex"] = keyword_regex
         params["linkedin_company_profile_url"] = linkedin_company_profile_url
         if page_size is not None:
@@ -1746,7 +1747,7 @@ class _Company:
         :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
 
         """
-        params = {}
+        params: dict = {}
         params["company_name"] = company_name
         params["role"] = role
         if enrich_profile is not None:
@@ -1779,7 +1780,7 @@ class _Company:
         :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
 
         """
-        params = {}
+        params: dict = {}
         params["linkedin_company_profile_url"] = linkedin_company_profile_url
 
         return self.enrichlayer.request(
@@ -1818,7 +1819,7 @@ class _School:
         :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
 
         """
-        params = {}
+        params: dict = {}
         params["url"] = url
         if use_cache is not None:
             params["use_cache"] = use_cache
@@ -1912,7 +1913,7 @@ class _School:
         :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
 
         """
-        params = {}
+        params: dict = {}
         params["linkedin_school_url"] = linkedin_school_url
         if country is not None:
             params["country"] = country
@@ -1963,7 +1964,7 @@ class _Job:
         :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
 
         """
-        params = {}
+        params: dict = {}
         params["url"] = url
 
         return self.enrichlayer.request(
@@ -2012,7 +2013,7 @@ class _Customers:
         :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
 
         """
-        params = {}
+        params: dict = {}
         if linkedin_company_profile_url is not None:
             params["linkedin_company_profile_url"] = linkedin_company_profile_url
         if twitter_profile_url is not None:
@@ -2059,7 +2060,7 @@ class EnrichLayer(EnrichLayerBase):
 
     def get_balance(
         self,
-    ) -> CreditBalance:
+    ) -> Union[CreditBalance, dict]:
         """View Credit Balance Endpoint
 
                 Cost: 0 credit / successful request.
@@ -2070,7 +2071,7 @@ class EnrichLayer(EnrichLayerBase):
         :raise EnrichLayerException: Every error will raise a :class:`proxycurl.gevent.EnrichLayerException`
 
         """
-        params = {}
+        params: dict = {}
 
         return self.request(
             method="GET",

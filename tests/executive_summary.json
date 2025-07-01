@@ -1,15 +1,24 @@
 {
-  "timestamp": "2025-07-01T12:52:50.245595",
+  "timestamp": "2025-07-01T13:53:03.654764",
   "test_framework": "unittest_consolidated",
-  "total_tests": 1,
-  "successful_tests": 1,
-  "success_rate": "100.0%",
-  "total_credits_used": 3,
-  "production_ready": true,
+  "total_tests": 40,
+  "successful_tests": 37,
+  "success_rate": "92.5%",
+  "total_credits_used": 88,
+  "production_ready": false,
   "client_types_tested": [
-    "direct"
+    "asyncio",
+    "direct",
+    "compatibility"
   ],
   "categories_tested": [
-    "general"
+    "asyncio",
+    "general",
+    "linkedin",
+    "company",
+    "customers",
+    "job",
+    "person",
+    "school"
   ]
 }

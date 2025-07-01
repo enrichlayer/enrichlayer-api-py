@@ -1,14 +1,14 @@
 {
   "test_summary": {
-    "timestamp": "2025-07-01T13:11:13.322947",
+    "timestamp": "2025-07-01T13:51:44.560263",
     "test_type": "equal_coverage_all_4_client_types",
     "total_tests": 2,
     "successful_tests": 2,
     "failed_tests": 0,
     "success_rate": "100.0%",
     "total_credits_used": 6,
-    "total_duration": 5.803,
-    "average_response_time": 4.385,
+    "total_duration": 5.861,
+    "average_response_time": 4.393,
     "client_types_tested": [
       "gevent",
       "asyncio"
@@ -39,9 +39,9 @@
       "endpoint": "do_bulk",
       "client_type": "gevent",
       "status": "success",
-      "duration": 2.969,
+      "duration": 2.925,
       "credits_used": 3,
-      "timestamp": "2025-07-01T13:11:10.488709",
+      "timestamp": "2025-07-01T13:51:41.623849",
       "sample_data": {
         "total_operations": 3,
         "successful_results": 3,
@@ -52,9 +52,9 @@
       "endpoint": "do_bulk",
       "client_type": "asyncio",
       "status": "success",
-      "duration": 5.801,
+      "duration": 5.86,
       "credits_used": 3,
-      "timestamp": "2025-07-01T13:11:13.321412",
+      "timestamp": "2025-07-01T13:51:44.558813",
       "sample_data": {
         "total_operations": 3,
         "successful_results": 3,

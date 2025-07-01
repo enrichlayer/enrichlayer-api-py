@@ -2,12 +2,12 @@ import gevent
 from gevent import monkey
 
 monkey.patch_all()
-from gevent.queue import Empty, Queue
-from enrichlayer_client.config import MAX_WORKERS
-import requests
-from dataclasses import dataclass
-from typing import Generic, TypeVar, List, Tuple, Callable, Dict
-import logging
+from gevent.queue import Empty, Queue  # noqa: E402
+from enrichlayer_client.config import MAX_WORKERS  # noqa: E402
+import requests  # noqa: E402
+from dataclasses import dataclass  # noqa: E402
+from typing import Generic, TypeVar, List, Tuple, Callable, Dict, Type, Any, Union  # noqa: E402
+import logging  # noqa: E402
 
 logger = logging.getLogger(__name__)
 
@@ -53,10 +53,14 @@ class EnrichLayerBase:
         self,
         method: str,
         url: str,
-        result_class: Generic[T],
-        params: dict = dict(),
-        data: dict = dict(),
-    ) -> Generic[T]:
+        result_class: Type[T],
+        params: dict = None,
+        data: dict = None,
+    ) -> Union[T, dict]:
+        if params is None:
+            params = {}
+        if data is None:
+            data = {}
         api_endpoint = f"{self.base_url}{url}"
         header_dic = {"Authorization": "Bearer " + self.api_key}
         backoff_in_seconds = 1
@@ -105,6 +109,9 @@ class EnrichLayerBase:
                     continue
                 else:
                     raise e
+        
+        # If we reach here, all retries failed
+        raise EnrichLayerException("Max retries exceeded")
 
 
 def do_bulk(ops: List[Op], max_workers: int = MAX_WORKERS) -> List[Result]:
@@ -121,7 +128,7 @@ def do_bulk(ops: List[Op], max_workers: int = MAX_WORKERS) -> List[Result]:
 
     """
 
-    results = [None for _ in range(len(ops))]
+    results: List[Result[Any]] = [None for _ in range(len(ops))]  # type: ignore
     queue = Queue()
 
     for job in enumerate(ops):

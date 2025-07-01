@@ -16,7 +16,7 @@ from typing import Any, Optional
 
 
 # Supported concurrency variants
-VARIANTS = ['asyncio', 'gevent', 'twisted']
+VARIANTS = ["asyncio", "gevent", "twisted"]
 
 # Module-level mappings populated at import time
 AVAILABLE_PROXYCURL_VARIANTS = {}
@@ -29,21 +29,27 @@ def _initialize_variants():
     for variant in VARIANTS:
         # Check proxycurl variant availability
         try:
-            proxycurl_module = __import__(f'proxycurl.{variant}.base', fromlist=['ProxycurlException'])
+            proxycurl_module = __import__(
+                f"proxycurl.{variant}.base", fromlist=["ProxycurlException"]
+            )
             AVAILABLE_PROXYCURL_VARIANTS[variant] = proxycurl_module.ProxycurlException
         except ImportError:
             pass
-            
-        # Check enrichlayer variant availability  
+
+        # Check enrichlayer variant availability
         try:
-            enrichlayer_module = __import__(f'enrichlayer_client.{variant}', fromlist=['EnrichLayer'])
+            enrichlayer_module = __import__(
+                f"enrichlayer_client.{variant}", fromlist=["EnrichLayer"]
+            )
             AVAILABLE_ENRICHLAYER_VARIANTS[variant] = enrichlayer_module.EnrichLayer
         except ImportError:
             pass
-            
+
         # Build exception mapping for available variants
         if variant in AVAILABLE_PROXYCURL_VARIANTS:
-            EXCEPTION_CLASS_MAPPING[f'enrichlayer_client.{variant}'] = AVAILABLE_PROXYCURL_VARIANTS[variant]
+            EXCEPTION_CLASS_MAPPING[f"enrichlayer_client.{variant}"] = (
+                AVAILABLE_PROXYCURL_VARIANTS[variant]
+            )
 
 
 def _verify_proxycurl_available():
@@ -67,19 +73,22 @@ def error_mapping_decorator(func: Any) -> Any:
 
     This ensures that users of the compatibility layer see proxycurl-style errors
     instead of enrichlayer-specific errors.
-    
+
     Uses module-level EXCEPTION_CLASS_MAPPING for consistent, static mapping.
     """
-    
+
     def get_proxycurl_exception(exception: Exception):
         """Get the appropriate ProxycurlException class for the given enrichlayer exception"""
-        module = getattr(exception.__class__, '__module__', '')
-        
+        module = getattr(exception.__class__, "__module__", "")
+
         # Find matching mapping by checking if module contains the key
-        for enrichlayer_module, proxycurl_exception_class in EXCEPTION_CLASS_MAPPING.items():
+        for (
+            enrichlayer_module,
+            proxycurl_exception_class,
+        ) in EXCEPTION_CLASS_MAPPING.items():
             if enrichlayer_module in module:
                 return proxycurl_exception_class
-        
+
         # No mapping found - raise original exception
         raise exception
 
@@ -87,16 +96,21 @@ def error_mapping_decorator(func: Any) -> Any:
         """Check if the exception is an EnrichLayerException using actual class comparison"""
         # Get all available EnrichLayerException classes from initialized variants
         enrichlayer_exceptions = []
-        
+
         for variant in AVAILABLE_ENRICHLAYER_VARIANTS:
             try:
-                enrichlayer_module = __import__(f'enrichlayer_client.{variant}.base', fromlist=['EnrichLayerException'])
+                enrichlayer_module = __import__(
+                    f"enrichlayer_client.{variant}.base",
+                    fromlist=["EnrichLayerException"],
+                )
                 enrichlayer_exceptions.append(enrichlayer_module.EnrichLayerException)
             except (ImportError, AttributeError):
                 pass
-        
+
         # Check if exception is instance of any EnrichLayerException
-        return any(isinstance(exception, exc_class) for exc_class in enrichlayer_exceptions)
+        return any(
+            isinstance(exception, exc_class) for exc_class in enrichlayer_exceptions
+        )
 
     @functools.wraps(func)
     async def async_wrapper(*args, **kwargs):
@@ -364,9 +378,13 @@ def _setup_import_hooks(show_warnings: bool = False) -> None:
 
         # Check if we imported a proxycurl module that needs patching
         if name.startswith("proxycurl."):
-            variant = name.split('.')[-1]  # Extract variant name (asyncio/gevent/twisted)
+            variant = name.split(".")[
+                -1
+            ]  # Extract variant name (asyncio/gevent/twisted)
             if variant in AVAILABLE_ENRICHLAYER_VARIANTS:
-                patch_proxycurl_module(name, AVAILABLE_ENRICHLAYER_VARIANTS[variant], show_warnings)
+                patch_proxycurl_module(
+                    name, AVAILABLE_ENRICHLAYER_VARIANTS[variant], show_warnings
+                )
 
         return module
 

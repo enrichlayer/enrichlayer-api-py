@@ -24,14 +24,16 @@ class TestProxycurlCompatibility(unittest.TestCase):
 
     def test_enable_compatibility_function_exists(self):
         """Test that enable_proxycurl_compatibility function is accessible."""
-        import enrichlayer_client
-
+        import enrichlayer_client.compat as enrichlayer
+        
         self.assertTrue(hasattr(enrichlayer, "enable_proxycurl_compatibility"))
         self.assertTrue(callable(enrichlayer.enable_proxycurl_compatibility))
 
     def test_compatibility_wrapper_class_creation(self):
         """Test that wrapper classes are created correctly."""
-        from enrichlayer_client.compat.monkey_patch import create_proxycurl_wrapper_class
+        from enrichlayer_client.compat.monkey_patch import (
+            create_proxycurl_wrapper_class,
+        )
         from enrichlayer_client.asyncio import EnrichLayer
 
         # Create wrapper class
@@ -67,17 +69,19 @@ class TestProxycurlCompatibility(unittest.TestCase):
         self.assertTrue(hasattr(linkedin_wrapper, "job"))
         self.assertTrue(hasattr(linkedin_wrapper, "customers"))
 
-        # Verify they delegate correctly
-        self.assertIs(linkedin_wrapper.person, mock_enrichlayer.person)
-        self.assertIs(linkedin_wrapper.company, mock_enrichlayer.company)
-        self.assertIs(linkedin_wrapper.school, mock_enrichlayer.school)
-        self.assertIs(linkedin_wrapper.job, mock_enrichlayer.job)
-        self.assertIs(linkedin_wrapper.customers, mock_enrichlayer.customers)
+        # Verify they delegate correctly through ErrorMappingWrapper
+        self.assertEqual(linkedin_wrapper.person._wrapped, mock_enrichlayer.person)
+        self.assertEqual(linkedin_wrapper.company._wrapped, mock_enrichlayer.company)
+        self.assertEqual(linkedin_wrapper.school._wrapped, mock_enrichlayer.school)
+        self.assertEqual(linkedin_wrapper.job._wrapped, mock_enrichlayer.job)
+        self.assertEqual(linkedin_wrapper.customers._wrapped, mock_enrichlayer.customers)
 
     def test_environment_variable_handling(self):
         """Test that PROXYCURL_API_KEY is handled correctly."""
         with patch.dict("os.environ", {"PROXYCURL_API_KEY": "test-key"}, clear=True):
-            from enrichlayer_client.compat.monkey_patch import create_proxycurl_wrapper_class
+            from enrichlayer_client.compat.monkey_patch import (
+                create_proxycurl_wrapper_class,
+            )
             from enrichlayer_client.asyncio import EnrichLayer
 
             WrapperClass = create_proxycurl_wrapper_class(EnrichLayer)
@@ -91,35 +95,46 @@ class TestProxycurlCompatibility(unittest.TestCase):
                 call_args = mock_init.call_args
                 self.assertEqual(call_args[1]["api_key"], "test-key")
 
-    @patch("sys.modules")
-    def test_module_patching(self, mock_modules):
+    def test_module_patching(self):
         """Test that module patching works correctly."""
         from enrichlayer_client.compat.monkey_patch import patch_proxycurl_module
         from enrichlayer_client.asyncio import EnrichLayer
 
-        # Create mock module with Proxycurl class
-        mock_module = Mock()
-        mock_original_proxycurl = Mock()
-        mock_module.Proxycurl = mock_original_proxycurl
-        mock_modules.__getitem__.return_value = mock_module
-        mock_modules.__contains__.return_value = True
+        # Create a simple class to act as the mock module
+        class MockModule:
+            def __init__(self):
+                self.Proxycurl = Mock()
+                self.__name__ = 'test.module'
+                
+        mock_module = MockModule()
+        mock_original_proxycurl = mock_module.Proxycurl
+        
+        # Add module to sys.modules for the test
+        test_module_name = "test.module"
+        sys.modules[test_module_name] = mock_module
 
-        # Patch the module
-        patch_proxycurl_module("test.module", EnrichLayer, show_warnings=False)
+        try:
+            # Patch the module
+            patch_proxycurl_module(test_module_name, EnrichLayer, show_warnings=False)
 
-        # Verify the original class was stored
-        self.assertEqual(mock_module._original_Proxycurl, mock_original_proxycurl)
+            # Verify the original class was stored
+            self.assertEqual(mock_module._original_Proxycurl, mock_original_proxycurl)
 
-        # Verify the class was replaced
-        self.assertNotEqual(mock_module.Proxycurl, mock_original_proxycurl)
+            # Verify the class was replaced
+            self.assertNotEqual(mock_module.Proxycurl, mock_original_proxycurl)
+        finally:
+            # Clean up
+            if test_module_name in sys.modules:
+                del sys.modules[test_module_name]
 
     def test_enable_compatibility_with_parameters(self):
         """Test enable_proxycurl_compatibility with parameters."""
+        import enrichlayer_client.compat as enrichlayer
+        
         with patch.dict("os.environ", {}, clear=True):
             with patch(
-                "enrichlayer.compat.monkey_patch.patch_proxycurl_module"
+                "enrichlayer_client.compat.monkey_patch.patch_proxycurl_module"
             ) as mock_patch:
-                import enrichlayer_client
 
                 # Call with parameters
                 enrichlayer.enable_proxycurl_compatibility(
@@ -136,11 +151,11 @@ class TestProxycurlCompatibility(unittest.TestCase):
                 self.assertEqual(os.environ.get("BASE_URL"), "https://test.com")
 
                 # Verify patching was called for all modules
-                expected_calls = [
-                    ("proxycurl.asyncio", unittest.mock.ANY, True),
-                    ("proxycurl.gevent", unittest.mock.ANY, True),
-                    ("proxycurl.twisted", unittest.mock.ANY, True),
-                ]
+                # expected_calls = [
+                #     ("proxycurl.asyncio", unittest.mock.ANY, True),
+                #     ("proxycurl.gevent", unittest.mock.ANY, True),
+                #     ("proxycurl.twisted", unittest.mock.ANY, True),
+                # ]
 
                 actual_calls = [call[0] for call in mock_patch.call_args_list]
                 self.assertEqual(len(actual_calls), 3)
