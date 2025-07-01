@@ -434,6 +434,7 @@ class EmployeeList(TypedDict):
 class EmployeeCount(TypedDict):
     total_employee: int
     linkedin_employee_count: Optional[int]
+    linkdb_employee_count: int
     regression_notice: str
 
 

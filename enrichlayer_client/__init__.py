@@ -11,10 +11,10 @@ Basic usage:
     person = await enrichlayer.person.get(linkedin_profile_url="...")
 
 Proxycurl compatibility:
-    For users migrating from proxycurl-py, enable compatibility mode:
+    For users migrating from proxycurl-py, import the compatibility module directly:
 
-    import enrichlayer_client
-    enrichlayer_client.enable_proxycurl_compatibility()
+    from enrichlayer_client.compat import enable_proxycurl_compatibility
+    enable_proxycurl_compatibility()
 
     # Now your existing proxycurl code works unchanged
     from proxycurl.asyncio import Proxycurl
@@ -23,12 +23,3 @@ Proxycurl compatibility:
 """
 
 __version__ = "0.1.0.post2"
-
-# Import compatibility layer only if proxycurl-py is available
-try:
-    from .compat import enable_proxycurl_compatibility
-    from .compat.monkey_patch import ProxycurlException
-    __all__ = ["enable_proxycurl_compatibility", "ProxycurlException"]
-except ImportError:
-    # proxycurl-py not installed, compatibility layer not available
-    __all__ = []

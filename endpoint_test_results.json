@@ -1,0 +1,339 @@
+{
+  "test_summary": {
+    "timestamp": "2025-07-01T08:02:20.776974",
+    "total_tests": 9,
+    "successful_tests": 8,
+    "failed_tests": 1,
+    "success_rate": "88.9%",
+    "total_credits_used": 11,
+    "average_response_time": 1.711
+  },
+  "successful_endpoints": [
+    {
+      "endpoint": "credit_balance",
+      "status": "success",
+      "response_time": 0.918,
+      "credits_used": 0,
+      "response_structure": {
+        "credit_balance": "int"
+      },
+      "sample_data": {
+        "credit_balance": 96362613
+      }
+    },
+    {
+      "endpoint": "person.get",
+      "status": "success",
+      "response_time": 2.223,
+      "credits_used": 1,
+      "test_url": "https://www.linkedin.com/in/williamhgates/",
+      "response_structure": {
+        "full_name": "str",
+        "headline": "str",
+        "experiences": "list",
+        "education": "list",
+        "skills": "list"
+      },
+      "sample_fields": {
+        "full_name": "Bill Gates",
+        "headline": "Chair, Gates Foundation and Founder, Breakthrough Energy",
+        "experience_count": 3,
+        "education_count": 2,
+        "skills_count": 0
+      }
+    },
+    {
+      "endpoint": "company.get",
+      "status": "success",
+      "response_time": 2.007,
+      "credits_used": 1,
+      "test_url": "https://www.linkedin.com/company/apple/",
+      "response_structure": {
+        "name": "str",
+        "description": "str",
+        "industry": "str",
+        "company_size": "list",
+        "locations": "list"
+      },
+      "sample_fields": {
+        "name": "Apple",
+        "industry": "Computers and Electronics Manufacturing",
+        "company_size": [
+          10001,
+          null
+        ],
+        "founded_year": 1976,
+        "follower_count": 17842416
+      }
+    },
+    {
+      "endpoint": "company.get_with_extras",
+      "status": "success",
+      "response_time": 2.203,
+      "credits_used": 4,
+      "test_url": "https://www.linkedin.com/company/apple/",
+      "parameters": {
+        "extra": "include",
+        "funding_data": "include",
+        "categories": "include"
+      },
+      "response_structure": {
+        "extra": "dict",
+        "funding_data": "list",
+        "categories": "list"
+      },
+      "sample_fields": {
+        "has_extra_data": true,
+        "has_funding_data": true,
+        "categories_count": 9
+      }
+    },
+    {
+      "endpoint": "company.employee_list",
+      "status": "success",
+      "response_time": 1.463,
+      "credits_used": 1,
+      "test_url": "https://www.linkedin.com/company/apple/",
+      "response_structure": {
+        "employees": "list",
+        "next_page": "NoneType"
+      },
+      "sample_fields": {
+        "employee_count": 873,
+        "has_next_page": false,
+        "first_employee": {
+          "profile_url": "https://www.linkedin.com/in/-josh-adams-",
+          "profile": null,
+          "last_updated": null
+        }
+      }
+    },
+    {
+      "endpoint": "company.employee_count",
+      "status": "success",
+      "response_time": 0.9,
+      "credits_used": 1,
+      "test_url": "https://www.linkedin.com/company/apple/",
+      "response_structure": {
+        "total_employee": "int",
+        "linkedin_employee_count": "int",
+        "linkdb_employee_count": "int"
+      },
+      "sample_data": {
+        "estimated_employee_count": null,
+        "verified_employee_count": 873
+      }
+    },
+    {
+      "endpoint": "person.resolve",
+      "status": "success",
+      "response_time": 0.842,
+      "credits_used": 2,
+      "parameters": {
+        "first_name": "Bill",
+        "last_name": "Gates",
+        "company_domain": "microsoft.com"
+      },
+      "response_structure": {
+        "url": "str",
+        "name_similarity_score": "float",
+        "profile": "dict"
+      },
+      "sample_fields": {
+        "found_url": "https://www.linkedin.com/in/williamhgates",
+        "name_similarity": 1.0,
+        "has_profile": false
+      }
+    },
+    {
+      "endpoint": "school.get",
+      "status": "success",
+      "response_time": 3.132,
+      "credits_used": 1,
+      "test_url": "https://www.linkedin.com/school/national-university-of-singapore",
+      "response_structure": {
+        "name": "str",
+        "description": "str",
+        "website": "NoneType",
+        "industry": "str"
+      },
+      "sample_fields": {
+        "name": "National University of Singapore",
+        "industry": "Higher Education",
+        "founded_year": null,
+        "follower_count": 660426
+      }
+    }
+  ],
+  "failed_endpoints": [
+    {
+      "endpoint": "person.lookup_email",
+      "status": "error",
+      "error": "_Person.lookup_email() got an unexpected keyword argument 'email'",
+      "response_time": null
+    }
+  ],
+  "detailed_results": [
+    {
+      "endpoint": "credit_balance",
+      "status": "success",
+      "response_time": 0.918,
+      "credits_used": 0,
+      "response_structure": {
+        "credit_balance": "int"
+      },
+      "sample_data": {
+        "credit_balance": 96362613
+      }
+    },
+    {
+      "endpoint": "person.get",
+      "status": "success",
+      "response_time": 2.223,
+      "credits_used": 1,
+      "test_url": "https://www.linkedin.com/in/williamhgates/",
+      "response_structure": {
+        "full_name": "str",
+        "headline": "str",
+        "experiences": "list",
+        "education": "list",
+        "skills": "list"
+      },
+      "sample_fields": {
+        "full_name": "Bill Gates",
+        "headline": "Chair, Gates Foundation and Founder, Breakthrough Energy",
+        "experience_count": 3,
+        "education_count": 2,
+        "skills_count": 0
+      }
+    },
+    {
+      "endpoint": "company.get",
+      "status": "success",
+      "response_time": 2.007,
+      "credits_used": 1,
+      "test_url": "https://www.linkedin.com/company/apple/",
+      "response_structure": {
+        "name": "str",
+        "description": "str",
+        "industry": "str",
+        "company_size": "list",
+        "locations": "list"
+      },
+      "sample_fields": {
+        "name": "Apple",
+        "industry": "Computers and Electronics Manufacturing",
+        "company_size": [
+          10001,
+          null
+        ],
+        "founded_year": 1976,
+        "follower_count": 17842416
+      }
+    },
+    {
+      "endpoint": "company.get_with_extras",
+      "status": "success",
+      "response_time": 2.203,
+      "credits_used": 4,
+      "test_url": "https://www.linkedin.com/company/apple/",
+      "parameters": {
+        "extra": "include",
+        "funding_data": "include",
+        "categories": "include"
+      },
+      "response_structure": {
+        "extra": "dict",
+        "funding_data": "list",
+        "categories": "list"
+      },
+      "sample_fields": {
+        "has_extra_data": true,
+        "has_funding_data": true,
+        "categories_count": 9
+      }
+    },
+    {
+      "endpoint": "company.employee_list",
+      "status": "success",
+      "response_time": 1.463,
+      "credits_used": 1,
+      "test_url": "https://www.linkedin.com/company/apple/",
+      "response_structure": {
+        "employees": "list",
+        "next_page": "NoneType"
+      },
+      "sample_fields": {
+        "employee_count": 873,
+        "has_next_page": false,
+        "first_employee": {
+          "profile_url": "https://www.linkedin.com/in/-josh-adams-",
+          "profile": null,
+          "last_updated": null
+        }
+      }
+    },
+    {
+      "endpoint": "company.employee_count",
+      "status": "success",
+      "response_time": 0.9,
+      "credits_used": 1,
+      "test_url": "https://www.linkedin.com/company/apple/",
+      "response_structure": {
+        "total_employee": "int",
+        "linkedin_employee_count": "int",
+        "linkdb_employee_count": "int"
+      },
+      "sample_data": {
+        "estimated_employee_count": null,
+        "verified_employee_count": 873
+      }
+    },
+    {
+      "endpoint": "person.resolve",
+      "status": "success",
+      "response_time": 0.842,
+      "credits_used": 2,
+      "parameters": {
+        "first_name": "Bill",
+        "last_name": "Gates",
+        "company_domain": "microsoft.com"
+      },
+      "response_structure": {
+        "url": "str",
+        "name_similarity_score": "float",
+        "profile": "dict"
+      },
+      "sample_fields": {
+        "found_url": "https://www.linkedin.com/in/williamhgates",
+        "name_similarity": 1.0,
+        "has_profile": false
+      }
+    },
+    {
+      "endpoint": "person.lookup_email",
+      "status": "error",
+      "error": "_Person.lookup_email() got an unexpected keyword argument 'email'",
+      "response_time": null
+    },
+    {
+      "endpoint": "school.get",
+      "status": "success",
+      "response_time": 3.132,
+      "credits_used": 1,
+      "test_url": "https://www.linkedin.com/school/national-university-of-singapore",
+      "response_structure": {
+        "name": "str",
+        "description": "str",
+        "website": "NoneType",
+        "industry": "str"
+      },
+      "sample_fields": {
+        "name": "National University of Singapore",
+        "industry": "Higher Education",
+        "founded_year": null,
+        "follower_count": 660426
+      }
+    }
+  ]
+}

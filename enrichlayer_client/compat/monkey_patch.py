@@ -16,7 +16,13 @@ from typing import Any, Optional
 
 
 # Import ProxycurlException from proxycurl-py (required for compatibility module)
-from proxycurl.base import ProxycurlException
+try:
+    from proxycurl.base import ProxycurlException
+except ImportError:
+    raise ImportError(
+        "The compatibility module requires proxycurl-py to be installed. "
+        "Install it with: pip install proxycurl-py"
+    ) from None
 
 
 def error_mapping_decorator(func: Any) -> Any:
@@ -296,10 +302,18 @@ def enable_proxycurl_compatibility(
         or after importing them but before creating Proxycurl instances.
     """
 
-    # Import EnrichLayer classes - let source modules handle missing dependencies
+    # Import EnrichLayer classes - handle missing dependencies gracefully
     from enrichlayer_client.asyncio import EnrichLayer as AsyncIOEnrichLayer
-    from enrichlayer_client.gevent import EnrichLayer as GeventEnrichLayer
-    from enrichlayer_client.twisted import EnrichLayer as TwistedEnrichLayer
+    
+    try:
+        from enrichlayer_client.gevent import EnrichLayer as GeventEnrichLayer
+    except ImportError:
+        GeventEnrichLayer = None  # type: ignore
+    
+    try:
+        from enrichlayer_client.twisted import EnrichLayer as TwistedEnrichLayer
+    except ImportError:
+        TwistedEnrichLayer = None  # type: ignore
 
     # Set default configuration if provided
     if api_key is not None:
@@ -314,10 +328,12 @@ def enable_proxycurl_compatibility(
     patch_proxycurl_module(
         "proxycurl.asyncio", AsyncIOEnrichLayer, deprecation_warnings
     )
-    patch_proxycurl_module("proxycurl.gevent", GeventEnrichLayer, deprecation_warnings)
-    patch_proxycurl_module(
-        "proxycurl.twisted", TwistedEnrichLayer, deprecation_warnings
-    )
+    if GeventEnrichLayer is not None:
+        patch_proxycurl_module("proxycurl.gevent", GeventEnrichLayer, deprecation_warnings)
+    if TwistedEnrichLayer is not None:
+        patch_proxycurl_module(
+            "proxycurl.twisted", TwistedEnrichLayer, deprecation_warnings
+        )
 
     # Set up import hooks for future imports
     _setup_import_hooks(deprecation_warnings)
@@ -346,16 +362,24 @@ def _setup_import_hooks(show_warnings: bool = False) -> None:
 
         # Check if we imported a proxycurl module that needs patching
         if name.startswith("proxycurl."):
-            # Import EnrichLayer classes for patching
+            # Import EnrichLayer classes for patching - handle missing dependencies
             from enrichlayer_client.asyncio import EnrichLayer as AsyncIOEnrichLayer
-            from enrichlayer_client.gevent import EnrichLayer as GeventEnrichLayer
-            from enrichlayer_client.twisted import EnrichLayer as TwistedEnrichLayer
+            
+            try:
+                from enrichlayer_client.gevent import EnrichLayer as GeventEnrichLayer
+            except ImportError:
+                GeventEnrichLayer = None  # type: ignore
+            
+            try:
+                from enrichlayer_client.twisted import EnrichLayer as TwistedEnrichLayer
+            except ImportError:
+                TwistedEnrichLayer = None  # type: ignore
 
             if name == "proxycurl.asyncio":
                 patch_proxycurl_module(name, AsyncIOEnrichLayer, show_warnings)
-            elif name == "proxycurl.gevent":
+            elif name == "proxycurl.gevent" and GeventEnrichLayer is not None:
                 patch_proxycurl_module(name, GeventEnrichLayer, show_warnings)
-            elif name == "proxycurl.twisted":
+            elif name == "proxycurl.twisted" and TwistedEnrichLayer is not None:
                 patch_proxycurl_module(name, TwistedEnrichLayer, show_warnings)
 
         return module
