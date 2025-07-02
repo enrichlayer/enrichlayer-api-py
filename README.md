@@ -1,4 +1,4 @@
-# `enrichlayer-api` - The official Python client for Enrich Layer API to scrape and enrich LinkedIn profiles
+# `enrichlayer-api` - The official Python client for Enrich Layer API to enrich professional profiles
 
 [![PyPI version](https://badge.fury.io/py/enrichlayer-api.svg)](https://pypi.org/project/enrichlayer-api/)
 [![Python Support](https://img.shields.io/pypi/pyversions/enrichlayer-api.svg)](https://pypi.org/project/enrichlayer-api/)
@@ -15,8 +15,8 @@
   + [Enrich a Company Profile](#enrich-a-company-profile)
   + [Lookup a person](#lookup-a-person)
   + [Lookup a company](#lookup-a-company)
-  + [Lookup a LinkedIn Profile URL from a work email address](#lookup-a-linkedin-profile-url-from-a-work-email-address)
-  + [Enrich LinkedIn member profiles in bulk (from a CSV)](#enrich-linkedin-member-profiles-in-bulk-from-a-csv)
+  + [Lookup a Profile URL from a work email address](#lookup-a-profile-url-from-a-work-email-address)
+  + [Enrich professional profiles in bulk (from a CSV)](#enrich-professional-profiles-in-bulk-from-a-csv)
   + [More *asyncio* examples](#more-asyncio-examples)
 * [Rate limit and error handling](#rate-limit-and-error-handling)
 * [API Endpoints and their corresponding documentation](#api-endpoints-and-their-corresponding-documentation)
@@ -85,7 +85,7 @@ For examples with other concurrency models such as:
 
 ### Enrich a Person Profile
 
-Given a *LinkedIn Member Profile URL*, you can get the entire profile back in structured data with Enrich Layer's [Person Profile API Endpoint](https://enrichlayer.com/docs#people-api-person-profile-endpoint).
+Given a *Professional Profile URL*, you can get the entire profile back in structured data with Enrich Layer's [Person Profile API Endpoint](https://enrichlayer.com/docs#people-api-person-profile-endpoint).
 
 ```python
 from enrichlayer_client.asyncio import EnrichLayer, do_bulk
@@ -100,7 +100,7 @@ print('Person Result:', person)
 
 ### Enrich a Company Profile
 
-Given a *LinkedIn Company Profile URL*, enrich the URL with it's full profile with Enrich Layer's [Company Profile API Endpoint](https://enrichlayer.com/docs#company-api-company-profile-endpoint).
+Given a *Company Profile URL*, enrich the URL with it's full profile with Enrich Layer's [Company Profile API Endpoint](https://enrichlayer.com/docs#company-api-company-profile-endpoint).
 
 ```python
 company = asyncio.run(enrichlayer.company.get(
@@ -134,9 +134,9 @@ company_lookup_results = asyncio.run(enrichlayer.company.resolve(
 print('Company Lookup Result:', company_lookup_results)
 ```
 
-### Lookup a LinkedIn Profile URL from a work email address
+### Lookup a Profile URL from a work email address
 
-Given a work email address, lookup a LinkedIn Profile URL with Enrich Layer's [Reverse Work Email Lookup Endpoint](https://enrichlayer.com/docs#contact-api-reverse-work-email-lookup-endpoint).
+Given a work email address, lookup a Profile URL with Enrich Layer's [Reverse Work Email Lookup Endpoint](https://enrichlayer.com/docs#contact-api-reverse-work-email-lookup-endpoint).
 
 ```python
 lookup_results = asyncio.run(enrichlayer.person.resolve_by_email(
@@ -146,23 +146,23 @@ lookup_results = asyncio.run(enrichlayer.person.resolve_by_email(
 print('Reverse Work Email Lookup Result:', lookup_results)
 ```
 
-### Enrich LinkedIn member profiles in bulk (from a CSV)
+### Enrich professional profiles in bulk (from a CSV)
 
-Given a CSV file with a list of LinkedIn member profile URLs, you can enrich the list in the following manner:
+Given a CSV file with a list of professional profile URLs, you can enrich the list in the following manner:
 
 ```python
 # PROCESS BULK WITH CSV
 import csv
 
-bulk_linkedin_person_data = []
+bulk_person_data = []
 with open('sample.csv', 'r') as file:
     reader = csv.reader(file)
     next(reader, None)
     for row in reader:
-        bulk_linkedin_person_data.append(
+        bulk_person_data.append(
             (enrichlayer.person.get, {'linkedin_profile_url': row[0]})
         )
-results = asyncio.run(do_bulk(bulk_linkedin_person_data))
+results = asyncio.run(do_bulk(bulk_person_data))
 
 print('Bulk:', results)
 ```
