@@ -1,11 +1,13 @@
 import asyncio
 from asyncio.queues import QueueEmpty
-import aiohttp
-import json
-from enrichlayer_client.config import MAX_WORKERS
 from dataclasses import dataclass
-from typing import Generic, TypeVar, List, Tuple, Callable, Dict, Type, Any, Union
+import json
 import logging
+from typing import Any, Callable, Dict, Generic, List, Tuple, Type, TypeVar, Union
+
+import aiohttp
+
+from enrichlayer_client.config import MAX_WORKERS
 
 logger = logging.getLogger(__name__)
 
@@ -112,7 +114,7 @@ class EnrichLayerBase:
                     continue
                 else:
                     raise e
-        
+
         # If we reach here, all retries failed
         raise EnrichLayerException("Max retries exceeded")
 

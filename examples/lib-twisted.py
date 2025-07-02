@@ -1,7 +1,9 @@
-from enrichlayer_client.twisted import EnrichLayer, do_bulk
+import csv
+
 from twisted.internet import reactor
 from twisted.internet.defer import inlineCallbacks
-import csv
+
+from enrichlayer_client.twisted import EnrichLayer, do_bulk
 
 enrichlayer = EnrichLayer()
 
@@ -25,7 +27,7 @@ def main():
 
     # PROCESS BULK WITH CSV
     bulk_linkedin_person_data = []
-    with open("sample.csv", "r") as file:
+    with open("sample.csv") as file:
         reader = csv.reader(file)
         next(reader, None)
         for row in reader:

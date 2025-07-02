@@ -7,13 +7,12 @@ package to use EnrichLayer backend instead of the original Proxycurl backend.
 
 from __future__ import annotations
 
+import asyncio
+import functools
 import os
 import sys
-import warnings
-import functools
-import asyncio
 from typing import Any, Optional
-
+import warnings
 
 # Supported concurrency variants
 VARIANTS = ["asyncio", "gevent", "twisted"]
@@ -293,10 +292,10 @@ def patch_proxycurl_module(
 
     # Store original class for reference
     if not hasattr(module, "_original_Proxycurl"):
-        setattr(module, "_original_Proxycurl", getattr(module, "Proxycurl"))
+        module._original_Proxycurl = module.Proxycurl  # type: ignore
 
     # Replace with compatibility wrapper
-    setattr(module, "Proxycurl", create_proxycurl_wrapper_class(enrichlayer_class))
+    module.Proxycurl = create_proxycurl_wrapper_class(enrichlayer_class)  # type: ignore
 
     if show_warnings:
         warnings.warn(
@@ -308,8 +307,6 @@ def patch_proxycurl_module(
 
 
 def enable_proxycurl_compatibility(
-    api_key: Optional[str] = None,
-    base_url: Optional[str] = None,
     deprecation_warnings: bool = False,
 ) -> None:
     """
@@ -321,32 +318,21 @@ def enable_proxycurl_compatibility(
     new EnrichLayer infrastructure.
 
     Args:
-        api_key: Default API key to use for EnrichLayer (overrides environment variables)
-        base_url: Default base URL to use for EnrichLayer
         deprecation_warnings: Whether to show warnings about deprecated proxycurl usage
 
     Example:
-        import enrichlayer
+        import enrichlayer_client.compat as enrichlayer
         enrichlayer.enable_proxycurl_compatibility()
 
         # Now existing proxycurl code works with EnrichLayer backend
         from proxycurl.asyncio import Proxycurl
-        proxycurl = Proxycurl()
+        proxycurl = Proxycurl(api_key="your-key")
         person = proxycurl.linkedin.person.get(linkedin_profile_url="...")
 
     Note:
-        This function should be called before importing any proxycurl modules,
-        or after importing them but before creating Proxycurl instances.
+        This function should be called before importing any proxycurl modules.
+        API keys should be passed to the Proxycurl constructor as normal.
     """
-
-    # Set default configuration if provided
-    if api_key is not None:
-        os.environ["ENRICHLAYER_API_KEY"] = api_key
-        # Also set PROXYCURL_API_KEY for compatibility
-        os.environ["PROXYCURL_API_KEY"] = api_key
-
-    if base_url is not None:
-        os.environ["BASE_URL"] = base_url
 
     # Patch all available enrichlayer variants
     _patch_all_variants(deprecation_warnings)
@@ -409,7 +395,7 @@ def disable_proxycurl_compatibility():
         if module_name in sys.modules:
             module = sys.modules[module_name]
             if hasattr(module, "_original_Proxycurl"):
-                setattr(module, "Proxycurl", getattr(module, "_original_Proxycurl"))
+                module.Proxycurl = module._original_Proxycurl
                 delattr(module, "_original_Proxycurl")
 
     # Remove import hooks

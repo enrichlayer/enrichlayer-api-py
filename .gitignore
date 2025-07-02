@@ -160,3 +160,8 @@ test_*_real_api.py
 *.temp
 .DS_Store
 Thumbs.db
+
+# GitHub-specific files (for GitLab repository)
+# Uncomment these lines in the GitLab repository to exclude GitHub-specific files
+# .github/
+# GITHUB_MIRROR_SETUP.md

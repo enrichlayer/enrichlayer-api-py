@@ -25,16 +25,16 @@ class TestProxycurlCompatibility(unittest.TestCase):
     def test_enable_compatibility_function_exists(self):
         """Test that enable_proxycurl_compatibility function is accessible."""
         import enrichlayer_client.compat as enrichlayer
-        
+
         self.assertTrue(hasattr(enrichlayer, "enable_proxycurl_compatibility"))
         self.assertTrue(callable(enrichlayer.enable_proxycurl_compatibility))
 
     def test_compatibility_wrapper_class_creation(self):
         """Test that wrapper classes are created correctly."""
+        from enrichlayer_client.asyncio import EnrichLayer
         from enrichlayer_client.compat.monkey_patch import (
             create_proxycurl_wrapper_class,
         )
-        from enrichlayer_client.asyncio import EnrichLayer
 
         # Create wrapper class
         WrapperClass = create_proxycurl_wrapper_class(EnrichLayer)
@@ -74,15 +74,17 @@ class TestProxycurlCompatibility(unittest.TestCase):
         self.assertEqual(linkedin_wrapper.company._wrapped, mock_enrichlayer.company)
         self.assertEqual(linkedin_wrapper.school._wrapped, mock_enrichlayer.school)
         self.assertEqual(linkedin_wrapper.job._wrapped, mock_enrichlayer.job)
-        self.assertEqual(linkedin_wrapper.customers._wrapped, mock_enrichlayer.customers)
+        self.assertEqual(
+            linkedin_wrapper.customers._wrapped, mock_enrichlayer.customers
+        )
 
     def test_environment_variable_handling(self):
         """Test that PROXYCURL_API_KEY is handled correctly."""
         with patch.dict("os.environ", {"PROXYCURL_API_KEY": "test-key"}, clear=True):
+            from enrichlayer_client.asyncio import EnrichLayer
             from enrichlayer_client.compat.monkey_patch import (
                 create_proxycurl_wrapper_class,
             )
-            from enrichlayer_client.asyncio import EnrichLayer
 
             WrapperClass = create_proxycurl_wrapper_class(EnrichLayer)
 
@@ -97,18 +99,18 @@ class TestProxycurlCompatibility(unittest.TestCase):
 
     def test_module_patching(self):
         """Test that module patching works correctly."""
-        from enrichlayer_client.compat.monkey_patch import patch_proxycurl_module
         from enrichlayer_client.asyncio import EnrichLayer
+        from enrichlayer_client.compat.monkey_patch import patch_proxycurl_module
 
         # Create a simple class to act as the mock module
         class MockModule:
             def __init__(self):
                 self.Proxycurl = Mock()
-                self.__name__ = 'test.module'
-                
+                self.__name__ = "test.module"
+
         mock_module = MockModule()
         mock_original_proxycurl = mock_module.Proxycurl
-        
+
         # Add module to sys.modules for the test
         test_module_name = "test.module"
         sys.modules[test_module_name] = mock_module
@@ -128,43 +130,20 @@ class TestProxycurlCompatibility(unittest.TestCase):
                 del sys.modules[test_module_name]
 
     def test_enable_compatibility_with_parameters(self):
-        """Test enable_proxycurl_compatibility with parameters."""
+        """Test enable_proxycurl_compatibility with deprecation warnings."""
         import enrichlayer_client.compat as enrichlayer
-        
-        with patch.dict("os.environ", {}, clear=True):
-            with patch(
-                "enrichlayer_client.compat.monkey_patch.patch_proxycurl_module"
-            ) as mock_patch:
 
-                # Call with parameters
-                enrichlayer.enable_proxycurl_compatibility(
-                    api_key="test-key",
-                    base_url="https://test.com",
-                    deprecation_warnings=True,
-                )
+        with patch(
+            "enrichlayer_client.compat.monkey_patch._patch_all_variants"
+        ) as mock_patch_all, patch(
+            "enrichlayer_client.compat.monkey_patch._setup_import_hooks"
+        ) as mock_setup_hooks:
+            # Call with deprecation warnings enabled
+            enrichlayer.enable_proxycurl_compatibility(deprecation_warnings=True)
 
-                # Verify environment variables were set
-                import os
-
-                self.assertEqual(os.environ.get("ENRICHLAYER_API_KEY"), "test-key")
-                self.assertEqual(os.environ.get("PROXYCURL_API_KEY"), "test-key")
-                self.assertEqual(os.environ.get("BASE_URL"), "https://test.com")
-
-                # Verify patching was called for all modules
-                # expected_calls = [
-                #     ("proxycurl.asyncio", unittest.mock.ANY, True),
-                #     ("proxycurl.gevent", unittest.mock.ANY, True),
-                #     ("proxycurl.twisted", unittest.mock.ANY, True),
-                # ]
-
-                actual_calls = [call[0] for call in mock_patch.call_args_list]
-                self.assertEqual(len(actual_calls), 3)
-
-                # Check module names
-                module_names = [call[0] for call in actual_calls]
-                self.assertIn("proxycurl.asyncio", module_names)
-                self.assertIn("proxycurl.gevent", module_names)
-                self.assertIn("proxycurl.twisted", module_names)
+            # Verify patching functions were called with correct parameters
+            mock_patch_all.assert_called_once_with(True)
+            mock_setup_hooks.assert_called_once_with(True)
 
 
 if __name__ == "__main__":

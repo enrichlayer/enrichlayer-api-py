@@ -11,14 +11,14 @@ Tests ALL 25 endpoints across 4 client types with equal coverage:
 Ensures feature parity and performance comparison across all paradigms.
 """
 
-import unittest
-import sys
-import os
-import json
-import time
 import asyncio
 from datetime import datetime
-from typing import Dict, Any
+import json
+import os
+import sys
+import time
+from typing import Any, Dict
+import unittest
 
 # Add project root to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -356,8 +356,10 @@ class TestAllEndpointsEqualCoverage(unittest.TestCase):
         # Create async versions of endpoints
         async_endpoints = []
         for endpoint_name, endpoint_func, expected_credits in self.all_endpoints:
+
             def make_async_func(func):
                 return lambda client: asyncio.run(func(client))
+
             async_func = make_async_func(endpoint_func)
             async_endpoints.append((endpoint_name, async_func, expected_credits))
 
@@ -678,8 +680,8 @@ class TestAllEndpointsEqualCoverage(unittest.TestCase):
 
         # Test asyncio bulk
         try:
-            from enrichlayer_client.asyncio import do_bulk as asyncio_do_bulk
             from enrichlayer_client.asyncio import EnrichLayer as AsyncioEnrichLayer
+            from enrichlayer_client.asyncio import do_bulk as asyncio_do_bulk
 
             asyncio_client = AsyncioEnrichLayer(api_key=self.api_key)
 

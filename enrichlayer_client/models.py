@@ -1,6 +1,6 @@
 from enum import Enum, auto
-from typing import Optional, List, Tuple
 import sys
+from typing import List, Optional, Tuple
 
 if sys.version_info >= (3, 8):
     from typing import TypedDict

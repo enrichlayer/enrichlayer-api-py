@@ -6,9 +6,9 @@ Consolidates exception mapping tests from multiple root-level test files.
 Tests static mapping, variant consistency, and security features.
 """
 
-import unittest
-import sys
 import os
+import sys
+import unittest
 
 # Add project root to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -165,6 +165,7 @@ class TestExceptionMapping(unittest.TestCase):
     def test_async_and_sync_decorator_compatibility(self):
         """Test that decorator works with both async and sync functions."""
         import asyncio
+
         from enrichlayer_client.compat.monkey_patch import error_mapping_decorator
 
         # Test sync function
@@ -203,10 +204,10 @@ class TestExceptionMapping(unittest.TestCase):
     def test_module_level_initialization(self):
         """Test that exception mapping is initialized at module level."""
         from enrichlayer_client.compat.monkey_patch import (
-            VARIANTS,
-            AVAILABLE_PROXYCURL_VARIANTS,
             AVAILABLE_ENRICHLAYER_VARIANTS,
+            AVAILABLE_PROXYCURL_VARIANTS,
             EXCEPTION_CLASS_MAPPING,
+            VARIANTS,
         )
 
         # Verify constants are defined

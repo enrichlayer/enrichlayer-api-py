@@ -1,5 +1,6 @@
-from enrichlayer_client.gevent import EnrichLayer, do_bulk
 import csv
+
+from enrichlayer_client.gevent import EnrichLayer, do_bulk
 
 enrichlayer = EnrichLayer()
 
@@ -17,7 +18,7 @@ print("Company Result:", company)
 
 # PROCESS BULK WITH CSV
 bulk_linkedin_person_data = []
-with open("sample.csv", "r") as file:
+with open("sample.csv") as file:
     reader = csv.reader(file)
     next(reader, None)
     for row in reader:

@@ -5,9 +5,9 @@ Core EnrichLayer library tests.
 Tests basic functionality, configuration, and client initialization.
 """
 
-import unittest
-import sys
 import os
+import sys
+import unittest
 
 # Add project root to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

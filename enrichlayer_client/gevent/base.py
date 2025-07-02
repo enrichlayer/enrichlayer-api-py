@@ -2,12 +2,24 @@ import gevent
 from gevent import monkey
 
 monkey.patch_all()
-from gevent.queue import Empty, Queue  # noqa: E402
-from enrichlayer_client.config import MAX_WORKERS  # noqa: E402
-import requests  # noqa: E402
 from dataclasses import dataclass  # noqa: E402
-from typing import Generic, TypeVar, List, Tuple, Callable, Dict, Type, Any, Union  # noqa: E402
 import logging  # noqa: E402
+from typing import (  # noqa: E402
+    Any,
+    Callable,
+    Dict,
+    Generic,
+    List,
+    Tuple,
+    Type,
+    TypeVar,
+    Union,
+)
+
+from gevent.queue import Empty, Queue  # noqa: E402
+import requests  # noqa: E402
+
+from enrichlayer_client.config import MAX_WORKERS  # noqa: E402
 
 logger = logging.getLogger(__name__)
 
@@ -109,7 +121,7 @@ class EnrichLayerBase:
                     continue
                 else:
                     raise e
-        
+
         # If we reach here, all retries failed
         raise EnrichLayerException("Max retries exceeded")
 

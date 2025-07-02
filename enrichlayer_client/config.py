@@ -1,6 +1,5 @@
 from os import environ
 
-
 _ = environ.get
 
 

@@ -1,35 +1,36 @@
-from typing import Union, Awaitable
+from typing import Awaitable, Union
+
+from enrichlayer_client.asyncio.base import EnrichLayerBase
 from enrichlayer_client.config import (
     BASE_URL,
     ENRICHLAYER_API_KEY,
-    TIMEOUT,
-    MAX_RETRIES,
     MAX_BACKOFF_SECONDS,
+    MAX_RETRIES,
+    TIMEOUT,
 )
-from enrichlayer_client.asyncio.base import EnrichLayerBase
 from enrichlayer_client.models import (
-    PersonEndpointResponse,
-    PersonSearchResult,
-    PersonLookupUrlEnrichResult,
-    ReverseEmailUrlEnrichResult,
-    ReverseContactNumberResult,
-    ExtractionEmailResult,
-    PersonalContactNumbers,
-    PDLEmailResult,
-    ProfilePicture,
     Company,
     CompanySearchResult,
     CompanyUrlEnrichResult,
-    JobListPage,
-    JobListCount,
+    CreditBalance,
+    CustomerList,
     EmployeeCount,
     EmployeeList,
+    ExtractionEmailResult,
+    JobListCount,
+    JobListPage,
+    JobProfile,
+    PDLEmailResult,
+    PersonalContactNumbers,
+    PersonEndpointResponse,
+    PersonLookupUrlEnrichResult,
+    PersonSearchResult,
+    ProfilePicture,
+    ReverseContactNumberResult,
+    ReverseEmailUrlEnrichResult,
     RoleSearchEnrichedResult,
     School,
     StudentList,
-    JobProfile,
-    CustomerList,
-    CreditBalance,
 )
 
 

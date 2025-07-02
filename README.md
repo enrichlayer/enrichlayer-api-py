@@ -1,5 +1,11 @@
 # `enrichlayer-api` - The official Python client for Enrich Layer API to scrape and enrich LinkedIn profiles
 
+[![PyPI version](https://badge.fury.io/py/enrichlayer-api.svg)](https://pypi.org/project/enrichlayer-api/)
+[![Python Support](https://img.shields.io/pypi/pyversions/enrichlayer-api.svg)](https://pypi.org/project/enrichlayer-api/)
+[![GitLab Repository](https://img.shields.io/badge/GitLab-Repository-orange?logo=gitlab)](https://gitlab.com/enrichlayer/enrichlayer-py)
+[![GitHub Mirror](https://img.shields.io/badge/GitHub-Mirror-black?logo=github)](https://github.com/enrichlayer/enrichlayer-py)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 * [What is Enrich Layer?](#what-is-enrich-layer)
 * [Before you install](#before-you-install)
 * [Installation and supported Python versions](#installation-and-supported-python-versions)
@@ -246,7 +252,7 @@ enable_proxycurl_compatibility()
 
 # Now your existing proxycurl-py code works unchanged
 from proxycurl.asyncio import Proxycurl, do_bulk
-proxycurl = Proxycurl()
+proxycurl = Proxycurl(api_key='your-enrichlayer-api-key')
 
 # All existing methods work exactly the same
 person = asyncio.run(proxycurl.linkedin.person.get(
@@ -260,12 +266,12 @@ company = asyncio.run(proxycurl.linkedin.company.get(
 ### Configuration Options
 
 ```python
-# Enable with custom configuration
-enable_proxycurl_compatibility(
-    api_key='your-api-key',
-    base_url='https://enrichlayer.com/api/v2',
-    deprecation_warnings=True  # Show migration warnings
-)
+# Enable with deprecation warnings
+enable_proxycurl_compatibility(deprecation_warnings=True)
+
+# Then use proxycurl as normal, passing API key to constructor
+from proxycurl.gevent import Proxycurl
+client = Proxycurl(api_key='your-enrichlayer-api-key')
 ```
 
 ### Migration Path
