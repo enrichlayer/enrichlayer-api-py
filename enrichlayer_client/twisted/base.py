@@ -1,21 +1,16 @@
+from dataclasses import dataclass
+import logging
+from typing import Callable, Dict, Generic, List, Tuple, TypeVar
+
+import treq
 from twisted.internet import defer, reactor
 from twisted.internet.defer import Deferred, inlineCallbacks
-from proxycurl.config import MAX_WORKERS
-import treq
-from dataclasses import dataclass
-from typing import (
-    Generic,
-    TypeVar,
-    List,
-    Tuple,
-    Callable,
-    Dict
-)
-import logging
+
+from enrichlayer_client.config import MAX_WORKERS
 
 logger = logging.getLogger(__name__)
 
-T = TypeVar('T')
+T = TypeVar("T")
 Op = Tuple[Callable, Dict]
 
 
@@ -26,12 +21,13 @@ class Result(Generic[T]):
     error: BaseException
 
 
-class ProxycurlException(Exception):
+class EnrichLayerException(Exception):
     """Raised when InternalServerError or network error or request error"""
+
     pass
 
 
-class ProxycurlBase:
+class EnrichLayerBase:
     api_key: str
     base_url: str
     timeout: int
@@ -44,7 +40,7 @@ class ProxycurlBase:
         base_url: str,
         timeout: int,
         max_retries: int,
-        max_backoff_seconds: int
+        max_backoff_seconds: int,
     ) -> None:
         self.api_key = api_key
         self.base_url = base_url
@@ -59,7 +55,7 @@ class ProxycurlBase:
         url: str,
         result_class: Generic[T],
         params: dict = dict(),
-        data: dict = dict()
+        data: dict = dict(),
     ) -> Deferred:
         backoff_in_seconds = 1
         for i in range(0, self.max_retries):
@@ -80,8 +76,8 @@ class ProxycurlBase:
                         break
                 else:
                     error = yield r.text()
-                    raise ProxycurlException(error)
-            except ProxycurlException as e:
+                    raise EnrichLayerException(error)
+            except EnrichLayerException as e:
                 if r.code in [400, 401, 403, 404]:
                     logger.exception(str(e))
                     raise e
@@ -93,7 +89,7 @@ class ProxycurlBase:
                         raise e
 
                 if r.code == 429:
-                    sleep = (backoff_in_seconds * 2 ** i)
+                    sleep = backoff_in_seconds * 2**i
                     yield self._sleep(min(self.max_backoff_seconds, sleep))
 
                 if i < self.max_retries:
@@ -108,27 +104,22 @@ class ProxycurlBase:
                     raise e
 
     def _call(
-        self,
-        method: str,
-        url: str,
-        params: dict = dict(),
-        data: dict = dict()
+        self, method: str, url: str, params: dict = dict(), data: dict = dict()
     ) -> Deferred:
-        api_endpoint = f'{self.base_url}{url}'
-        header_dic = {'Authorization': 'Bearer ' + self.api_key}
-        if method.lower() == 'get':
+        api_endpoint = f"{self.base_url}{url}"
+        header_dic = {"Authorization": "Bearer " + self.api_key}
+        if method.lower() == "get":
             return treq.get(
-                api_endpoint,
-                params=params,
-                headers=header_dic,
-                timeout=self.timeout)
-        elif method.lower() == 'post':
+                api_endpoint, params=params, headers=header_dic, timeout=self.timeout
+            )
+        elif method.lower() == "post":
             return treq.post(
                 api_endpoint,
                 params=params,
                 json=data,
                 headers=header_dic,
-                timeout=self.timeout)
+                timeout=self.timeout,
+            )
 
     def _sleep(secs):
         d = defer.Deferred()
@@ -146,8 +137,8 @@ def do_bulk(ops: List[Op], max_workers: int = MAX_WORKERS) -> List[Result]:
     :type ops: List[Tuple[Callable, Dict]]
     :param max_workers: Total concurrent request, defaults to 10
     :type max_workers: int
-    :return: Once all operation is finished this function will return List[:class:`proxycurl.twisted.base.Result`]
-    :rtype: List[:class:`proxycurl.twisted.base.Result`]
+    :return: Once all operation is finished this function will return List[:class:`enrichlayer.twisted.base.Result`]
+    :rtype: List[:class:`enrichlayer.twisted.base.Result`]
 
     """
 
