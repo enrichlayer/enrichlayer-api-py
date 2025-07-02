@@ -1,23 +1,29 @@
 import gevent
 from gevent import monkey
+
 monkey.patch_all()
-from gevent.queue import Empty, Queue
-from proxycurl.config import MAX_WORKERS
-import requests
-from dataclasses import dataclass
-from typing import (
+from dataclasses import dataclass  # noqa: E402
+import logging  # noqa: E402
+from typing import (  # noqa: E402
+    Any,
+    Callable,
+    Dict,
     Generic,
-    TypeVar,
     List,
     Tuple,
-    Callable,
-    Dict
+    Type,
+    TypeVar,
+    Union,
 )
-import logging
+
+from gevent.queue import Empty, Queue  # noqa: E402
+import requests  # noqa: E402
+
+from enrichlayer_client.config import MAX_WORKERS  # noqa: E402
 
 logger = logging.getLogger(__name__)
 
-T = TypeVar('T')
+T = TypeVar("T")
 Op = Tuple[Callable, Dict]
 
 
@@ -28,12 +34,13 @@ class Result(Generic[T]):
     error: BaseException
 
 
-class ProxycurlException(Exception):
+class EnrichLayerException(Exception):
     """Raised when InternalServerError or network error or request error"""
+
     pass
 
 
-class ProxycurlBase:
+class EnrichLayerBase:
     api_key: str
     base_url: str
     timeout: int
@@ -46,7 +53,7 @@ class ProxycurlBase:
         base_url: str,
         timeout: int,
         max_retries: int,
-        max_backoff_seconds: int
+        max_backoff_seconds: int,
     ) -> None:
         self.api_key = api_key
         self.base_url = base_url
@@ -58,27 +65,33 @@ class ProxycurlBase:
         self,
         method: str,
         url: str,
-        result_class: Generic[T],
-        params: dict = dict(),
-        data: dict = dict(),
-    ) -> Generic[T]:
-        api_endpoint = f'{self.base_url}{url}'
-        header_dic = {'Authorization': 'Bearer ' + self.api_key}
+        result_class: Type[T],
+        params: dict = None,
+        data: dict = None,
+    ) -> Union[T, dict]:
+        if params is None:
+            params = {}
+        if data is None:
+            data = {}
+        api_endpoint = f"{self.base_url}{url}"
+        header_dic = {"Authorization": "Bearer " + self.api_key}
         backoff_in_seconds = 1
         for i in range(0, self.max_retries):
             try:
-                if method.lower() == 'get':
+                if method.lower() == "get":
                     r = requests.get(
-                            api_endpoint,
-                            params=params,
-                            headers=header_dic,
-                            timeout=self.timeout)
-                elif method.lower() == 'post':
+                        api_endpoint,
+                        params=params,
+                        headers=header_dic,
+                        timeout=self.timeout,
+                    )
+                elif method.lower() == "post":
                     r = requests.post(
-                            api_endpoint,
-                            json=data,
-                            headers=header_dic,
-                            timeout=self.timeout)
+                        api_endpoint,
+                        json=data,
+                        headers=header_dic,
+                        timeout=self.timeout,
+                    )
 
                 if r.status_code in [200, 202]:
                     response_json = r.json()
@@ -87,9 +100,9 @@ class ProxycurlBase:
                     except Exception:
                         return response_json
                 else:
-                    raise ProxycurlException(r.text)
+                    raise EnrichLayerException(r.text)
 
-            except ProxycurlException as e:
+            except EnrichLayerException as e:
                 if r.status_code in [400, 401, 403, 404]:
                     logger.exception(str(e))
                     raise e
@@ -101,13 +114,16 @@ class ProxycurlBase:
                         raise e
 
                 if r.status_code == 429:
-                    sleep = (backoff_in_seconds * 2 ** i)
+                    sleep = backoff_in_seconds * 2**i
                     gevent.sleep(min(self.max_backoff_seconds, sleep))
 
                 if i < self.max_retries:
                     continue
                 else:
                     raise e
+
+        # If we reach here, all retries failed
+        raise EnrichLayerException("Max retries exceeded")
 
 
 def do_bulk(ops: List[Op], max_workers: int = MAX_WORKERS) -> List[Result]:
@@ -124,7 +140,7 @@ def do_bulk(ops: List[Op], max_workers: int = MAX_WORKERS) -> List[Result]:
 
     """
 
-    results = [None for _ in range(len(ops))]
+    results: List[Result[Any]] = [None for _ in range(len(ops))]  # type: ignore
     queue = Queue()
 
     for job in enumerate(ops):

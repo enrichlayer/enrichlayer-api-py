@@ -1,6 +1,7 @@
 from enum import Enum, auto
-from typing import Optional, List, Tuple
 import sys
+from typing import List, Optional, Tuple
+
 if sys.version_info >= (3, 8):
     from typing import TypedDict
 else:
@@ -55,7 +56,7 @@ class CompanyUpdate(TypedDict):
     total_likes: Optional[int]
 
 
-class LinkedinSchool(TypedDict):
+class School(TypedDict):
     linkedin_internal_id: str
     description: Optional[str]
     website: Optional[str]
@@ -142,7 +143,7 @@ class Funding(TypedDict):
     investor_list: Optional[Investor]
 
 
-class LinkedinCompany(TypedDict):
+class Company(TypedDict):
     linkedin_internal_id: str
     description: Optional[str]
     website: Optional[str]
@@ -372,7 +373,7 @@ class CustomerList(TypedDict):
 
 class CSearchResult(TypedDict):
     linkedin_profile_url: str
-    profile: Optional[LinkedinCompany]
+    profile: Optional[Company]
     last_updated: Optional[str]
 
 
@@ -480,7 +481,7 @@ class RoleSearchEnrichedResult(TypedDict):
 
 class CompanyUrlEnrichResult(TypedDict):
     url: Optional[str]
-    profile: LinkedinCompany
+    profile: Company
     last_updated: Optional[str]
 
 
