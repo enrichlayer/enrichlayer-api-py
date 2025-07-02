@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "enrichlayer-api"
-version = "0.1.0.post2"
+version = "0.1.0-rc.2"
 description = ""
 authors = ["Enrich Layer <support@enrichlayer.com>"]
 packages = [
