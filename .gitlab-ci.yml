@@ -11,45 +11,22 @@ test-sync:
     
   script:
     - echo "Testing CI configuration ..."
-    
-    # Check if token exists
-    - |
-      if [ -z "$GITHUB_DEPLOY_TOKEN" ]; then
-        echo "ERROR: GITHUB_DEPLOY_TOKEN is not set"
-        exit 1
-      fi
-    
-    # Install git-filter-repo
+    - echo "Testing CI configuration (MR validation)..."
+    - test -n "$GITHUB_DEPLOY_TOKEN" || (echo "ERROR GITHUB_DEPLOY_TOKEN is not set" && exit 1)
     - apk add --no-cache python3 py3-pip
     - pip3 install git-filter-repo
-    
-    # Configure git
     - git config --global user.email "support@enrichlayer.com"
     - git config --global user.name "Enrich Layer"
-    
-    # Test clone
     - git clone --mirror ${CI_REPOSITORY_URL} repo-mirror
     - cd repo-mirror
-    
-    # Test rewrite
-    - |
-      git filter-repo --force --commit-callback '
-      commit.author_name = b"Enrich Layer"
-      commit.author_email = b"support@enrichlayer.com"
-      commit.committer_name = b"Enrich Layer"
-      commit.committer_email = b"support@enrichlayer.com"
-      '
-    
-    # Show results
+    - git filter-repo --force --commit-callback 'commit.author_name = b"Enrich Layer"; commit.author_email = b"support@enrichlayer.com"; commit.committer_name = b"Enrich Layer"; commit.committer_email = b"support@enrichlayer.com"'
     - echo "Rewrite successful. Sample commits:"
     - git log --oneline -5 --pretty=format:"%h %an <%ae> %s"
-    
-    # Test GitHub connection (dry run only)
     - git remote add github https://${GITHUB_DEPLOY_TOKEN}@github.com/enrichlayer/enrichlayer-api.git
     - echo "Testing connection to GitHub..."
     - git ls-remote github HEAD
-    - echo "✓ Connection test successful - ready to sync"
-    - echo "Note: MR pipelines do NOT sync to GitHub"
+    - echo "Connection test successful - ready to sync"
+    - echo "Note MR pipelines do NOT sync to GitHub"
 
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
@@ -59,57 +36,27 @@ sync-to-github:
   image: alpine/git:latest
    
   script:
-    - echo "Syncing to GitHub (branch: ${CI_COMMIT_BRANCH})..."
-    
-    # Check if token exists
-    - |
-      if [ -z "$GITHUB_DEPLOY_TOKEN" ]; then
-        echo "ERROR: GITHUB_DEPLOY_TOKEN is not set"
-        exit 1
-      fi
-    
-    # Install git-filter-repo
+    - echo "Syncing to GitHub branch ${CI_COMMIT_BRANCH}..."
+    - test -n "$GITHUB_DEPLOY_TOKEN" || (echo "ERROR GITHUB_DEPLOY_TOKEN is not set" && exit 1)
     - apk add --no-cache python3 py3-pip
     - pip3 install git-filter-repo
-    
-    # Configure git
     - git config --global user.email "support@enrichlayer.com"
     - git config --global user.name "Enrich Layer"
-    
-    # Clone the repository fresh
     - git clone --mirror ${CI_REPOSITORY_URL} repo-mirror
     - cd repo-mirror
-    
-    # Rewrite all commits to use anonymous author
-    - |
-      git filter-repo --force --commit-callback '
-      commit.author_name = b"Enrich Layer"
-      commit.author_email = b"support@enrichlayer.com"
-      commit.committer_name = b"Enrich Layer"
-      commit.committer_email = b"support@enrichlayer.com"
-      '
-    
-    # Add GitHub remote
+    - git filter-repo --force --commit-callback 'commit.author_name = b"Enrich Layer"; commit.author_email = b"support@enrichlayer.com"; commit.committer_name = b"Enrich Layer"; commit.committer_email = b"support@enrichlayer.com"'
     - git remote add github https://${GITHUB_DEPLOY_TOKEN}@github.com/enrichlayer/enrichlayer-api.git
-    
-    # Push to GitHub
     - echo "Starting sync to GitHub..."
     - git push github --mirror --force
-    
-    # Verify the sync
     - echo "Verifying sync..."
-    - echo "Current branch: ${CI_COMMIT_BRANCH}"
+    - echo "Current branch ${CI_COMMIT_BRANCH}"
     - echo "GitLab HEAD commit:"
     - git log -1 --pretty=format:"%h %an <%ae> %s"
-    
-    # Check what's on GitHub now
     - echo "GitHub branches:"
     - git ls-remote github "refs/heads/*" | cut -f2 | cut -d'/' -f3
-    
-    # Count commits
-    - echo "Total commits synced: $(git rev-list --all --count)"
-    - echo "✓ Successfully synced to GitHub"
-
+    - git rev-list --all --count | xargs -I {} echo "Total commits synced {}"
+    - echo "Successfully synced to GitHub"
+  
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
     - if: $CI_COMMIT_BRANCH == "test-ci"
