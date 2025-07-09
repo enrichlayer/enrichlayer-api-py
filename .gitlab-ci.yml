@@ -7,13 +7,12 @@ variables:
 
 test-sync:
   stage: test
-  image: alpine/git:latest
+  image: alpine/latest
     
   script:
     - echo "Testing CI configuration ..."
-    - echo "Testing CI configuration (MR validation)..."
     - test -n "$GITHUB_DEPLOY_TOKEN" || (echo "ERROR GITHUB_DEPLOY_TOKEN is not set" && exit 1)
-    - apk add --no-cache python3 py3-pip
+    - apk add --no-cache git python3 py3-pip
     - pip3 install git-filter-repo
     - git config --global user.email "support@enrichlayer.com"
     - git config --global user.name "Enrich Layer"
@@ -35,12 +34,12 @@ test-sync:
 sync-to-github:
   needs: ["test-sync"]
   stage: sync
-  image: alpine/git:latest
+  image: alpine/latest
    
   script:
     - echo "Syncing to GitHub branch ${CI_COMMIT_BRANCH}..."
     - test -n "$GITHUB_DEPLOY_TOKEN" || (echo "ERROR GITHUB_DEPLOY_TOKEN is not set" && exit 1)
-    - apk add --no-cache python3 py3-pip
+    - apk add --no-cache git python3 py3-pip
     - pip3 install git-filter-repo
     - git config --global user.email "support@enrichlayer.com"
     - git config --global user.name "Enrich Layer"
