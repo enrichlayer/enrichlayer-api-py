@@ -7,7 +7,7 @@ variables:
 
 test-sync:
   stage: test
-  image: alpine/latest
+  image: alpine:latest
     
   script:
     - echo "Testing CI configuration ..."
@@ -34,7 +34,7 @@ test-sync:
 sync-to-github:
   needs: ["test-sync"]
   stage: sync
-  image: alpine/latest
+  image: alpine:latest
    
   script:
     - echo "Syncing to GitHub branch ${CI_COMMIT_BRANCH}..."
