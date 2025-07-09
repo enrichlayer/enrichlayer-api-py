@@ -30,8 +30,10 @@ test-sync:
 
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "test-ci"
 
 sync-to-github:
+  need: test-sync
   stage: sync
   image: alpine/git:latest
    
