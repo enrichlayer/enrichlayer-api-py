@@ -33,7 +33,7 @@ test-sync:
     - if: $CI_COMMIT_BRANCH == "test-ci"
 
 sync-to-github:
-  needs: test-sync
+  needs: ["test-sync"]
   stage: sync
   image: alpine/git:latest
    
