@@ -103,11 +103,11 @@ sync-to-github:
     - git log -1 --pretty=format:"%h %an <%ae> %s"
     
     # Check what's on GitHub now
-    - echo -e "\nGitHub branches:"
+    - echo "GitHub branches:"
     - git ls-remote github "refs/heads/*" | cut -f2 | cut -d'/' -f3
     
     # Count commits
-    - echo -e "\nTotal commits synced: $(git rev-list --all --count)"
+    - echo "Total commits synced: $(git rev-list --all --count)"
     - echo "✓ Successfully synced to GitHub"
 
   rules:
