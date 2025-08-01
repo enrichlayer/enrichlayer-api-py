@@ -34,6 +34,7 @@ type-check:
   before_script:
     - pip install poetry
     - poetry config virtualenvs.in-project true
+    - rm -rf .venv
     - poetry install --only dev
   script:
     - poetry run mypy enrichlayer_client/
